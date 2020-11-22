@@ -1,6 +1,6 @@
-package com.example.myottapp.asyncRequestHandlers;
+package com.example.myottapp.extras;
 
-import com.example.myottapp.asyncRequestHandlers.Movie;
+import com.example.myottapp.extras.Movie;
 
 import java.util.ArrayList;
 import java.util.List;

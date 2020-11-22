@@ -38,7 +38,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.Volley;
-import com.example.myottapp.asyncRequestHandlers.MovieList;
+import com.example.myottapp.extras.MovieList;
 import com.example.myottapp.models.AllCategoriesList;
 import com.example.myottapp.models.AllLanguagesList;
 import com.example.myottapp.models.Movie;

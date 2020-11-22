@@ -18,7 +18,7 @@ import androidx.leanback.widget.Presenter;
 import androidx.leanback.widget.Row;
 import androidx.leanback.widget.RowPresenter;
 
-import com.example.myottapp.asyncRequestHandlers.Movie;
+import com.example.myottapp.extras.Movie;
 
 public class BannerFragment extends RowsFragment {
 

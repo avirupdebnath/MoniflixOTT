@@ -9,7 +9,7 @@ import androidx.leanback.media.MediaPlayerAdapter;
 import androidx.leanback.media.PlaybackTransportControlGlue;
 import androidx.leanback.widget.PlaybackControlsRow;
 
-import com.example.myottapp.asyncRequestHandlers.Movie;
+import com.example.myottapp.extras.Movie;
 
 /**
  * Handles video playback with media controls.

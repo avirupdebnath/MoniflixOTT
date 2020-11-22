@@ -16,7 +16,7 @@ import androidx.leanback.widget.Row;
 import androidx.leanback.widget.RowPresenter;
 import androidx.leanback.widget.VerticalGridPresenter;
 
-import com.example.myottapp.asyncRequestHandlers.Movie;
+import com.example.myottapp.extras.Movie;
 
 public class TestFragment extends VerticalGridFragment {
 
