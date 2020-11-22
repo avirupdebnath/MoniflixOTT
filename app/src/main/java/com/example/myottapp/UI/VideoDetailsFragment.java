@@ -1,4 +1,4 @@
-package com.example.myottapp;
+package com.example.myottapp.UI;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -34,6 +34,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.drawable.GlideDrawable;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
+import com.example.myottapp.R;
 import com.example.myottapp.models.Movie;
 
 import java.util.Collections;

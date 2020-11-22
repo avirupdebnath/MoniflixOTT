@@ -1,4 +1,4 @@
-package com.example.myottapp;
+package com.example.myottapp.UI;
 
 import android.os.Bundle;
 
@@ -6,6 +6,8 @@ import androidx.core.content.ContextCompat;
 
 import android.util.Log;
 import android.view.View;
+
+import com.example.myottapp.R;
 
 /*
  * This class demonstrates how to extend ErrorFragment

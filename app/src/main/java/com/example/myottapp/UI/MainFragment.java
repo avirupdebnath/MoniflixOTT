@@ -1,4 +1,4 @@
-package com.example.myottapp;
+package com.example.myottapp.UI;
 
 import android.content.Intent;
 import android.content.res.Resources;
@@ -38,6 +38,8 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.myottapp.R;
+import com.example.myottapp.VolleyCallback;
 import com.example.myottapp.extras.MovieList;
 import com.example.myottapp.models.AllCategoriesList;
 import com.example.myottapp.models.AllLanguagesList;

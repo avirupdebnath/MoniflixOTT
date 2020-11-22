@@ -1,4 +1,4 @@
-package com.example.myottapp;
+package com.example.myottapp.UI;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -7,26 +7,29 @@ import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.core.app.ActivityOptionsCompat;
-import androidx.leanback.app.VerticalGridFragment;
+import androidx.leanback.app.RowsFragment;
 import androidx.leanback.widget.ArrayObjectAdapter;
+import androidx.leanback.widget.FocusHighlight;
 import androidx.leanback.widget.ImageCardView;
+import androidx.leanback.widget.ListRow;
+import androidx.leanback.widget.ListRowPresenter;
 import androidx.leanback.widget.OnItemViewClickedListener;
 import androidx.leanback.widget.Presenter;
 import androidx.leanback.widget.Row;
 import androidx.leanback.widget.RowPresenter;
-import androidx.leanback.widget.VerticalGridPresenter;
 
+import com.example.myottapp.R;
 import com.example.myottapp.extras.Movie;
 
-public class TestFragment extends VerticalGridFragment {
+public class BannerFragment extends RowsFragment {
 
     private static final String TAG = "BannerFragment";
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        VerticalGridPresenter gridPresenter = new VerticalGridPresenter();
-        gridPresenter.setNumberOfColumns(5);
-        setGridPresenter(gridPresenter);
+        //VerticalGridPresenter gridPresenter = new VerticalGridPresenter();
+        //gridPresenter.setNumberOfColumns(5);
+        //setGridPresenter(gridPresenter);
         loadBanner();
 
     }
@@ -38,7 +41,7 @@ public class TestFragment extends VerticalGridFragment {
     }
 
     private void loadBanner() {
-        //ArrayObjectAdapter rowsAdapter = new ArrayObjectAdapter(new ListRowPresenter(FocusHighlight.ZOOM_FACTOR_LARGE));
+        ArrayObjectAdapter rowsAdapter = new ArrayObjectAdapter(new ListRowPresenter(FocusHighlight.ZOOM_FACTOR_LARGE));
         GridItemPresenter mGridPresenter = new GridItemPresenter();
         ArrayObjectAdapter gridRowAdapter = new ArrayObjectAdapter(mGridPresenter);
         gridRowAdapter.add(getResources().getString(R.string.Home));
@@ -46,11 +49,11 @@ public class TestFragment extends VerticalGridFragment {
         gridRowAdapter.add(getResources().getString(R.string.Series));
         gridRowAdapter.add(getResources().getString(R.string.Kids));
         gridRowAdapter.add(getResources().getString(R.string.Shorts));
-        setAdapter(gridRowAdapter);
-        //rowsAdapter.add(new ListRow(gridRowAdapter));
-        //setAdapter(rowsAdapter);
+        //setAdapter(gridRowAdapter);
+        rowsAdapter.add(new ListRow(gridRowAdapter));
+        setAdapter(rowsAdapter);
 
-        setOnItemViewClickedListener(new TestFragment.ItemViewClickedListener());
+        setOnItemViewClickedListener(new BannerFragment.ItemViewClickedListener());
     }
 
     /*

@@ -1,7 +1,9 @@
-package com.example.myottapp;
+package com.example.myottapp.UI;
 
+import android.content.Context;
 import android.graphics.drawable.Drawable;
 
+import androidx.appcompat.view.ContextThemeWrapper;
 import androidx.leanback.widget.ImageCardView;
 import androidx.leanback.widget.Presenter;
 import androidx.core.content.ContextCompat;
@@ -10,17 +12,17 @@ import android.util.Log;
 import android.view.ViewGroup;
 
 import com.bumptech.glide.Glide;
+import com.example.myottapp.R;
 import com.example.myottapp.models.Movie;
 
 /*
  * A CardPresenter is used to generate Views and bind Objects to them on demand.
  * It contains an Image CardView
  */
-public class CardPresenter extends Presenter {
+public class BigCardPresenter extends Presenter {
     private static final String TAG = "CardPresenter";
-
-    private static final int CARD_WIDTH = 250;
-    private static final int CARD_HEIGHT = 300;
+    private static final int CARD_WIDTH = 1800;
+    private static final int CARD_HEIGHT = 600;
     private static int sSelectedBackgroundColor;
     private static int sDefaultBackgroundColor;
     private Drawable mDefaultCardImage;
@@ -30,7 +32,7 @@ public class CardPresenter extends Presenter {
         // Both background colors should be set because the view"s background is temporarily visible
         // during animations.
         view.setBackgroundColor(color);
-        view.findViewById(R.id.info_field).setBackgroundColor(color);
+        //view.findViewById(R.id.info_field).setBackgroundColor(color);
     }
 
     @Override
@@ -49,7 +51,7 @@ public class CardPresenter extends Presenter {
         mDefaultCardImage = ContextCompat.getDrawable(parent.getContext(), R.drawable.movie);
 
         ImageCardView cardView =
-                new ImageCardView(parent.getContext()) {
+                new ImageCardView(new ContextThemeWrapper(parent.getContext(),R.style.CustomImageCardTheme)) {
                     @Override
                     public void setSelected(boolean selected) {
                         updateCardBackgroundColor(this, selected);
@@ -66,13 +68,13 @@ public class CardPresenter extends Presenter {
     @Override
     public void onBindViewHolder(Presenter.ViewHolder viewHolder, Object item) {
         //Movie movie = (Movie) item;
-        Movie movie= (Movie) item;
+        Movie movie=(Movie) item;
         ImageCardView cardView = (ImageCardView) viewHolder.view;
 
         Log.d(TAG, "onBindViewHolder");
         if (movie.getPoster().getUrl() != null) {
-            cardView.setTitleText(movie.getTitle());
-            cardView.setContentText(movie.getStudio());
+            //cardView.setTitleText(movie.getTitle());
+            //cardView.setContentText(movie.getStudio());
             cardView.setMainImageDimensions(CARD_WIDTH, CARD_HEIGHT);
             Glide.with(viewHolder.view.getContext())
                     .load(movie.getPoster().getUrl())

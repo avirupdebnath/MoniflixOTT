@@ -1,7 +1,9 @@
-package com.example.myottapp;
+package com.example.myottapp.UI;
 
 import android.app.Activity;
 import android.os.Bundle;
+
+import com.example.myottapp.R;
 
 /*
  * Details activity class that loads LeanbackDetailsFragment class

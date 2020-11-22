@@ -1,4 +1,4 @@
-package com.example.myottapp;
+package com.example.myottapp.UI;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -15,6 +15,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.myottapp.R;
 import com.example.myottapp.models.AllCategoriesList;
 import com.example.myottapp.models.AllLanguagesList;
 import com.google.gson.Gson;

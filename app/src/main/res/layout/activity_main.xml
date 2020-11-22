@@ -10,7 +10,7 @@
     android:baselineAligned="false"
     android:orientation="vertical"
     android:layout_gravity="center"
-    tools:context=".MainActivity">
+    tools:context=".UI.MainActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -31,7 +31,7 @@
 
         <fragment
             android:id="@+id/banner_fragment"
-            android:name="com.example.myottapp.BannerFragment"
+            android:name="com.example.myottapp.UI.BannerFragment"
             android:layout_width="698dp"
             android:layout_height="54dp"
             android:layout_marginTop="20dp"
@@ -50,7 +50,7 @@
 
     <fragment
         android:id="@+id/main_browse_fragment"
-        android:name="com.example.myottapp.MainFragment"
+        android:name="com.example.myottapp.UI.MainFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:nextFocusUp="@+id/fragment"

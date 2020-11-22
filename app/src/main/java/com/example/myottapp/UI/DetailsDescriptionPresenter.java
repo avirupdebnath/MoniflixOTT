@@ -1,4 +1,4 @@
-package com.example.myottapp;
+package com.example.myottapp.UI;
 
 import androidx.leanback.widget.AbstractDetailsDescriptionPresenter;
 
