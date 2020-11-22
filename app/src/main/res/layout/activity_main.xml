@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/linear_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginLeft="5dp"
+    android:layout_marginRight="5dp"
+    android:baselineAligned="false"
+    android:orientation="vertical"
+    android:layout_gravity="center"
+    tools:context=".MainActivity">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="73dp">
+
+        <ImageView
+            android:id="@+id/imageView3"
+            android:layout_width="116dp"
+            android:layout_height="55dp"
+            android:layout_marginStart="20dp"
+            android:src="@drawable/app_icon_your_company"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/banner_fragment"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="MissingConstraints" />
+
+        <fragment
+            android:id="@+id/banner_fragment"
+            android:name="com.example.myottapp.BannerFragment"
+            android:layout_width="698dp"
+            android:layout_height="54dp"
+            android:layout_marginTop="20dp"
+            android:nextFocusDown="@+id/fragment"
+            android:nextFocusRight="@+id/banner_fragment"
+            android:nextFocusLeft="@+id/banner_fragment"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.654"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="1.0"
+            tools:deviceIds="tv" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <fragment
+        android:id="@+id/main_browse_fragment"
+        android:name="com.example.myottapp.MainFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:nextFocusUp="@+id/fragment"
+        android:nextFocusRight="@+id/browse_fragment"
+        android:nextFocusLeft="@+id/browse_fragment"
+        tools:deviceIds="tv" />
+
+</LinearLayout>
