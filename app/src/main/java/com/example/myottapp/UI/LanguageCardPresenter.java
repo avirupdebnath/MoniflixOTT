@@ -3,26 +3,28 @@ package com.example.myottapp.UI;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 
-import androidx.appcompat.view.ContextThemeWrapper;
 import androidx.leanback.widget.ImageCardView;
 import androidx.leanback.widget.Presenter;
 import androidx.core.content.ContextCompat;
 
+import android.net.Uri;
 import android.util.Log;
 import android.view.ViewGroup;
 
 import com.bumptech.glide.Glide;
 import com.example.myottapp.R;
+import com.example.myottapp.models.Language;
 import com.example.myottapp.models.Movie;
 
 /*
  * A CardPresenter is used to generate Views and bind Objects to them on demand.
  * It contains an Image CardView
  */
-public class BigCardPresenter extends Presenter {
+public class LanguageCardPresenter extends Presenter {
     private static final String TAG = "CardPresenter";
-    private static final int CARD_WIDTH = 1800;
-    private static final int CARD_HEIGHT = 800;
+
+    private static final int CARD_WIDTH = 240;
+    private static final int CARD_HEIGHT = 200;
     private static int sSelectedBackgroundColor;
     private static int sDefaultBackgroundColor;
     private Drawable mDefaultCardImage;
@@ -31,8 +33,8 @@ public class BigCardPresenter extends Presenter {
         int color = selected ? sSelectedBackgroundColor : sDefaultBackgroundColor;
         // Both background colors should be set because the view"s background is temporarily visible
         // during animations.
-        view.setBackgroundColor(color);
-        //view.findViewById(R.id.info_field).setBackgroundColor(color);
+        //view.setBackgroundColor(color);
+        view.findViewById(R.id.info_field).setBackgroundColor(color);
     }
 
     @Override
@@ -51,7 +53,7 @@ public class BigCardPresenter extends Presenter {
         mDefaultCardImage = ContextCompat.getDrawable(parent.getContext(), R.drawable.movie);
 
         ImageCardView cardView =
-                new ImageCardView(new ContextThemeWrapper(parent.getContext(),R.style.CustomImageCardTheme)) {//remove R.style for getting texts as well
+                new ImageCardView(parent.getContext()) { //remove R.style for getting texts as well
                     @Override
                     public void setSelected(boolean selected) {
                         updateCardBackgroundColor(this, selected);
@@ -67,21 +69,19 @@ public class BigCardPresenter extends Presenter {
 
     @Override
     public void onBindViewHolder(Presenter.ViewHolder viewHolder, Object item) {
-        //Movie movie = (Movie) item;
-        Movie movie=(Movie) item;
+        Language language=(Language) item;
         ImageCardView cardView = (ImageCardView) viewHolder.view;
-
+        String fPath="android.resource://com.example.myottapp/drawable/";
         Log.d(TAG, "onBindViewHolder");
-        if (movie.getPoster().getUrl() != null) {
-            //cardView.setTitleText(movie.getTitle());
-            //cardView.setContentText(movie.getStudio());
-            cardView.setMainImageDimensions(CARD_WIDTH, CARD_HEIGHT);
-            Glide.with(viewHolder.view.getContext())
-                    .load(movie.getPoster().getUrl())
-                    .centerCrop()
-                    .error(mDefaultCardImage)
-                    .into(cardView.getMainImageView());
-        }
+        cardView.setTitleText(language.getName());
+        //cardView.setContentText(movie.getStudio());
+        cardView.setMainImageDimensions(CARD_WIDTH, CARD_HEIGHT);
+        Glide.with(viewHolder.view.getContext())
+                .load(Uri.parse(fPath+language.getName().toLowerCase()))
+                .centerCrop()
+                .error(mDefaultCardImage)
+                .into(cardView.getMainImageView());
+
     }
 
     @Override

@@ -7,8 +7,10 @@
     <string name="personal_settings">Personal Settings</string>
     <string name="watch_trailer_1">Watch trailer</string>
     <string name="watch_trailer_2">FREE</string>
-    <string name="rent_1">Rent By Day</string>
-    <string name="rent_2">From $1.99</string>
+    <string name="watch_movie_1">Watch Movie</string>
+    <string name="watch_movie_2">FREE</string>
+    <string name="add_to_myList1">Add To Mylist</string>
+    <string name="add_to_mylist2">From $1.99</string>
     <string name="buy_1">Buy and Own</string>
     <string name="buy_2">AT $9.99</string>
     <string name="movie">Movie</string>
@@ -17,8 +19,18 @@
     <string name="Series">Series</string>
     <string name="Kids">Kids</string>
     <string name="Shorts">Shorts</string>
-
+    <string name="WatchNowBtn">Watch Now</string>
+    <string name="AddToMylist">Add To My List</string>
     <!-- Error messages -->
     <string name="error_fragment_message">An error occurred</string>
     <string name="dismiss_error">Dismiss</string>
+
+    <!--player-->
+    <string-array name="quality_array">
+        <item>360p</item>
+        <item>720p</item>
+        <item>1080p</item>
+        <item>Auto</item>
+    </string-array>
+    <string name="spinner_title">Auto</string>
 </resources>

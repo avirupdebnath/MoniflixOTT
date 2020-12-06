@@ -6,8 +6,14 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
 import androidx.leanback.app.BackgroundManager;
 import androidx.leanback.app.BrowseFragment;
+import androidx.leanback.app.RowsFragment;
+import androidx.leanback.app.RowsSupportFragment;
 import androidx.leanback.widget.ArrayObjectAdapter;
 import androidx.leanback.widget.BrowseFrameLayout;
 import androidx.leanback.widget.FocusHighlight;
@@ -30,8 +36,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -41,29 +49,35 @@ import com.android.volley.toolbox.Volley;
 import com.example.myottapp.R;
 import com.example.myottapp.VolleyCallback;
 import com.example.myottapp.extras.MovieList;
+import com.example.myottapp.extras.Processor;
 import com.example.myottapp.models.AllCategoriesList;
 import com.example.myottapp.models.AllLanguagesList;
+import com.example.myottapp.models.Language;
 import com.example.myottapp.models.Movie;
 import com.google.gson.Gson;
 
 import org.json.JSONArray;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Timer;
 
-public class MainFragment extends BrowseFragment {
+public class MainFragment extends RowsFragment {
     private static final String TAG = "MainFragment";
 
     //super.onActivityCreated(savedInstanceState);
 //initializeModels();
 
     private static final int BACKGROUND_UPDATE_DELAY = 300;
-
+    private static int response_error_count=0;
     private static int NUM_ROWS = 5;
     private static int NUM_COLS = 15;
-    private static String[] languages;
 
+    static int count=0;
+
+    private static String[] languages;
+    private ProgressBar progressBar;
     private final Handler mHandler = new Handler();
     private Drawable mDefaultBackground;
     private DisplayMetrics mMetrics;
@@ -73,10 +87,14 @@ public class MainFragment extends BrowseFragment {
     public static AllCategoriesList allCategoriesList;
     public static AllLanguagesList allLanguagesList;
     public static com.example.myottapp.models.MovieList moviesList;
+    public static List<Language> staticLanguageList=new ArrayList<Language>();
+    public static boolean responseFlagCategories=false;
+    public static boolean responseFlagMovies=false;
+    public static RequestQueue requestQueue;
+    public void getCategories(final VolleyCallback callback,RequestQueue requestQueue){
 
-
-    public void getCategories(final VolleyCallback callback){
-        RequestQueue requestQueue = Volley.newRequestQueue(getActivity().getApplicationContext());
+        System.out.println("API call For Categories...");
+        //RequestQueue requestQueue = Volley.newRequestQueue(getActivity().getApplicationContext());
         String urlCategories="https://5fglc3ehn2.execute-api.ap-south-1.amazonaws.com/api/Master/GetAllCategories";
 
         JsonArrayRequest jsonArrayRequest=new JsonArrayRequest(
@@ -86,6 +104,8 @@ public class MainFragment extends BrowseFragment {
                 new Response.Listener<JSONArray>() {
                     @Override
                     public void onResponse(JSONArray response) {
+                        System.out.println("API response received For Categories...");
+
                         allCategoriesList=AllCategoriesList.parseJSON("{categories:"+response+"}");
                         Log.e("Rest Response",response.toString());
                         System.out.println(allCategoriesList);
@@ -97,14 +117,26 @@ public class MainFragment extends BrowseFragment {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
+                        System.out.println("API response received For Categories...");
                     }
                 }
         );
+        jsonArrayRequest.setRetryPolicy(new DefaultRetryPolicy(
+                DefaultRetryPolicy.DEFAULT_TIMEOUT_MS,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+
         requestQueue.add(jsonArrayRequest);
     }
-
-    public void getLanguages(final VolleyCallback callback){
-        RequestQueue requestQueue = Volley.newRequestQueue(getActivity().getApplicationContext());
+    public void getLanguagesList(){
+        String []languageNames={"Bengali","English","Hindi","Kannada","Korean","Marathi","Russian","Tamil","Telugu"};
+        for (int i=0;i<languageNames.length;i++){
+            staticLanguageList.add(new Language(i,languageNames[i]));
+        }
+    }
+/*
+    public void getLanguages(final VolleyCallback callback, RequestQueue requestQueue){
+        //RequestQueue requestQueue = Volley.newRequestQueue(getActivity().getApplicationContext());
         String urlLanguages= "https://5fglc3ehn2.execute-api.ap-south-1.amazonaws.com/api/Master/GetAllLanguages";
         JsonArrayRequest jsonArrayRequest2=new JsonArrayRequest(
                 Request.Method.GET,
@@ -125,15 +157,20 @@ public class MainFragment extends BrowseFragment {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-
                     }
                 }
         );
+        jsonArrayRequest2.setRetryPolicy(new DefaultRetryPolicy(
+                DefaultRetryPolicy.DEFAULT_TIMEOUT_MS,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         requestQueue.add(jsonArrayRequest2);
     }
+ */
+    public void getMovies(final VolleyCallback callback, RequestQueue requestQueue){
+        System.out.println("API call For All Movies...");
 
-    public void getMovies(final VolleyCallback callback){
-        RequestQueue requestQueue = Volley.newRequestQueue(getActivity().getApplicationContext());
+        //RequestQueue requestQueue = Volley.newRequestQueue(getActivity().getApplicationContext());
         String url= "https://5fglc3ehn2.execute-api.ap-south-1.amazonaws.com/api/Movie/GetAll";
         JsonArrayRequest jsonArrayRequest2=new JsonArrayRequest(
                 Request.Method.GET,
@@ -142,6 +179,7 @@ public class MainFragment extends BrowseFragment {
                 new Response.Listener<JSONArray>() {
                     @Override
                     public void onResponse(JSONArray response) {
+                        System.out.println("API response received For All Movies...");
                         moviesList= com.example.myottapp.models.MovieList.parseJSON("{movies:"+String.valueOf(response)+"}");
                         Log.e("Rest Response",response.toString());
                         System.out.println(moviesList);
@@ -151,10 +189,13 @@ public class MainFragment extends BrowseFragment {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-
                     }
                 }
         );
+        jsonArrayRequest2.setRetryPolicy(new DefaultRetryPolicy(
+                DefaultRetryPolicy.DEFAULT_TIMEOUT_MS,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         requestQueue.add(jsonArrayRequest2);
     }
 
@@ -162,35 +203,89 @@ public class MainFragment extends BrowseFragment {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setHeadersState(HEADERS_DISABLED);
-        Log.i(TAG, "onCreate");
 
+        super.onCreate(savedInstanceState);
+        //setHeadersState(HEADERS_DISABLED);
+        Log.i(TAG, "onCreate");
+        requestQueue = Volley.newRequestQueue(getActivity().getApplicationContext());
         prepareBackgroundManager();
         setupUIElements();
-        getCategories(() -> getLanguages(() -> getMovies(()->{
+        getLanguagesList();
+        callGetMoviesRequest();
+        callGetCategoriesRequest();
+        /*getCategories(() -> getMovies(()->{
             loadRows();
             setupEventListeners();
-            workaroundFocus();
-        })));
-        workaroundFocus();
+            //workaroundFocus();
+        }));*/
+        //getCategories(new VolleyCallback() {
+        //    @Override
+        //    public void onSuccess() {
+        //        responseFlagCategories=true;
+        //    }
+        //},requestQueue);
+        //getMovies(new VolleyCallback() {
+        //    @Override
+        //    public void onSuccess() {
+        //        responseFlagMovies=true;
+        //    }
+        //},requestQueue);
+        //renderUI();
+        ////workaroundFocus();
     }
 
+    void callGetCategoriesRequest() {
+        requestQueue.cancelAll("Cancelling all requests");
+        getCategories(new VolleyCallback() {
+            @Override
+            public void onSuccess() {
+                if (allCategoriesList==null && responseFlagMovies) callGetCategoriesRequest();
+                else if (allCategoriesList==null && !responseFlagMovies){
+                    requestQueue.cancelAll("Cancelling all requests");
+                    callGetMoviesRequest();
+                    callGetCategoriesRequest();
+                }else if (responseFlagMovies){
+                    loadRows();
+                    setupEventListeners();
+                }
+                else responseFlagCategories = true;
+            }
+        }, requestQueue);
+    }
+    void callGetMoviesRequest(){
+        getMovies(new VolleyCallback() {
+            @Override
+            public void onSuccess() {
+                if (moviesList==null && responseFlagCategories) callGetMoviesRequest();
+                else if (moviesList==null && !responseFlagCategories){
+                    requestQueue.cancelAll("Cancelling all requests");
+                    callGetMoviesRequest();
+                    callGetCategoriesRequest();
+                }
+                else if(responseFlagCategories){
+                    loadRows();
+                    setupEventListeners();
+                }
+                else responseFlagMovies=true;
+            }
+        },requestQueue);
+    }
 
+/*
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         View view = super.onCreateView(inflater, container, savedInstanceState);
-        FrameLayout containerDock = (FrameLayout) view.findViewById(R.id.browse_container_dock);
+        FrameLayout containerDock = (FrameLayout) view.findViewById(R.id.main_browse_fragment);
         FrameLayout.MarginLayoutParams params = (FrameLayout.MarginLayoutParams) containerDock.getLayoutParams();
         Resources resources = inflater.getContext().getResources();
         int newHeaderMargin = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 50, resources.getDisplayMetrics());
-        int offsetToZero = -resources.getDimensionPixelSize(R.dimen.lb_browse_rows_margin_top);
+        int offsetToZero = 10;
         params.topMargin = offsetToZero+newHeaderMargin;
         containerDock.setLayoutParams(params);
         return view;
     }
-
+*/
     @Override
     public void onResume() {
         super.onResume();
@@ -208,7 +303,15 @@ public class MainFragment extends BrowseFragment {
     }
 
     private ArrayObjectAdapter loadLanguages() {
-        ArrayObjectAdapter rowsAdapter = new ArrayObjectAdapter(new ListRowPresenter(FocusHighlight.ZOOM_FACTOR_LARGE));
+        //ArrayObjectAdapter rowsAdapter = new ArrayObjectAdapter(new ListRowPresenter(FocusHighlight.ZOOM_FACTOR_LARGE));
+        LanguageCardPresenter languageCardPresenter=new LanguageCardPresenter();
+        ArrayObjectAdapter languagesRowAdapter = new ArrayObjectAdapter(languageCardPresenter);
+        for(int n=0;n<staticLanguageList.size();n++){
+            languagesRowAdapter.add(staticLanguageList.get(n));
+        }
+        //rowsAdapter.add(new ListRow(languagesRowAdapter));
+        return languagesRowAdapter;
+        /*
         GridItemPresenter mGridPresenter = new GridItemPresenter(200,200,ContextCompat.getColor(getActivity(),R.color.language_card));
         ArrayObjectAdapter gridRowAdapter = new ArrayObjectAdapter(mGridPresenter);
         if(languages.length!=0) {
@@ -219,6 +322,8 @@ public class MainFragment extends BrowseFragment {
         }
             //rowsAdapter.add(new ListRow(gridRowAdapter));
         return gridRowAdapter;
+
+         */
        // setOnItemViewClickedListener(new BannerFragment.ItemViewClickedListener());
     }
 
@@ -244,7 +349,7 @@ public class MainFragment extends BrowseFragment {
         }
         rowsAdapter.add(new ListRow(firstListRowAdapter));
 
-        HeaderItem headerItem=new HeaderItem(0,"Languages");
+        HeaderItem headerItem=new HeaderItem(1,"Languages");
         rowsAdapter.add(new ListRow(headerItem, loadLanguages()));
 
         int i;
@@ -310,7 +415,7 @@ public class MainFragment extends BrowseFragment {
         });
         */
         setOnItemViewClickedListener(new ItemViewClickedListener());
-        //setOnItemViewSelectedListener(new ItemViewSelectedListener());
+        setOnItemViewSelectedListener(new ItemViewSelectedListener());
     }
 /*
     private void updateBackground(String uri) {
@@ -353,8 +458,12 @@ public class MainFragment extends BrowseFragment {
                 //Movie movie = (Movie) item;
                 com.example.myottapp.models.Movie movie=(com.example.myottapp.models.Movie) item;
                 //Log.d(TAG, "Item: " + item.toString());
+                /*
                 Intent intent = new Intent(getActivity(), DetailsActivity.class);
                 intent.putExtra(DetailsActivity.MOVIE, movie);
+    */
+                Intent intent = new Intent(getActivity(), DetailsActivityNew.class);
+                intent.putExtra(DetailsActivityNew.MOVIE, movie);
 
                 Bundle bundle = ActivityOptionsCompat.makeSceneTransitionAnimation(
                         getActivity(),
@@ -386,6 +495,7 @@ public class MainFragment extends BrowseFragment {
             //}
         }
     }
+   /*
     public void workaroundFocus(){
         if(getView() != null) {
             View viewToFocus  = getView().findViewById(R.id.grid_frame);
@@ -400,6 +510,8 @@ public class MainFragment extends BrowseFragment {
             });
         }
     }
+
+    */
 
 /*
     private class UpdateBackgroundTask extends TimerTask {

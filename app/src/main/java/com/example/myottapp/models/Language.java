@@ -6,6 +6,11 @@ public class Language {
     String[] Content;
     String[] UserPreferences;
 
+    public Language(int Id, String Name){
+        this.Id=Id;
+        this.Name=Name;
+    }
+
     public void setId(int id) {
         Id = id;
     }

@@ -10,7 +10,7 @@ public class Movie implements Serializable {
         private String MovieKey; //": "215ee68d-a52f-4bc4-9b58-a71e0717a9a8",
         private String Title; //": "Asuran",
         private String  Description; //": " Indian Tamil-language action drama film written and directed by Vetrimaaran and produced by Kalaipuli S. Thanu under his production banner V Creations. The film is based on Poomani's novel Vekkai",
-        private int  LanguageI;  //": 1,
+        private int  LanguageId;  //": 1,
         private String  LanguageName;  //": "Kannada",
         private String AgeRestriction; //": "13",
         private int RunTime;  //": 132,
@@ -122,11 +122,11 @@ public class Movie implements Serializable {
     }
 
     public int getLanguageI() {
-        return LanguageI;
+        return LanguageId;
     }
 
     public void setLanguageI(int languageI) {
-        LanguageI = languageI;
+        LanguageId = languageI;
     }
 
     public String getLanguageName() {

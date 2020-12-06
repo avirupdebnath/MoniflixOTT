@@ -34,6 +34,8 @@
         <activity android:name=".UI.DetailsActivity" />
         <activity android:name=".UI.PlaybackActivity" />
         <activity android:name=".UI.BrowseErrorActivity" />
+        <activity android:name=".UI.DetailsActivityNew" />
+        <activity android:name=".UI.PlayerActivity" />
     </application>
 
 </manifest>

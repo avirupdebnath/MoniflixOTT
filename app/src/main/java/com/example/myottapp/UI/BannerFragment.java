@@ -1,13 +1,18 @@
 package com.example.myottapp.UI;
 
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.core.app.ActivityOptionsCompat;
+import androidx.core.content.ContextCompat;
+import androidx.leanback.app.BackgroundManager;
 import androidx.leanback.app.RowsFragment;
+import androidx.leanback.app.VerticalGridFragment;
 import androidx.leanback.widget.ArrayObjectAdapter;
 import androidx.leanback.widget.FocusHighlight;
 import androidx.leanback.widget.ImageCardView;
@@ -17,6 +22,7 @@ import androidx.leanback.widget.OnItemViewClickedListener;
 import androidx.leanback.widget.Presenter;
 import androidx.leanback.widget.Row;
 import androidx.leanback.widget.RowPresenter;
+import androidx.leanback.widget.VerticalGridPresenter;
 
 import com.example.myottapp.R;
 import com.example.myottapp.extras.Movie;
@@ -24,6 +30,9 @@ import com.example.myottapp.extras.Movie;
 public class BannerFragment extends RowsFragment {
 
     private static final String TAG = "BannerFragment";
+    private BackgroundManager mBackgroundManager;
+    private Drawable mDefaultBackground;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,17 +53,30 @@ public class BannerFragment extends RowsFragment {
         ArrayObjectAdapter rowsAdapter = new ArrayObjectAdapter(new ListRowPresenter(FocusHighlight.ZOOM_FACTOR_LARGE));
         GridItemPresenter mGridPresenter = new GridItemPresenter();
         ArrayObjectAdapter gridRowAdapter = new ArrayObjectAdapter(mGridPresenter);
+        gridRowAdapter.add("Search");
         gridRowAdapter.add(getResources().getString(R.string.Home));
         gridRowAdapter.add(getResources().getString(R.string.Movies));
         gridRowAdapter.add(getResources().getString(R.string.Series));
         gridRowAdapter.add(getResources().getString(R.string.Kids));
-        gridRowAdapter.add(getResources().getString(R.string.Shorts));
+        //gridRowAdapter.add(getResources().getString(R.string.Shorts));
+        gridRowAdapter.add("My List");
+        gridRowAdapter.add("Settings");
         //setAdapter(gridRowAdapter);
         rowsAdapter.add(new ListRow(gridRowAdapter));
         setAdapter(rowsAdapter);
 
         setOnItemViewClickedListener(new BannerFragment.ItemViewClickedListener());
     }
+
+    private void prepareBackgroundManager() {
+
+        mBackgroundManager = BackgroundManager.getInstance(getActivity());
+        mBackgroundManager.attach(getActivity().getWindow());
+
+
+        mDefaultBackground = ContextCompat.getDrawable(getActivity(), R.drawable.text_black_to_transparent_shade);
+        mBackgroundManager.setDrawable(mDefaultBackground);
+        }
 
     /*
      rowsAdapter = new ArrayObjectAdapter(new ListRowPresenter());
@@ -105,7 +127,11 @@ public class BannerFragment extends RowsFragment {
                     Intent intent = new Intent(getActivity(), BrowseErrorActivity.class);
                     startActivity(intent);
                 } else {
-                    Toast.makeText(getActivity(), ((String) item), Toast.LENGTH_SHORT).show();
+                    if(((String) item).contains(getString(R.string.Home))) {
+                        Intent intent = new Intent(getActivity(), MainActivity.class);
+                        startActivity(intent);
+                        Toast.makeText(getActivity(), ((String) item), Toast.LENGTH_SHORT).show();
+                    }
                 }
             }
         }

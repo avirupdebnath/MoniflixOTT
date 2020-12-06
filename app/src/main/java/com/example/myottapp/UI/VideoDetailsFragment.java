@@ -47,12 +47,12 @@ import java.util.List;
 public class VideoDetailsFragment extends DetailsFragment {
     private static final String TAG = "VideoDetailsFragment";
 
-    private static final int ACTION_WATCH_TRAILER = 1;
-    private static final int ACTION_RENT = 2;
-    private static final int ACTION_BUY = 3;
+    private static final int ACTION_WATCH_MOVIE = 1;
+    private static final int ACTION_WATCH_TRAILER = 2;
+    private static final int ACTION_ADD_TO_MYLIST = 3;
 
-    private static final int DETAIL_THUMB_WIDTH = 274;
-    private static final int DETAIL_THUMB_HEIGHT = 274;
+    private static final int DETAIL_THUMB_WIDTH = 1000;
+    private static final int DETAIL_THUMB_HEIGHT = 1000;
 
     private static final int NUM_COLS = 10;
 
@@ -79,7 +79,7 @@ public class VideoDetailsFragment extends DetailsFragment {
             setupDetailsOverviewRowPresenter();
             setupRelatedMovieListRow();
             setAdapter(mAdapter);
-            initializeBackground(mSelectedMovie);
+           initializeBackground(mSelectedMovie);
             setOnItemViewClickedListener(new ItemViewClickedListener());
         } else {
             Intent intent = new Intent(getActivity(), MainActivity.class);
@@ -89,11 +89,11 @@ public class VideoDetailsFragment extends DetailsFragment {
 
     private void initializeBackground(com.example.myottapp.models.Movie data) {
         mDetailsBackground.enableParallax();
-        mDetailsBackground.setSolidColor(Color.parseColor("#001e33"));
+        mDetailsBackground.setSolidColor(getResources().getColor(R.color.default_background));
         Glide.with(getActivity())
                 .load(data.getPoster().getUrl())
                 .asBitmap()
-                .centerCrop()
+                .fitCenter()
                 .error(R.drawable.default_background)
                 .into(new SimpleTarget<Bitmap>() {
                     @SuppressLint("ResourceAsColor")
@@ -105,6 +105,7 @@ public class VideoDetailsFragment extends DetailsFragment {
                     }
                 });
     }
+
 
     private void setupDetailsOverviewRow() {
         Log.d(TAG, "doInBackground: " + mSelectedMovie.toString());
@@ -129,22 +130,21 @@ public class VideoDetailsFragment extends DetailsFragment {
                 });
 
         ArrayObjectAdapter actionAdapter = new ArrayObjectAdapter();
-
+        actionAdapter.add(
+                new Action(
+                        ACTION_WATCH_MOVIE,
+                        getResources().getString(R.string.watch_movie_1)));
+                        //getResources().getString(R.string.watch_trailer_2)));
         actionAdapter.add(
                 new Action(
                         ACTION_WATCH_TRAILER,
-                        getResources().getString(R.string.watch_trailer_1),
-                        getResources().getString(R.string.watch_trailer_2)));
+                        getResources().getString(R.string.watch_trailer_1)));
+                        //getResources().getString(R.string.watch_trailer_2)));
         actionAdapter.add(
                 new Action(
-                        ACTION_RENT,
-                        getResources().getString(R.string.rent_1),
-                        getResources().getString(R.string.rent_2)));
-        actionAdapter.add(
-                new Action(
-                        ACTION_BUY,
-                        getResources().getString(R.string.buy_1),
-                        getResources().getString(R.string.buy_2)));
+                        ACTION_ADD_TO_MYLIST,
+                        getResources().getString(R.string.add_to_myList1)));
+                        //getResources().getString(R.string.buy_2)));
         row.setActionsAdapter(actionAdapter);
 
         mAdapter.add(row);
@@ -156,7 +156,7 @@ public class VideoDetailsFragment extends DetailsFragment {
                 new FullWidthDetailsOverviewRowPresenter(new DetailsDescriptionPresenter());
         detailsPresenter.setBackgroundColor(
                 ContextCompat.getColor(getActivity(), R.color.selected_background));
-
+        detailsPresenter.setActionsBackgroundColor(ContextCompat.getColor(getActivity(),R.color.transparent_black));
         // Hook up transition element.
         FullWidthDetailsOverviewSharedElementHelper sharedElementHelper =
                 new FullWidthDetailsOverviewSharedElementHelper();
@@ -168,7 +168,7 @@ public class VideoDetailsFragment extends DetailsFragment {
         detailsPresenter.setOnActionClickedListener(new OnActionClickedListener() {
             @Override
             public void onActionClicked(Action action) {
-                if (action.getId() == ACTION_WATCH_TRAILER) {
+                if (action.getId() == ACTION_WATCH_MOVIE) {
                     Intent intent = new Intent(getActivity(), PlaybackActivity.class);
                     intent.putExtra(DetailsActivity.MOVIE, mSelectedMovie);
                     startActivity(intent);

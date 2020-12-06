@@ -2,12 +2,14 @@ package com.example.myottapp.UI;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatTextView;
 import androidx.core.content.ContextCompat;
 import androidx.leanback.widget.Presenter;
@@ -35,9 +37,11 @@ public class GridItemPresenter extends Presenter {
 
     private void updateCardBackgroundColor(AppCompatTextView view, boolean selected) {
         int color = selected ? sSelectedBackgroundColor : this.sDefaultBackgroundColor;
+        int textColor= selected ? Color.WHITE:Color.GRAY;
         // Both background colors should be set because the view"s background is temporarily visible
         // during animations.
         view.setBackgroundColor(color);
+        view.setTextColor(textColor);
         //view.findViewById(R.id.info_field).setBackgroundColor(color);
     }
 
@@ -57,7 +61,7 @@ public class GridItemPresenter extends Presenter {
         view.setFocusable(true);
         view.setFocusableInTouchMode(true);
         //view.setBackgroundColor(Color.TRANSPARENT);
-        view.setTextColor(Color.WHITE);
+        //view.setTextColor(Color.DKGRAY);
         view.setGravity(Gravity.CENTER);
         this.updateCardBackgroundColor((AppCompatTextView) view, false);
         return new ViewHolder(view);

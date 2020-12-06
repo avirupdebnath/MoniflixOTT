@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.os.Bundle;
 
 import com.example.myottapp.R;
+import com.example.myottapp.models.Movie;
 
 /*
  * Details activity class that loads LeanbackDetailsFragment class
@@ -17,9 +18,11 @@ public class DetailsActivity extends Activity {
      */
     @Override
     public void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_details);
 
     }
+
 
 }
