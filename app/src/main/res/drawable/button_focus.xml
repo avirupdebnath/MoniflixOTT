@@ -6,7 +6,7 @@
     <!-- focused -->
     <item android:state_focused="true" android:drawable="@color/colorButtonFocusedTV" tools:ignore="StateListReachable" />
     <!-- default -->
-    <item android:drawable="@color/colorButtonSelectedTV" />
+    <item android:drawable="@color/transpo" />
     <item android:drawable="@color/colorPrimary" android:state_focused="true" android:state_pressed="false" android:state_selected="true" tools:ignore="StateListReachable" />
 
 </selector>

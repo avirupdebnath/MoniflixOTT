@@ -14,13 +14,22 @@
     <string name="buy_1">Buy and Own</string>
     <string name="buy_2">AT $9.99</string>
     <string name="movie">Movie</string>
+
+
+    <!--Banner Fragment-->
     <string name="Home">Home</string>
     <string name="Movies">Movies</string>
     <string name="Series">Series</string>
     <string name="Kids">Kids</string>
     <string name="Shorts">Shorts</string>
+    <string name="Settings">Settings</string>
+    <string name="Search">Search</string>
+    <string name="MyLists">My List</string>
+
+    <!--Details Fragment-->
     <string name="WatchNowBtn">Watch Now</string>
     <string name="AddToMylist">Add To My List</string>
+
     <!-- Error messages -->
     <string name="error_fragment_message">An error occurred</string>
     <string name="dismiss_error">Dismiss</string>
@@ -33,4 +42,33 @@
         <item>Auto</item>
     </string-array>
     <string name="spinner_title">Auto</string>
+
+
+    <!--Login Activity-->
+    <string name="title_activity_login2">LoginActivity2</string>
+    <string name="prompt_email">Email</string>
+    <string name="prompt_password">Password</string>
+    <string name="action_sign_in">Sign in or register</string>
+    <string name="action_sign_in_short">Sign in</string>
+    <string name="welcome">"Welcome !"</string>
+    <string name="invalid_username">Not a valid username</string>
+    <string name="invalid_password">Password must be >5 characters</string>
+    <string name="login_failed">"Login failed"</string>
+
+
+    <!--Settings Activity-->
+    <string name="membershipDetails">Premium\n\nEnjoy HD videos, ad free content and more.</string>
+    <string name="parentalControlDetails">After signing in your TV, sort up Parental Controls to require a PIN to watch some videos.\n\n
+        1. In a web browser, go to TVPlatform101.com/PIN and select the Parental Controls tab.\n\n
+        2. Create or change your TVPlatform PIN.\n\n
+        3. Under viewing restrictions, select viewing limit.\n\n
+        4. Under Apply viewing restrictions, select devices to apply viewing restrictions, and then click save.\n\nYour TVPlatform Pin is required before viewing videos at or above the selected restriction level.</string>
+
+    <string name="contactUsDetails">If you are having a problem with our service and need help, go to: TVPlatform.com/videohelp.\n\nFor suggestions on improving our
+        service , send an email message to TVPlatform feedback@xyz.com and we will review it.</string>
+
+    <string name="legalNoticeDetail">TVPlatform terms of Use are available at TVPlatform.com/video/terms.\n\nTVPlatform knows that you care how information about you is
+        used and shared, and we appreciate your trust that we will do so carefully and sensibly. To read our privacy policy, go to
+        TVPlatform.com/privacy.\n\nTVPlatform may include third party software in out applications. To find out more, go to:\nTVPlatform.com/video/3rdpartysoftware.</string>
+
 </resources>

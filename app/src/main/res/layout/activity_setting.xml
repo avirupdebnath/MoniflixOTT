@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal"
+    android:background="@drawable/default_background"
+    tools:context=".UI.SettingActivity">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="20dp">
+        <LinearLayout
+            android:id="@+id/root_Left"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="left"
+            android:orientation="vertical">
+            <Button
+                android:id="@+id/membership_button"
+                android:layout_marginTop="50dp"
+                android:paddingLeft="24dp"
+                android:paddingRight="24dp"
+                android:gravity="left|center_vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:textColor="@color/white"
+                android:background="@drawable/button_focus"
+                android:text="Membership"
+                android:textAllCaps="false"
+                />
+            <Button
+                android:id="@+id/parental_control_buttons"
+                android:gravity="left|center_vertical"
+                android:paddingLeft="24dp"
+                android:paddingRight="24dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:textColor="@color/white"
+                android:background="@drawable/button_focus"
+                android:text="Parental Controls"
+                android:textAllCaps="false"
+                />
+            <Button
+                android:id="@+id/contact_us_button"
+                android:gravity="left|center_vertical"
+                android:paddingLeft="24dp"
+                android:paddingRight="24dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:textColor="@color/white"
+                android:background="@drawable/button_focus"
+                android:text="Contact Us"
+                android:textAllCaps="false"
+                />
+            <Button
+                android:id="@+id/legal_notices_button"
+                android:gravity="left|center_vertical"
+                android:paddingLeft="24dp"
+                android:paddingRight="24dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:textColor="@color/white"
+                android:background="@drawable/button_focus"
+                android:text="Legal Notices"
+                android:textAllCaps="false"
+                />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/root_right"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="right"
+            android:gravity=""
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/setting_header_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="50dp"
+                android:layout_marginLeft="24dp"
+                android:layout_marginRight="24dp"
+                android:text="Settings"
+                android:textStyle="bold"
+                android:textColor="@color/white"
+                android:textSize="24sp" />
+
+            <TextView
+                android:id="@+id/settings_description_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:layout_marginLeft="24dp"
+                android:layout_marginRight="24dp"
+                android:text="Text layout"
+                android:textStyle="bold"
+                android:textColor="@color/white"
+                android:textSize="14sp" />
+        </LinearLayout>
+    </LinearLayout>
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:id="@+id/banner_linear_layout"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginBottom="5dp"
+        android:focusable="false"
+        android:background="@drawable/text_black_to_transparent_shade">
+        <ImageView
+            android:id="@+id/imageView3"
+            android:layout_width="80dp"
+            android:layout_height="40dp"
+            android:layout_gravity="left"
+            android:src="@drawable/app_icon_your_company"
+            android:focusable="false"
+            android:focusableInTouchMode="false"/>
+        <fragment
+            android:id="@+id/banner_fragment"
+            android:name="com.example.myottapp.UI.BannerFragment"
+            android:layout_width="900dp"
+            android:layout_height="40dp"
+            android:layout_gravity="right" />
+    </FrameLayout>
+
+</FrameLayout>

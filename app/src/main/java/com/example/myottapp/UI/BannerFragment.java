@@ -53,14 +53,14 @@ public class BannerFragment extends RowsFragment {
         ArrayObjectAdapter rowsAdapter = new ArrayObjectAdapter(new ListRowPresenter(FocusHighlight.ZOOM_FACTOR_LARGE));
         GridItemPresenter mGridPresenter = new GridItemPresenter();
         ArrayObjectAdapter gridRowAdapter = new ArrayObjectAdapter(mGridPresenter);
-        gridRowAdapter.add("Search");
+        gridRowAdapter.add(getResources().getString(R.string.Search));
         gridRowAdapter.add(getResources().getString(R.string.Home));
         gridRowAdapter.add(getResources().getString(R.string.Movies));
         gridRowAdapter.add(getResources().getString(R.string.Series));
         gridRowAdapter.add(getResources().getString(R.string.Kids));
         //gridRowAdapter.add(getResources().getString(R.string.Shorts));
-        gridRowAdapter.add("My List");
-        gridRowAdapter.add("Settings");
+        gridRowAdapter.add(getResources().getString(R.string.MyLists));
+        gridRowAdapter.add(getResources().getString(R.string.Settings));
         //setAdapter(gridRowAdapter);
         rowsAdapter.add(new ListRow(gridRowAdapter));
         setAdapter(rowsAdapter);
@@ -129,6 +129,11 @@ public class BannerFragment extends RowsFragment {
                 } else {
                     if(((String) item).contains(getString(R.string.Home))) {
                         Intent intent = new Intent(getActivity(), MainActivity.class);
+                        startActivity(intent);
+                        Toast.makeText(getActivity(), ((String) item), Toast.LENGTH_SHORT).show();
+                    }
+                    else if(((String) item).contains(getString(R.string.Settings))) {
+                        Intent intent = new Intent(getActivity(), SettingActivity.class);
                         startActivity(intent);
                         Toast.makeText(getActivity(), ((String) item), Toast.LENGTH_SHORT).show();
                     }
