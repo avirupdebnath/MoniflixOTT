@@ -34,6 +34,7 @@ public class DetailsActivityNew extends Activity {
         mSelectedMovie = (Movie) this.getIntent().getSerializableExtra(DetailsActivityNew.MOVIE);
         setContentView(R.layout.details_activity_new);
         AppCompatButton watchNow=(AppCompatButton) findViewById(R.id.watchNowButton);
+        watchNow.requestFocus();
         watchNow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -42,13 +43,13 @@ public class DetailsActivityNew extends Activity {
                 startActivity(intent);
             }
         });
-        //if(mSelectedMovie!=null){
-        //    setMovieName(mSelectedMovie.getTitle());
-        //    setMovieAgeRestriction(mSelectedMovie.getAgeRestriction());
-        //    setMovieDescription(mSelectedMovie.getDescription());
-        //    setMovieLanguage(mSelectedMovie.getLanguageName());
-        //    setMoviePoster(mSelectedMovie.getPoster().getUrl());
-        //    setMovieRuntime(mSelectedMovie.getRunTime());
+        if(mSelectedMovie!=null){
+            setMovieName(mSelectedMovie.getTitle());
+            setMovieAgeRestriction(mSelectedMovie.getAgeRestriction());
+            setMovieDescription(mSelectedMovie.getDescription());
+            setMovieLanguage(mSelectedMovie.getLanguageName());
+            setMoviePoster(mSelectedMovie.getPoster().getUrl());
+            setMovieRuntime(mSelectedMovie.getRunTime());
             //movieLanguage.setText(mSelectedMovie.getLanguageName());
             //movieAge.setText(mSelectedMovie.getAgeRestriction());
             //movieDescription.setText(mSelectedMovie.getDescription().trim());
@@ -61,7 +62,7 @@ public class DetailsActivityNew extends Activity {
             //        .centerCrop()
             //        .into(moviePoster);
 
-   //     }
+        }
     }
 
     void setMovieName(String s){

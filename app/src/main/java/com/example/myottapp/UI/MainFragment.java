@@ -1,5 +1,6 @@
 package com.example.myottapp.UI;
 
+import android.app.Fragment;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
@@ -10,6 +11,8 @@ import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.leanback.app.BackgroundManager;
 import androidx.leanback.app.BrowseFragment;
 import androidx.leanback.app.RowsFragment;
@@ -75,6 +78,7 @@ public class MainFragment extends RowsFragment {
     private static int NUM_COLS = 15;
 
     static int count=0;
+    public ArrayObjectAdapter rowsAdapter;
 
     private static String[] languages;
     private ProgressBar progressBar;
@@ -105,7 +109,7 @@ public class MainFragment extends RowsFragment {
                     @Override
                     public void onResponse(JSONArray response) {
                         System.out.println("API response received For Categories...");
-
+                        System.out.println(String.valueOf(response));
                         allCategoriesList=AllCategoriesList.parseJSON("{categories:"+response+"}");
                         Log.e("Rest Response",response.toString());
                         System.out.println(allCategoriesList);
@@ -181,6 +185,7 @@ public class MainFragment extends RowsFragment {
                     public void onResponse(JSONArray response) {
                         System.out.println("API response received For All Movies...");
                         moviesList= com.example.myottapp.models.MovieList.parseJSON("{movies:"+String.valueOf(response)+"}");
+                        System.out.println(String.valueOf(response));
                         Log.e("Rest Response",response.toString());
                         System.out.println(moviesList);
                         callback.onSuccess();
@@ -207,8 +212,9 @@ public class MainFragment extends RowsFragment {
         super.onCreate(savedInstanceState);
         //setHeadersState(HEADERS_DISABLED);
         Log.i(TAG, "onCreate");
+        responseFlagCategories=false;
+        responseFlagMovies=false;
         requestQueue = Volley.newRequestQueue(getActivity().getApplicationContext());
-        prepareBackgroundManager();
         setupUIElements();
         getLanguagesList();
         callGetMoviesRequest();
@@ -235,12 +241,11 @@ public class MainFragment extends RowsFragment {
     }
 
     void callGetCategoriesRequest() {
-        requestQueue.cancelAll("Cancelling all requests");
         getCategories(new VolleyCallback() {
             @Override
             public void onSuccess() {
                 if (allCategoriesList==null && responseFlagMovies) callGetCategoriesRequest();
-                else if (allCategoriesList==null && !responseFlagMovies){
+                else if (allCategoriesList==null ){
                     requestQueue.cancelAll("Cancelling all requests");
                     callGetMoviesRequest();
                     callGetCategoriesRequest();
@@ -257,7 +262,7 @@ public class MainFragment extends RowsFragment {
             @Override
             public void onSuccess() {
                 if (moviesList==null && responseFlagCategories) callGetMoviesRequest();
-                else if (moviesList==null && !responseFlagCategories){
+                else if (moviesList==null){
                     requestQueue.cancelAll("Cancelling all requests");
                     callGetMoviesRequest();
                     callGetCategoriesRequest();
@@ -292,6 +297,10 @@ public class MainFragment extends RowsFragment {
         mBackgroundManager.setDrawable(mDefaultBackground);
     }
 
+    @Override
+    public void setAlignment(int windowAlignOffsetFromTop) {
+        super.setAlignment(70);
+    }
 
     @Override
     public void onDestroy() {
@@ -330,7 +339,7 @@ public class MainFragment extends RowsFragment {
     private void loadRows() {
         List<com.example.myottapp.models.Movie> list = moviesList.getMovies();
 
-        ArrayObjectAdapter rowsAdapter = new ArrayObjectAdapter(new ListRowPresenter(FocusHighlight.ZOOM_FACTOR_LARGE));
+        rowsAdapter = new ArrayObjectAdapter(new ListRowPresenter(FocusHighlight.ZOOM_FACTOR_SMALL));
         CardPresenter cardPresenter = new CardPresenter();
         BigCardPresenter bigCardPresenter=new BigCardPresenter();
         /*
@@ -343,11 +352,11 @@ public class MainFragment extends RowsFragment {
         gridRowAdapter.add(getResources().getString(R.string.Shorts));
         rowsAdapter.add(new ListRow(gridRowAdapter));
 */
-        ArrayObjectAdapter firstListRowAdapter = new ArrayObjectAdapter(bigCardPresenter);
-        for(int m=0; m < NUM_COLS; m++){
-            firstListRowAdapter.add(list.get(m % 5));
-        }
-        rowsAdapter.add(new ListRow(firstListRowAdapter));
+        //ArrayObjectAdapter firstListRowAdapter = new ArrayObjectAdapter(bigCardPresenter);
+        //for(int m=0; m < NUM_COLS; m++){
+        //    firstListRowAdapter.add(list.get(m % 5));
+        //}
+        //rowsAdapter.add(new ListRow(firstListRowAdapter));
 
         HeaderItem headerItem=new HeaderItem(1,"Languages");
         rowsAdapter.add(new ListRow(headerItem, loadLanguages()));
@@ -377,16 +386,20 @@ public class MainFragment extends RowsFragment {
         */
         setAdapter(rowsAdapter);
     }
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        prepareBackgroundManager();
 
-    private void prepareBackgroundManager() {
-
+    }
+    private void prepareBackgroundManager () {
         mBackgroundManager = BackgroundManager.getInstance(getActivity());
         mBackgroundManager.attach(getActivity().getWindow());
-
-        mDefaultBackground = ContextCompat.getDrawable(getActivity(), R.drawable.default_background);
+        Fragment fragment = (Fragment) getFragmentManager().findFragmentById(R.id.main_browse_fragment);
+        mDefaultBackground = ContextCompat.getDrawable(getActivity(), R.drawable.black_to_transparent_shade_horizontal);
+        fragment.getView().setBackground(mDefaultBackground);
+        mDefaultBackground=ContextCompat.getDrawable(getActivity(), R.drawable.default_background);
         mBackgroundManager.setDrawable(mDefaultBackground);
-        mMetrics = new DisplayMetrics();
-        getActivity().getWindowManager().getDefaultDisplay().getMetrics(mMetrics);
     }
 
     private void setupUIElements() {
@@ -464,13 +477,15 @@ public class MainFragment extends RowsFragment {
     */
                 Intent intent = new Intent(getActivity(), DetailsActivityNew.class);
                 intent.putExtra(DetailsActivityNew.MOVIE, movie);
+                //intent.putExtra(DetailsActivityNew.hasReloaded,true);
 
-                Bundle bundle = ActivityOptionsCompat.makeSceneTransitionAnimation(
-                        getActivity(),
-                        ((ImageCardView) itemViewHolder.view).getMainImageView(),
-                        DetailsActivity.SHARED_ELEMENT_NAME)
-                        .toBundle();
-                getActivity().startActivity(intent, bundle);
+                //Bundle bundle = ActivityOptionsCompat.makeSceneTransitionAnimation(
+                //        getActivity(),
+                //        ((ImageCardView) itemViewHolder.view).getMainImageView(),
+                //        DetailsActivity.SHARED_ELEMENT_NAME)
+                //        .toBundle();
+                getActivity().startActivity(intent);
+
             } else if (item instanceof String) {
                 if (((String) item).contains(getString(R.string.error_fragment))) {
                     Intent intent = new Intent(getActivity(), BrowseErrorActivity.class);
@@ -489,6 +504,23 @@ public class MainFragment extends RowsFragment {
                 Object item,
                 RowPresenter.ViewHolder rowViewHolder,
                 Row row) {
+            if(rowsAdapter.indexOf(row)==0){
+                ((MainActivity)getActivity()).showCarousal();
+                ((MainActivity)getActivity()).hideMovieDetails();
+            }
+            if(rowsAdapter.indexOf(row)==1){
+                ((MainActivity)getActivity()).hideCarousal();
+                ((MainActivity)getActivity()).showMovieDetails();
+            }
+            if (item instanceof Movie) {
+                ((MainActivity)getActivity()).setMovieName(((Movie) item).getTitle());
+                ((MainActivity)getActivity()).setMovieLanguage(((Movie) item).getLanguageName());
+                ((MainActivity)getActivity()).setMovieDescription(((Movie) item).getDescription());
+                ((MainActivity)getActivity()).setMovieRuntime(((Movie) item).getRunTime());
+                ((MainActivity)getActivity()).setMoviePoster(((Movie) item).getPoster().getUrl());
+                ((MainActivity)getActivity()).setMovieAgeRestriction(((Movie) item).getAgeRestriction());
+
+            }
             //if (item instanceof Movie) {
               //  mBackgroundUri = ((Movie) item).getBackgroundImageUrl();
                // startBackgroundTimer();

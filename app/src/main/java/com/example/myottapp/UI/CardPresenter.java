@@ -39,9 +39,9 @@ public class CardPresenter extends Presenter {
     }
 
     CardPresenter() {
-        CardPresenter.CARD_WIDTH = 400;
+        CardPresenter.CARD_WIDTH = 300;
         CardPresenter.CARD_HEIGHT = 200;
-        CardPresenter.withTextFlag=true;
+        CardPresenter.withTextFlag=false;
     }
 
 

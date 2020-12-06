@@ -21,8 +21,8 @@ import com.example.myottapp.models.Movie;
  */
 public class BigCardPresenter extends Presenter {
     private static final String TAG = "CardPresenter";
-    private static final int CARD_WIDTH = 1800;
-    private static final int CARD_HEIGHT = 800;
+    private static final int CARD_WIDTH = 2000;
+    private static final int CARD_HEIGHT = 650;
     private static int sSelectedBackgroundColor;
     private static int sDefaultBackgroundColor;
     private Drawable mDefaultCardImage;

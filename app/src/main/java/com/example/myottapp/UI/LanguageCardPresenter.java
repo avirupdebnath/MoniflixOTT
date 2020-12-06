@@ -23,8 +23,8 @@ import com.example.myottapp.models.Movie;
 public class LanguageCardPresenter extends Presenter {
     private static final String TAG = "CardPresenter";
 
-    private static final int CARD_WIDTH = 240;
-    private static final int CARD_HEIGHT = 200;
+    private static final int CARD_WIDTH = 200;
+    private static final int CARD_HEIGHT = 150;
     private static int sSelectedBackgroundColor;
     private static int sDefaultBackgroundColor;
     private Drawable mDefaultCardImage;
@@ -53,7 +53,7 @@ public class LanguageCardPresenter extends Presenter {
         mDefaultCardImage = ContextCompat.getDrawable(parent.getContext(), R.drawable.movie);
 
         ImageCardView cardView =
-                new ImageCardView(parent.getContext()) { //remove R.style for getting texts as well
+                new ImageCardView(parent.getContext(),R.style.myCustomImageCardTheme) { //remove R.style for getting texts as well
                     @Override
                     public void setSelected(boolean selected) {
                         updateCardBackgroundColor(this, selected);

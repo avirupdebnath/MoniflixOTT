@@ -47,12 +47,14 @@ public class RelatedItemsFragment extends RowsFragment {
     private BackgroundManager mBackgroundManager;
     private Drawable mDefaultBackground;
     private ArrayObjectAdapter mRowsAdapter;
+    private static int count=0;
     private boolean hasReloaded=true;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         loadRows();
         setupEventListeners();
+        hasReloaded=true;
         //setHeadersState(HEADERS_DISABLED);
 
     }
@@ -95,10 +97,11 @@ public class RelatedItemsFragment extends RowsFragment {
         gridRowAdapter.add(getResources().getString(R.string.Shorts));
         rowsAdapter.add(new ListRow(gridRowAdapter));
 */      ArrayObjectAdapter listRowAdapter = new ArrayObjectAdapter(cardPresenter);
+        //listRowAdapter.add( ((DetailsActivityNew)getActivity()).mSelectedMovie);
         for (int j = 0; j < 10; j++) {
                 listRowAdapter.add(relatedMovieList.get(j % 5));
         }
-            HeaderItem header = new HeaderItem(0, "Related");
+            HeaderItem header = new HeaderItem(0, "More Movies Like This");
             mRowsAdapter.add(new ListRow(header, listRowAdapter));
             setAdapter(mRowsAdapter);
             //rowsAdapter.add(new ListRow(listRowAdapter));
@@ -114,7 +117,7 @@ public class RelatedItemsFragment extends RowsFragment {
             mBackgroundManager.setDrawable(mDefaultBackground);
         }
 
-        private void setupEventListeners () {
+    private void setupEventListeners () {
         /*
         setOnSearchClickedListener(new View.OnClickListener() {
 
@@ -125,8 +128,8 @@ public class RelatedItemsFragment extends RowsFragment {
             }
         });
         */
-            setOnItemViewClickedListener(new ItemViewClickedListener());
-            setOnItemViewSelectedListener(new ItemViewSelectedListener());
+        setOnItemViewClickedListener(new ItemViewClickedListener());
+        //setOnItemViewSelectedListener(new ItemViewSelectedListener());
         }
         private final class ItemViewClickedListener implements OnItemViewClickedListener {
             @Override
@@ -139,12 +142,14 @@ public class RelatedItemsFragment extends RowsFragment {
                     //Log.d(TAG, "Item: " + item.toString());
                     Intent intent = new Intent(getActivity(), DetailsActivityNew.class);
                     intent.putExtra(DetailsActivityNew.MOVIE, movie);
-                    Bundle bundle = ActivityOptionsCompat.makeSceneTransitionAnimation(
-                            getActivity(),
-                            ((ImageCardView) itemViewHolder.view).getMainImageView(),
-                            DetailsActivity.SHARED_ELEMENT_NAME)
-                            .toBundle();
-                    getActivity().startActivity(intent, bundle);
+
+                    //Bundle bundle = ActivityOptionsCompat.makeSceneTransitionAnimation(
+                    //        getActivity(),
+                    //        ((ImageCardView) itemViewHolder.view).getMainImageView(),
+                    //        DetailsActivity.SHARED_ELEMENT_NAME)
+                    //        .toBundle();
+                    getActivity().startActivity(intent);
+
                 } else if (item instanceof String) {
                     if (((String) item).contains(getString(R.string.error_fragment))) {
                         Intent intent = new Intent(getActivity(), BrowseErrorActivity.class);
@@ -163,8 +168,7 @@ public class RelatedItemsFragment extends RowsFragment {
                 RowPresenter.ViewHolder rowViewHolder,
                 Row row) {
 
-            System.out.println(hasReloaded);
-            if (item instanceof Movie && !hasReloaded) {
+            if (item instanceof Movie) {
                 ((DetailsActivityNew)getActivity()).mSelectedMovie=(Movie)item;
                 System.out.println(((DetailsActivityNew)getActivity()).mSelectedMovie.getTitle());
                 ((DetailsActivityNew)getActivity()).setMovieName(((Movie) item).getTitle());
@@ -174,17 +178,8 @@ public class RelatedItemsFragment extends RowsFragment {
                 ((DetailsActivityNew)getActivity()).setMoviePoster(((Movie) item).getPoster().getUrl());
                 ((DetailsActivityNew)getActivity()).setMovieAgeRestriction(((Movie) item).getAgeRestriction());
             }
-            else if(hasReloaded){
-                hasReloaded=false;
-                System.out.println(((DetailsActivityNew)getActivity()).mSelectedMovie.getTitle());
-                ((DetailsActivityNew)getActivity()).setMovieName( ((DetailsActivityNew)getActivity()).mSelectedMovie.getTitle());
-                ((DetailsActivityNew)getActivity()).setMovieLanguage( ((DetailsActivityNew)getActivity()).mSelectedMovie.getLanguageName());
-                ((DetailsActivityNew)getActivity()).setMovieDescription( ((DetailsActivityNew)getActivity()).mSelectedMovie.getDescription());
-                ((DetailsActivityNew)getActivity()).setMovieRuntime( ((DetailsActivityNew)getActivity()).mSelectedMovie.getRunTime());
-                ((DetailsActivityNew)getActivity()).setMoviePoster( ((DetailsActivityNew)getActivity()).mSelectedMovie.getPoster().getUrl());
-                ((DetailsActivityNew)getActivity()).setMovieAgeRestriction( ((DetailsActivityNew)getActivity()).mSelectedMovie.getAgeRestriction());
-            }
         }
+
     }
 
     }

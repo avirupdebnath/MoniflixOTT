@@ -24,7 +24,7 @@ public class BrowseErrorActivity extends Activity {
     private static final int SPINNER_HEIGHT = 100;
 
     private ErrorFragment mErrorFragment;
-    private SpinnerFragment mSpinnerFragment;
+    //private SpinnerFragment mSpinnerFragment;
 
     /**
      * Called when the activity is first created.
@@ -34,9 +34,9 @@ public class BrowseErrorActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        testError();
+        //testError();
     }
-
+/*
     private void testError() {
         mErrorFragment = new ErrorFragment();
         getFragmentManager()
@@ -75,5 +75,5 @@ public class BrowseErrorActivity extends Activity {
             }
             return progressBar;
         }
-    }
+    }*/
 }

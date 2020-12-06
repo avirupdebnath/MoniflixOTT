@@ -13,7 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:background="@drawable/text_black_to_transparent_shade"
+        android:background="@drawable/video_playback_video_name_background"
         android:gravity="left"
         android:orientation="horizontal"
         android:paddingLeft="40dp"
