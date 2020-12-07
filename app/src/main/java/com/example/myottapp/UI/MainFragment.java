@@ -91,7 +91,7 @@ public class MainFragment extends RowsFragment {
     public static AllCategoriesList allCategoriesList;
     public static AllLanguagesList allLanguagesList;
     public static com.example.myottapp.models.MovieList moviesList;
-    public static List<Language> staticLanguageList=new ArrayList<Language>();
+    public  static List<Language> staticLanguageList=new ArrayList<Language>();
     public static boolean responseFlagCategories=false;
     public static boolean responseFlagMovies=false;
     public static RequestQueue requestQueue;
@@ -134,8 +134,10 @@ public class MainFragment extends RowsFragment {
     }
     public void getLanguagesList(){
         String []languageNames={"Bengali","English","Hindi","Kannada","Korean","Marathi","Russian","Tamil","Telugu"};
-        for (int i=0;i<languageNames.length;i++){
-            staticLanguageList.add(new Language(i,languageNames[i]));
+        if(staticLanguageList.size()==0) {
+            for (int i = 0; i < languageNames.length; i++) {
+                staticLanguageList.add(new Language(i, languageNames[i]));
+            }
         }
     }
 /*
