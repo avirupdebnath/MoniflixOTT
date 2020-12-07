@@ -245,13 +245,7 @@ public class MainFragment extends RowsFragment {
         getCategories(new VolleyCallback() {
             @Override
             public void onSuccess() {
-                if (allCategoriesList==null && responseFlagMovies) callGetCategoriesRequest();
-                else if (allCategoriesList==null ){
-                    requestQueue.cancelAll("CATEGORIES");
-                    requestQueue.cancelAll("MOVIES");
-                    callGetMoviesRequest();
-                    callGetCategoriesRequest();
-                }else if (responseFlagMovies){
+                 if (responseFlagMovies){
                     System.out.println(allCategoriesList);
                     loadRows();
                     setupEventListeners();
@@ -264,14 +258,7 @@ public class MainFragment extends RowsFragment {
         getMovies(new VolleyCallback() {
             @Override
             public void onSuccess() {
-                if (moviesList==null && responseFlagCategories) callGetMoviesRequest();
-                else if (moviesList==null){
-                    requestQueue.cancelAll("CATEGORIES");
-                    requestQueue.cancelAll("MOVIES");
-                    callGetMoviesRequest();
-                    callGetCategoriesRequest();
-                }
-                else if(responseFlagCategories){
+                if(responseFlagCategories){
                     System.out.println(moviesList);
                     loadRows();
                     setupEventListeners();
