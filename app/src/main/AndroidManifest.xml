@@ -21,10 +21,10 @@
         <activity
             android:name=".UI.LoginActivity"
             android:noHistory="true"
-            android:banner="@drawable/app_icon_your_company"
+            android:banner="@mipmap/ic_banner"
             android:icon="@drawable/app_icon_your_company"
             android:label="@string/app_name"
-            android:logo="@drawable/app_icon_your_company"
+            android:logo="@mipmap/ic_banner"
             android:screenOrientation="landscape">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
