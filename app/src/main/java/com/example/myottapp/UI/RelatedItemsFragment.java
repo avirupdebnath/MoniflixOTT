@@ -86,7 +86,7 @@ public class RelatedItemsFragment extends RowsFragment {
         List<Movie> relatedMovieList = moviesList.getMovies();
 
         mRowsAdapter = new ArrayObjectAdapter(new ListRowPresenter(FocusHighlight.ZOOM_FACTOR_LARGE));
-        CardPresenter cardPresenter = new CardPresenter(300,200,false);
+        CardPresenter cardPresenter = new CardPresenter(340,220,false);
         /*
         GridItemPresenter mGridPresenter = new GridItemPresenter();
         ArrayObjectAdapter gridRowAdapter = new ArrayObjectAdapter(mGridPresenter);

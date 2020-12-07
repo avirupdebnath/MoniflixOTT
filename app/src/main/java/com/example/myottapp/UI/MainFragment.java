@@ -304,7 +304,7 @@ public class MainFragment extends RowsFragment {
 
     @Override
     public void setAlignment(int windowAlignOffsetFromTop) {
-        super.setAlignment(780);
+        super.setAlignment(770);
     }
 
     @Override
@@ -344,7 +344,7 @@ public class MainFragment extends RowsFragment {
     private void loadRows() {
         List<com.example.myottapp.models.Movie> list = moviesList.getMovies();
 
-        rowsAdapter = new ArrayObjectAdapter(new ListRowPresenter(FocusHighlight.ZOOM_FACTOR_SMALL));
+        rowsAdapter = new ArrayObjectAdapter(new ListRowPresenter(FocusHighlight.ZOOM_FACTOR_LARGE));
         CardPresenter cardPresenter = new CardPresenter();
         BigCardPresenter bigCardPresenter=new BigCardPresenter();
         /*
