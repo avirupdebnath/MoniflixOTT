@@ -20,6 +20,7 @@
         android:theme="@style/Theme.MyOTTApp">
         <activity
             android:name=".UI.LoginActivity"
+            android:noHistory="true"
             android:banner="@drawable/app_icon_your_company"
             android:icon="@drawable/app_icon_your_company"
             android:label="@string/app_name"

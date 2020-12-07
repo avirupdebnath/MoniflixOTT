@@ -129,7 +129,7 @@ public class MainFragment extends RowsFragment {
                 DefaultRetryPolicy.DEFAULT_TIMEOUT_MS,
                 DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-
+        jsonArrayRequest.setTag("CATEGORIES");
         requestQueue.add(jsonArrayRequest);
     }
     public void getLanguagesList(){
@@ -201,6 +201,7 @@ public class MainFragment extends RowsFragment {
                 DefaultRetryPolicy.DEFAULT_TIMEOUT_MS,
                 DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        jsonArrayRequest2.setTag("MOVIES");
         requestQueue.add(jsonArrayRequest2);
     }
 
@@ -246,10 +247,12 @@ public class MainFragment extends RowsFragment {
             public void onSuccess() {
                 if (allCategoriesList==null && responseFlagMovies) callGetCategoriesRequest();
                 else if (allCategoriesList==null ){
-                    requestQueue.cancelAll("Cancelling all requests");
+                    requestQueue.cancelAll("CATEGORIES");
+                    requestQueue.cancelAll("MOVIES");
                     callGetMoviesRequest();
                     callGetCategoriesRequest();
                 }else if (responseFlagMovies){
+                    System.out.println(allCategoriesList);
                     loadRows();
                     setupEventListeners();
                 }
@@ -263,11 +266,13 @@ public class MainFragment extends RowsFragment {
             public void onSuccess() {
                 if (moviesList==null && responseFlagCategories) callGetMoviesRequest();
                 else if (moviesList==null){
-                    requestQueue.cancelAll("Cancelling all requests");
+                    requestQueue.cancelAll("CATEGORIES");
+                    requestQueue.cancelAll("MOVIES");
                     callGetMoviesRequest();
                     callGetCategoriesRequest();
                 }
                 else if(responseFlagCategories){
+                    System.out.println(moviesList);
                     loadRows();
                     setupEventListeners();
                 }
@@ -299,7 +304,7 @@ public class MainFragment extends RowsFragment {
 
     @Override
     public void setAlignment(int windowAlignOffsetFromTop) {
-        super.setAlignment(70);
+        super.setAlignment(780);
     }
 
     @Override
@@ -396,9 +401,8 @@ public class MainFragment extends RowsFragment {
         mBackgroundManager = BackgroundManager.getInstance(getActivity());
         mBackgroundManager.attach(getActivity().getWindow());
         Fragment fragment = (Fragment) getFragmentManager().findFragmentById(R.id.main_browse_fragment);
-        mDefaultBackground = ContextCompat.getDrawable(getActivity(), R.drawable.black_to_transparent_shade_horizontal);
+        mDefaultBackground = ContextCompat.getDrawable(getActivity(), R.drawable.default_background);
         fragment.getView().setBackground(mDefaultBackground);
-        mDefaultBackground=ContextCompat.getDrawable(getActivity(), R.drawable.default_background);
         mBackgroundManager.setDrawable(mDefaultBackground);
     }
 

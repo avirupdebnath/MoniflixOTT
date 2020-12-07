@@ -51,7 +51,6 @@ public class LoginActivity extends Activity {
         progressBar.setVisibility(View.VISIBLE);
         Intent intent = new Intent(LoginActivity.this, MainActivity.class);
         startActivity(intent);
-        finish();
         progressBar.setVisibility(View.GONE);
     }
 

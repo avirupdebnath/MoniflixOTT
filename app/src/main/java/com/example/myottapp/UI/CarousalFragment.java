@@ -95,6 +95,7 @@ public class CarousalFragment extends RowsFragment {
                 DefaultRetryPolicy.DEFAULT_TIMEOUT_MS,
                 DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        jsonArrayRequest2.setTag("MOVIES");
         requestQueue.add(jsonArrayRequest2);
     }
 
@@ -162,9 +163,8 @@ public class CarousalFragment extends RowsFragment {
         mBackgroundManager = BackgroundManager.getInstance(getActivity());
         mBackgroundManager.attach(getActivity().getWindow());
         Fragment fragment = (Fragment) getFragmentManager().findFragmentById(R.id.carousal_fragment);
-        mDefaultBackground = ContextCompat.getDrawable(getActivity(), R.drawable.black_to_transparent_shade_horizontal);
+        mDefaultBackground = ContextCompat.getDrawable(getActivity(), R.drawable.default_background);
         fragment.getView().setBackground(mDefaultBackground);
-        mDefaultBackground=ContextCompat.getDrawable(getActivity(), R.drawable.default_background);
         mBackgroundManager.setDrawable(mDefaultBackground);
     }
 

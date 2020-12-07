@@ -24,7 +24,7 @@ public class LanguageCardPresenter extends Presenter {
     private static final String TAG = "CardPresenter";
 
     private static final int CARD_WIDTH = 200;
-    private static final int CARD_HEIGHT = 150;
+    private static final int CARD_HEIGHT = 170;
     private static int sSelectedBackgroundColor;
     private static int sDefaultBackgroundColor;
     private Drawable mDefaultCardImage;

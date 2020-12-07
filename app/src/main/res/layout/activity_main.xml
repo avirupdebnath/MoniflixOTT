@@ -9,12 +9,24 @@
     android:orientation="vertical"
     tools:context=".UI.MainActivity">
     <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="bottom"
+        android:background="@color/default_background">
+        <fragment
+            android:id="@+id/main_browse_fragment"
+            android:name="com.example.myottapp.UI.MainFragment"
+            android:layout_height="match_parent"
+            android:layout_width="match_parent" />
+    </FrameLayout>
+    <FrameLayout
             android:id="@+id/details_frame"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:gravity="center"
-            android:layout_margin="0dp">
+            android:layout_margin="0dp"
+            android:background="@drawable/default_background">
             <ImageView
                 android:id="@+id/movie_poster"
                 android:layout_width="match_parent"
@@ -94,7 +106,8 @@
             android:orientation="horizontal"
             android:gravity="center"
             android:layout_gravity="top"
-            android:layout_margin="0dp">
+            android:layout_margin="0dp"
+            android:background="@drawable/default_background">
             <fragment
                 android:id="@+id/carousal_fragment"
                 android:name="com.example.myottapp.UI.CarousalFragment"
@@ -126,16 +139,6 @@
 
 
     </FrameLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:layout_gravity="bottom"
-            android:background="@color/default_background">
-            <fragment
-                android:id="@+id/main_browse_fragment"
-                android:name="com.example.myottapp.UI.MainFragment"
-                android:layout_height="match_parent"
-                android:layout_width="match_parent" />
-        </LinearLayout>
+
 </FrameLayout>
 

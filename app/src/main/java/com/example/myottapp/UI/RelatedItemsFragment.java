@@ -106,6 +106,10 @@ public class RelatedItemsFragment extends RowsFragment {
             setAdapter(mRowsAdapter);
             //rowsAdapter.add(new ListRow(listRowAdapter));
         }
+    @Override
+    public void setAlignment(int windowAlignOffsetFromTop) {
+        super.setAlignment(100);
+    }
 
         private void prepareBackgroundManager () {
             mBackgroundManager = BackgroundManager.getInstance(getActivity());

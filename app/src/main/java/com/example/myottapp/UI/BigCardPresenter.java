@@ -54,7 +54,7 @@ public class BigCardPresenter extends Presenter {
                 new ImageCardView(new ContextThemeWrapper(parent.getContext(),R.style.CustomImageCardTheme)) {//remove R.style for getting texts as well
                     @Override
                     public void setSelected(boolean selected) {
-                        updateCardBackgroundColor(this, selected);
+                        //updateCardBackgroundColor(this, selected);
                         super.setSelected(selected);
                     }
                 };
