@@ -34,8 +34,14 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.myottapp.R;
+import com.example.myottapp.Service.VolleyRequest;
 import com.example.myottapp.VolleyCallback;
+import com.example.myottapp.models.DataModel;
 import com.example.myottapp.models.Movie;
+import com.example.myottapp.models.MovieBasicInfo;
+import com.example.myottapp.models.MovieBasicInfoList;
+import com.example.myottapp.models.MovieDetailsBanner;
+import com.example.myottapp.models.MovieDetailsBannerList;
 
 import org.json.JSONArray;
 
@@ -47,69 +53,27 @@ public class CarousalFragment extends RowsFragment {
     private BackgroundManager mBackgroundManager;
     private Drawable mDefaultBackground;
     private ArrayObjectAdapter mRowsAdapter;
-    private static int count=0;
-    private boolean hasReloaded=true;
-    public static boolean responseFlagCategories=false;
-    public static boolean responseFlagMovies=false;
+    public static MovieBasicInfoList movieBasicInfoList;
+
     public static RequestQueue requestQueue;
-    private DisplayMetrics mMetrics;
 
-    void callGetMoviesRequest(){
-        getMovies(new VolleyCallback() {
-            @Override
-            public void onSuccess() {
-                    loadRows();
-                    setupEventListeners();
-            }
-        },requestQueue);
+    void callGetCarousalRequest() {
+        VolleyRequest carousalRequest = new VolleyRequest();
+        carousalRequest.sendGetRequest(() -> {
+            DataModel.carousalItems= MovieDetailsBannerList.parseJSON("{movieDetailsBanners:"+carousalRequest.getResponseString()+"}");
+            System.out.println("LOADING ROWS...............");
+            System.out.println("CAROUSAL ITEMS:"+DataModel.carousalItems);
+            loadRows();
+            setupEventListeners();
+        }, DataModel.carousalURL, DataModel.carousalTAG);
+
     }
-
-
-    public void getMovies(final VolleyCallback callback, RequestQueue requestQueue){
-        System.out.println("API call For All Movies...");
-
-        //RequestQueue requestQueue = Volley.newRequestQueue(getActivity().getApplicationContext());
-        String url= "https://5fglc3ehn2.execute-api.ap-south-1.amazonaws.com/api/Movie/GetAll";
-        JsonArrayRequest jsonArrayRequest2=new JsonArrayRequest(
-                Request.Method.GET,
-                url,
-                null,
-                new Response.Listener<JSONArray>() {
-                    @Override
-                    public void onResponse(JSONArray response) {
-                        System.out.println("API response received For All Movies...");
-                        moviesList= com.example.myottapp.models.MovieList.parseJSON("{movies:"+String.valueOf(response)+"}");
-                        System.out.println(String.valueOf(response));
-                        Log.e("Rest Response",response.toString());
-                        System.out.println(moviesList);
-                        callback.onSuccess();
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                    }
-                }
-        );
-        jsonArrayRequest2.setRetryPolicy(new DefaultRetryPolicy(
-                DefaultRetryPolicy.DEFAULT_TIMEOUT_MS,
-                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
-                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-        jsonArrayRequest2.setTag("MOVIES");
-        requestQueue.add(jsonArrayRequest2);
-    }
-
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //loadRows();
-        //setupEventListeners();
-        requestQueue = Volley.newRequestQueue(getActivity().getApplicationContext());
-        callGetMoviesRequest();
-        hasReloaded=true;
-        //setHeadersState(HEADERS_DISABLED);
-
+        //requestQueue = Volley.newRequestQueue(getActivity().getApplicationContext());
+        callGetCarousalRequest();
     }
 
     @Override
@@ -130,33 +94,20 @@ public class CarousalFragment extends RowsFragment {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        //if (null != mBackgroundTimer) {
-        //  Log.d(TAG, "onDestroy: " + mBackgroundTimer.toString());
-        //  mBackgroundTimer.cancel();
-        //}
     }
 
     private void loadRows() {
-        List<Movie> relatedMovieList = moviesList.getMovies();
-        mRowsAdapter = new ArrayObjectAdapter(new ListRowPresenter(FocusHighlight.ZOOM_FACTOR_SMALL));
+        System.out.println(DataModel.carousalItems);
+        List<MovieDetailsBanner> carousalList = DataModel.carousalItems.getMovieDetailsBanners();
+        mRowsAdapter = new ArrayObjectAdapter(new ListRowPresenter(FocusHighlight.ZOOM_FACTOR_XSMALL));
         BigCardPresenter cardPresenter = new BigCardPresenter();
-        /*
-        GridItemPresenter mGridPresenter = new GridItemPresenter();
-        ArrayObjectAdapter gridRowAdapter = new ArrayObjectAdapter(mGridPresenter);
-        gridRowAdapter.add(getResources().getString(R.string.Home));
-        gridRowAdapter.add(getResources().getString(R.string.Movies));
-        gridRowAdapter.add(getResources().getString(R.string.Series));
-        gridRowAdapter.add(getResources().getString(R.string.Kids));
-        gridRowAdapter.add(getResources().getString(R.string.Shorts));
-        rowsAdapter.add(new ListRow(gridRowAdapter));
-*/      ArrayObjectAdapter listRowAdapter = new ArrayObjectAdapter(cardPresenter);
-        //listRowAdapter.add( ((DetailsActivityNew)getActivity()).mSelectedMovie);
-        for (int j = 0; j < 10; j++) {
-            listRowAdapter.add(relatedMovieList.get(j % 5));
+        ArrayObjectAdapter listRowAdapter = new ArrayObjectAdapter(cardPresenter);
+
+        for (int j = 0; j < carousalList.size(); j++) {
+            listRowAdapter.add(carousalList.get(j));
         }
         mRowsAdapter.add(new ListRow(listRowAdapter));
         setAdapter(mRowsAdapter);
-        //rowsAdapter.add(new ListRow(listRowAdapter));
     }
 
     private void prepareBackgroundManager () {
@@ -168,38 +119,30 @@ public class CarousalFragment extends RowsFragment {
         mBackgroundManager.setDrawable(mDefaultBackground);
     }
 
-    private void setupEventListeners () {
-        /*
-        setOnSearchClickedListener(new View.OnClickListener() {
 
-            @Override
-            public void onClick(View view) {
-                Toast.makeText(getActivity(), "Implement your own in-app search", Toast.LENGTH_LONG)
-                        .show();
-            }
-        });
-        */
+
+
+    private void setupEventListeners () {
         setOnItemViewClickedListener(new CarousalFragment.ItemViewClickedListener());
-        //setOnItemViewSelectedListener(new ItemViewSelectedListener());
     }
     private final class ItemViewClickedListener implements OnItemViewClickedListener {
         @Override
         public void onItemClicked(Presenter.ViewHolder itemViewHolder, Object item,
                                   RowPresenter.ViewHolder rowViewHolder, Row row) {
 
-            if (item instanceof Movie) {
+            if (item instanceof MovieBasicInfo) {
                 //Movie movie = (Movie) item;
-                com.example.myottapp.models.Movie movie = (com.example.myottapp.models.Movie) item;
+                //com.example.myottapp.models.Movie movie = (com.example.myottapp.models.Movie) item;
                 //Log.d(TAG, "Item: " + item.toString());
-                Intent intent = new Intent(getActivity(), DetailsActivityNew.class);
-                intent.putExtra(DetailsActivityNew.MOVIE, movie);
+                //Intent intent = new Intent(getActivity(), DetailsActivityNew.class);
+                //intent.putExtra(DetailsActivityNew.MOVIE, movie);
 
                 //Bundle bundle = ActivityOptionsCompat.makeSceneTransitionAnimation(
                 //        getActivity(),
                 //        ((ImageCardView) itemViewHolder.view).getMainImageView(),
                 //        DetailsActivity.SHARED_ELEMENT_NAME)
                 //        .toBundle();
-                getActivity().startActivity(intent);
+                //getActivity().startActivity(intent);
 
             } else if (item instanceof String) {
                 if (((String) item).contains(getString(R.string.error_fragment))) {

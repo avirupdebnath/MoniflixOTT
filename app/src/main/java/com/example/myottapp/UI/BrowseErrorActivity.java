@@ -33,10 +33,9 @@ public class BrowseErrorActivity extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        //testError();
+        testError();
     }
-/*
+
     private void testError() {
         mErrorFragment = new ErrorFragment();
         getFragmentManager()
@@ -44,7 +43,7 @@ public class BrowseErrorActivity extends Activity {
                 .add(R.id.main_browse_fragment, mErrorFragment)
                 .commit();
 
-        mSpinnerFragment = new SpinnerFragment();
+        SpinnerFragment mSpinnerFragment = new SpinnerFragment();
         getFragmentManager()
                 .beginTransaction()
                 .add(R.id.main_browse_fragment, mSpinnerFragment)
@@ -75,5 +74,5 @@ public class BrowseErrorActivity extends Activity {
             }
             return progressBar;
         }
-    }*/
+    }
 }

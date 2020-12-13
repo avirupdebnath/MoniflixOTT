@@ -2,14 +2,11 @@
 <FrameLayout xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/linear_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:baselineAligned="false"
-    android:orientation="vertical"
     android:background="@color/background_gradient_start">
-
     <FrameLayout
+        android:id="@+id/results_frame"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
@@ -47,10 +44,10 @@
                 android:id="@+id/movie_name"
                 android:layout_height="wrap_content"
                 android:layout_width="600dp"
-               android:layout_marginTop="70dp"
+                android:layout_marginTop="70dp"
                 android:text="Movie Name"
                 android:layout_marginLeft="50dp"
-                android:textSize="40sp"
+                android:textSize="35sp"
                 android:layout_marginBottom="5dp">
             </TextView>
             <LinearLayout
@@ -97,97 +94,98 @@
                 android:text="This is a small description of what can be called a movie in the making. People have almost died in making this a reality."
                 android:textSize="15sp">
             </TextView>
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="left"
-                android:layout_marginLeft="50dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="30dp">
-
-                <androidx.appcompat.widget.AppCompatButton
-                    android:id="@+id/watchNowButton"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/WatchNowBtn"
-                    android:layout_marginRight="10dp"
-                    android:focusedByDefault="true"
-                    android:padding="10dp"
-                    android:focusable="true"
-                    android:background="@drawable/color_selector"/>
-
-                <androidx.appcompat.widget.AppCompatButton
-                    android:id="@+id/AddToWatchListButton"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/AddToMylist"
-                    android:padding="10dp"
-                    android:focusable="true"
-                    android:layout_marginRight="10dp"
-                    android:background="@drawable/color_selector"/>
-            </LinearLayout>
         </LinearLayout>
     </FrameLayout>
     <FrameLayout
+        android:id="@+id/no_results_frame"
         android:layout_width="match_parent"
-        android:id="@+id/banner_linear_layout"
+        android:layout_height="match_parent">
+        <TextView
+            android:id="@+id/no_results_text"
+            android:layout_width="500dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="Sorry! No Content is available in the chosen Language right now. Stay tuned and try again in a few days!"
+            android:gravity="center"
+            android:textAlignment="center"
+            android:textSize="32sp">
+        </TextView>
+    </FrameLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginBottom="5dp"
-        android:focusable="false"
+        android:background="@drawable/text_black_to_transparent_shade">
+    <ImageView
+        android:layout_width="100dp"
+        android:layout_height="50dp"
+        android:src="@mipmap/ic_banner_foreground">
+    </ImageView>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="|"
+            android:textSize="35sp">
+
+        </TextView>
+    <TextView
+        android:id="@+id/text_language"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:text="Language"
+        android:layout_marginLeft="20dp">
+
+    </TextView>
+    </LinearLayout>
+
+
+    <fragment
+        android:id="@+id/language_fragment"
+        android:layout_gravity="bottom"
+        android:name="com.example.myottapp.UI.LanguageFragment"
+        android:layout_width="match_parent"
+        android:layout_height="240dp"
+        />
+<FrameLayout
+    android:id="@+id/load_frame"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/default_background">
+
+    <ProgressBar
+        android:id="@+id/progress_bar"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_gravity="center"
+        android:indeterminate="true"
+        android:indeterminateTint="@color/colorPrimary">
+
+    </ProgressBar>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:background="@drawable/text_black_to_transparent_shade">
         <ImageView
-            android:id="@+id/imageView3"
             android:layout_width="100dp"
             android:layout_height="50dp"
-            android:layout_gravity="left"
-            android:src="@mipmap/ic_banner_foreground"
-            android:focusable="false"
-            android:focusableInTouchMode="false"/>
-    </FrameLayout>
-    <FrameLayout
-        android:id="@+id/related_items_frame"
-        android:layout_width="match_parent"
-        android:layout_height="250dp"
-        android:layout_gravity="bottom"
-        android:background="@color/transpo">
-        <fragment
-            android:id="@+id/related_items_fragment"
-            android:name="com.example.myottapp.UI.RelatedItemsFragment"
-            android:layout_height="match_parent"
-            android:layout_width="match_parent" />
-    </FrameLayout>
-
-    <FrameLayout
-        android:id="@+id/load_frame"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@drawable/default_background">
-
-        <FrameLayout
-            android:layout_width="match_parent"
+            android:src="@mipmap/ic_banner_foreground">
+        </ImageView>
+        <TextView
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginBottom="5dp"
-            android:focusable="false"
-            android:background="@color/transpo">
-            <ImageView
-                android:id="@+id/imageLogo_onload"
-                android:layout_width="100dp"
-                android:layout_height="50dp"
-                android:layout_gravity="left"
-                android:src="@mipmap/ic_banner_foreground"
-                android:focusable="false"
-                android:focusableInTouchMode="false"/>
-        </FrameLayout>
-        <ProgressBar
-            android:id="@+id/progress_bar"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:layout_gravity="center"
-            android:indeterminate="true"
-            android:indeterminateTint="@color/colorPrimary">
+            android:text="|"
+            android:textSize="35sp">
 
-        </ProgressBar>
-    </FrameLayout>
+        </TextView>
+        <TextView
+            android:id="@+id/text_language_onLoad"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:text="Language"
+            android:layout_marginLeft="20dp">
+
+        </TextView>
+    </LinearLayout>
+</FrameLayout>
 </FrameLayout>

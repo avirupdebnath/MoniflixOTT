@@ -2,29 +2,23 @@ package com.example.myottapp.UI;
 
 import android.app.Fragment;
 import android.content.Intent;
-import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
-
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
+import android.util.DisplayMetrics;
+import android.util.Log;
+import android.view.View;
+import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.cardview.widget.CardView;
+import androidx.core.content.ContextCompat;
 import androidx.leanback.app.BackgroundManager;
-import androidx.leanback.app.BrowseFragment;
 import androidx.leanback.app.RowsFragment;
-import androidx.leanback.app.RowsSupportFragment;
 import androidx.leanback.widget.ArrayObjectAdapter;
-import androidx.leanback.widget.BrowseFrameLayout;
 import androidx.leanback.widget.FocusHighlight;
 import androidx.leanback.widget.HeaderItem;
-import androidx.leanback.widget.ImageCardView;
 import androidx.leanback.widget.ListRow;
 import androidx.leanback.widget.ListRowPresenter;
 import androidx.leanback.widget.OnItemViewClickedListener;
@@ -32,35 +26,10 @@ import androidx.leanback.widget.OnItemViewSelectedListener;
 import androidx.leanback.widget.Presenter;
 import androidx.leanback.widget.Row;
 import androidx.leanback.widget.RowPresenter;
-import androidx.core.app.ActivityOptionsCompat;
-import androidx.core.content.ContextCompat;
 
-import android.provider.ContactsContract;
-import android.util.DisplayMetrics;
-import android.util.Log;
-import android.util.TypedValue;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.FrameLayout;
-import android.widget.ProgressBar;
-import android.widget.Toast;
-
-import com.android.volley.DefaultRetryPolicy;
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.VolleyLog;
-import com.android.volley.toolbox.JsonArrayRequest;
-import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.Volley;
 import com.example.myottapp.R;
-import com.example.myottapp.Service.ApplicationController;
-import com.example.myottapp.Service.CustomRequest;
 import com.example.myottapp.Service.VolleyRequest;
 import com.example.myottapp.VolleyCallback;
-import com.example.myottapp.extras.Processor;
 import com.example.myottapp.models.AllCategoriesList;
 import com.example.myottapp.models.AllLanguagesList;
 import com.example.myottapp.models.Category;
@@ -69,21 +38,16 @@ import com.example.myottapp.models.Language;
 import com.example.myottapp.models.Movie;
 import com.example.myottapp.models.MovieBasicInfo;
 import com.example.myottapp.models.MovieBasicInfoList;
-import com.example.myottapp.models.MovieList;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.google.gson.JsonObject;
 
-import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Timer;
 
-public class MainFragment extends RowsFragment {
+public class SeriesFragment extends RowsFragment {
     private static final String TAG = "MainFragment";
 
     //super.onActivityCreated(savedInstanceState);
@@ -114,7 +78,7 @@ public class MainFragment extends RowsFragment {
 
 
     public void getLanguagesList(){
-        String []languageNames={"Kannada","Telugu","Malayalum","Tamil","Hindi","English","Korean","Russian"};
+        String []languageNames={"Bengali","English","Hindi","Kannada","Korean","Marathi","Russian","Tamil","Telugu"};
         if(staticLanguageList.size()==0) {
             for (int i = 0; i < languageNames.length; i++) {
                 staticLanguageList.add(new Language(i, languageNames[i]));
@@ -125,10 +89,9 @@ public class MainFragment extends RowsFragment {
     private void loadLanguages() {
         LanguageCardPresenter languageCardPresenter=new LanguageCardPresenter();
         ArrayObjectAdapter languagesRowAdapter = new ArrayObjectAdapter(languageCardPresenter);
-        //for(int n=0;n<staticLanguageList.size();n++){
-        //    languagesRowAdapter.add(staticLanguageList.get(n));
-        //}
-        languagesRowAdapter.addAll(0,staticLanguageList);
+        for(int n=0;n<staticLanguageList.size();n++){
+            languagesRowAdapter.add(staticLanguageList.get(n));
+        }
         HeaderItem headerItem=new HeaderItem(0,"Languages");
         rowsAdapter.add(new ListRow(headerItem, languagesRowAdapter));
         setAdapter(rowsAdapter);
@@ -150,7 +113,7 @@ public class MainFragment extends RowsFragment {
     public void getMovies(String categoryName, int filterValue, int pageNo, int pageSize){
         String tag=categoryName;
         VolleyRequest volleyRequest=new VolleyRequest();
-        JSONObject params= volleyRequest.paramsObjectBuilder(1,3,filterValue,pageNo,pageSize);
+        JSONObject params= volleyRequest.paramsObjectBuilder(2,3,filterValue,pageNo,pageSize);
         volleyRequest.sendPostRequest(new VolleyCallback() {
             @Override
             public void onSuccess() {
@@ -165,9 +128,8 @@ public class MainFragment extends RowsFragment {
     public void createRow(int categoryID, String categoryName, List<MovieBasicInfo> list){
         CardPresenter cardPresenter=new CardPresenter();
         ArrayObjectAdapter categoryRowAdapter=new ArrayObjectAdapter(cardPresenter);
-        //for(int i=0;i<list.size();i++)
-            //categoryRowAdapter.add(list.get(i));
-        categoryRowAdapter.addAll(0,list);
+        for(int i=0;i<list.size();i++)
+            categoryRowAdapter.add(list.get(i));
         HeaderItem headerItem=new HeaderItem(categoryID,categoryName);
         if(list.size()!=0) {
             rowsAdapter.add(new ListRow(headerItem, categoryRowAdapter));
@@ -190,13 +152,23 @@ public class MainFragment extends RowsFragment {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
+        //setHeadersState(HEADERS_DISABLED);
         Log.i(TAG, "onCreate");
+        responseFlagCategories=false;
+        responseFlagMovies=false;
+
         rowsAdapter = new ArrayObjectAdapter(new ListRowPresenter(FocusHighlight.ZOOM_FACTOR_LARGE));
-        setAdapter(rowsAdapter);
+
+        //requestQueue = Volley.newRequestQueue(getActivity().getApplicationContext());
+        //setupUIElements();
+        //getLanguagesList();
+        //callGetMoviesRequest();
+        //getCategories();
         loadUIElements();
         setupEventListeners();
-        }
+    }
 
 
     @Override
@@ -220,8 +192,8 @@ public class MainFragment extends RowsFragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         prepareBackgroundManager();
-    }
 
+    }
     private void prepareBackgroundManager () {
         mBackgroundManager = BackgroundManager.getInstance(getActivity());
         mBackgroundManager.attach(getActivity().getWindow());
@@ -231,8 +203,8 @@ public class MainFragment extends RowsFragment {
     }
 
     private void setupEventListeners() {
-        setOnItemViewClickedListener(new ItemViewClickedListener());
-        setOnItemViewSelectedListener(new ItemViewSelectedListener());
+        setOnItemViewClickedListener(new SeriesFragment.ItemViewClickedListener());
+        setOnItemViewSelectedListener(new SeriesFragment.ItemViewSelectedListener());
     }
 
     private final class ItemViewClickedListener implements OnItemViewClickedListener {
@@ -242,10 +214,7 @@ public class MainFragment extends RowsFragment {
 
             if (item instanceof MovieBasicInfo) {
                 String tag=((MovieBasicInfo) item).getId()+"";
-                Intent intent = new Intent(getActivity(), DetailsActivityNew.class);
-                intent.putExtra(DetailsActivityNew.MOVIE, ((MovieBasicInfo)item));
-                getActivity().startActivity(intent);
-                /*VolleyRequest volleyRequest=new VolleyRequest();
+                VolleyRequest volleyRequest=new VolleyRequest();
                 volleyRequest.sendJSONObjGetRequest(new VolleyCallback() {
                     @Override
                     public void onSuccess() {
@@ -256,12 +225,7 @@ public class MainFragment extends RowsFragment {
                         getActivity().startActivity(intent);
                     }
                 },DataModel.movieDetailsByIdURL+((MovieBasicInfo) item).getId(),tag);
-                */
-            }
-            else if(item instanceof Language){
-                Intent intent=new Intent(getActivity(),LanguageActivity.class);
-                intent.putExtra(LanguageActivity.LANGUAGE,((Language)item));
-                getActivity().startActivity(intent);
+
             }
             else if (item instanceof String) {
                 if (((String) item).contains(getString(R.string.error_fragment))) {
@@ -282,25 +246,25 @@ public class MainFragment extends RowsFragment {
                 RowPresenter.ViewHolder rowViewHolder,
                 Row row) {
             if(rowsAdapter.indexOf(row)==0){
-                ((MainActivity)getActivity()).showCarousal();
-                ((MainActivity)getActivity()).hideMovieDetails();
+                ((SeriesActivity)getActivity()).showCarousal();
+                ((SeriesActivity)getActivity()).hideMovieDetails();
             }
             if(rowsAdapter.indexOf(row)==1){
-                ((MainActivity)getActivity()).hideCarousal();
-                ((MainActivity)getActivity()).showMovieDetails();
+                ((SeriesActivity)getActivity()).hideCarousal();
+                ((SeriesActivity)getActivity()).showMovieDetails();
             }
             if (item instanceof MovieBasicInfo) {
-                ((MainActivity)getActivity()).setMovieName(((MovieBasicInfo) item).getTitle());
+                ((SeriesActivity)getActivity()).setMovieName(((MovieBasicInfo) item).getTitle());
                 //((MainActivity)getActivity()).setMovieLanguage(((Movie) item).getLanguageName());
                 //((MainActivity)getActivity()).setMovieDescription(((Movie) item).getDescription());
                 //((MainActivity)getActivity()).setMovieRuntime(((Movie) item).getRunTime());
-                ((MainActivity)getActivity()).setMoviePoster(((MovieBasicInfo) item).getPosterUrl());
+                ((SeriesActivity)getActivity()).setMoviePoster(((MovieBasicInfo) item).getPosterUrl());
                 //((MainActivity)getActivity()).setMovieAgeRestriction(((Movie) item).getAgeRestriction());
 
             }
             //if (item instanceof Movie) {
-              //  mBackgroundUri = ((Movie) item).getBackgroundImageUrl();
-               // startBackgroundTimer();
+            //  mBackgroundUri = ((Movie) item).getBackgroundImageUrl();
+            // startBackgroundTimer();
             //}
         }
     }

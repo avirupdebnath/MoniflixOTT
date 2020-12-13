@@ -5,8 +5,10 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.View;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.app.ActivityOptionsCompat;
 import androidx.core.content.ContextCompat;
@@ -19,6 +21,7 @@ import androidx.leanback.widget.ImageCardView;
 import androidx.leanback.widget.ListRow;
 import androidx.leanback.widget.ListRowPresenter;
 import androidx.leanback.widget.OnItemViewClickedListener;
+import androidx.leanback.widget.OnItemViewSelectedListener;
 import androidx.leanback.widget.Presenter;
 import androidx.leanback.widget.Row;
 import androidx.leanback.widget.RowPresenter;
@@ -28,10 +31,11 @@ import com.example.myottapp.R;
 import com.example.myottapp.extras.Movie;
 
 public class BannerFragment extends RowsFragment {
-
+    private static int position = 1;
     private static final String TAG = "BannerFragment";
     private BackgroundManager mBackgroundManager;
     private Drawable mDefaultBackground;
+    private ArrayObjectAdapter rowsAdapter;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -39,7 +43,11 @@ public class BannerFragment extends RowsFragment {
         //VerticalGridPresenter gridPresenter = new VerticalGridPresenter();
         //gridPresenter.setNumberOfColumns(5);
         //setGridPresenter(gridPresenter);
+        CustomListRowPresenter listRowPresenter = new CustomListRowPresenter(FocusHighlight.ZOOM_FACTOR_SMALL, position);
+        listRowPresenter.setShadowEnabled(false);
+        rowsAdapter = new ArrayObjectAdapter(listRowPresenter);
         loadBanner();
+        setupEventListeners();
 
     }
 
@@ -49,8 +57,8 @@ public class BannerFragment extends RowsFragment {
         //workaroundFocus();
     }
 
+
     private void loadBanner() {
-        ArrayObjectAdapter rowsAdapter = new ArrayObjectAdapter(new ListRowPresenter(FocusHighlight.ZOOM_FACTOR_LARGE));
         GridItemPresenter mGridPresenter = new GridItemPresenter();
         ArrayObjectAdapter gridRowAdapter = new ArrayObjectAdapter(mGridPresenter);
         gridRowAdapter.add(getResources().getString(R.string.Search));
@@ -65,6 +73,9 @@ public class BannerFragment extends RowsFragment {
         rowsAdapter.add(new ListRow(gridRowAdapter));
         setAdapter(rowsAdapter);
 
+    }
+
+    private void setupEventListeners() {
         setOnItemViewClickedListener(new BannerFragment.ItemViewClickedListener());
     }
 
@@ -76,41 +87,15 @@ public class BannerFragment extends RowsFragment {
 
         mDefaultBackground = ContextCompat.getDrawable(getActivity(), R.drawable.text_black_to_transparent_shade);
         mBackgroundManager.setDrawable(mDefaultBackground);
-        }
+    }
 
-    /*
-     rowsAdapter = new ArrayObjectAdapter(new ListRowPresenter());
-            CardPresenter cardPresenter = new CardPresenter();
-                ArrayObjectAdapter listRowAdapter = new ArrayObjectAdapter(cardPresenter);
 
-                    listRowAdapter.add(new Movie());
-
-                HeaderItem header = new HeaderItem(0, "01234");
-
-                rowsAdapter.add(new ListRow(header, listRowAdapter));
-
-            setAdapter(rowsAdapter);
-     */
-  /*  public void workaroundFocus(){
-        if(getView() != null) {
-            View viewToFocus  = getView().findViewById(R.id.row_content);
-            BrowseFrameLayout browseFrameLayout = getView().findViewById(androidx.leanback.R.id.grid_frame);
-            browseFrameLayout.setOnFocusSearchListener((focused, direction) -> {
-                if (direction == View.FOCUS_DOWN) {
-                    return viewToFocus;
-                }
-                else {
-                    return null;
-                }
-            });
-        }
-    }*/
     private final class ItemViewClickedListener implements OnItemViewClickedListener {
         @Override
         public void onItemClicked(Presenter.ViewHolder itemViewHolder, Object item,
                                   RowPresenter.ViewHolder rowViewHolder, Row row) {
 
-            if (item instanceof Movie) {
+            /*if (item instanceof Movie) {
                 Movie movie = (Movie) item;
                 Log.d(TAG, "Item: " + item.toString());
                 Intent intent = new Intent(getActivity(), DetailsActivity.class);
@@ -122,23 +107,58 @@ public class BannerFragment extends RowsFragment {
                         DetailsActivity.SHARED_ELEMENT_NAME)
                         .toBundle();
                 getActivity().startActivity(intent, bundle);
-            } else if (item instanceof String) {
+            } else*/
+            if (item instanceof String) {
                 if (((String) item).contains(getString(R.string.error_fragment))) {
                     Intent intent = new Intent(getActivity(), BrowseErrorActivity.class);
                     startActivity(intent);
+                    BannerFragment.position=1;
                 } else {
-                    if(((String) item).contains(getString(R.string.Home))) {
+                    if(((String) item).contains(getString(R.string.Search))) {
+                        Intent intent = new Intent(getActivity(), SearchActivity.class);
+                        startActivity(intent);
+                        BannerFragment.position=0;
+                        Toast.makeText(getActivity(), ((String) item), Toast.LENGTH_SHORT).show();
+                    }
+                    else if(((String) item).contains(getString(R.string.Home))) {
                         Intent intent = new Intent(getActivity(), MainActivity.class);
                         startActivity(intent);
+                        BannerFragment.position=1;
+                        Toast.makeText(getActivity(), ((String) item), Toast.LENGTH_SHORT).show();
+                    }
+                    else if(((String) item).contains(getString(R.string.Movies))) {
+                        //Intent intent = new Intent(getActivity(), SettingActivity.class);
+                        //startActivity(intent);
+                        BannerFragment.position=2;
+                        Toast.makeText(getActivity(), ((String) item), Toast.LENGTH_SHORT).show();
+                    }
+                    else if(((String) item).contains(getString(R.string.Series))) {
+                        Intent intent = new Intent(getActivity(), SeriesActivity.class);
+                        startActivity(intent);
+                        BannerFragment.position=3;
+                        Toast.makeText(getActivity(), ((String) item), Toast.LENGTH_SHORT).show();
+                    }
+                    else if(((String) item).contains(getString(R.string.Kids))) {
+                        //Intent intent = new Intent(getActivity(), SettingActivity.class);
+                        //startActivity(intent);
+                        BannerFragment.position=4;
+                        Toast.makeText(getActivity(), ((String) item), Toast.LENGTH_SHORT).show();
+                    }
+                    else if(((String) item).contains(getString(R.string.MyLists))) {
+                        //Intent intent = new Intent(getActivity(), SettingActivity.class);
+                        //startActivity(intent);
+                        BannerFragment.position=5;
                         Toast.makeText(getActivity(), ((String) item), Toast.LENGTH_SHORT).show();
                     }
                     else if(((String) item).contains(getString(R.string.Settings))) {
                         Intent intent = new Intent(getActivity(), SettingActivity.class);
                         startActivity(intent);
+                        BannerFragment.position=6;
                         Toast.makeText(getActivity(), ((String) item), Toast.LENGTH_SHORT).show();
                     }
                 }
             }
         }
     }
+
 }

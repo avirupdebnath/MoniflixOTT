@@ -34,9 +34,17 @@ import androidx.leanback.widget.RowPresenter;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
 import com.example.myottapp.R;
+import com.example.myottapp.Service.VolleyRequest;
 import com.example.myottapp.VolleyCallback;
 import com.example.myottapp.extras.MovieList;
+import com.example.myottapp.models.DataModel;
 import com.example.myottapp.models.Movie;
+import com.example.myottapp.models.MovieBasicInfo;
+import com.example.myottapp.models.MovieBasicInfoList;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
+import org.json.JSONObject;
 
 import java.util.Collections;
 import java.util.List;
@@ -47,14 +55,15 @@ public class RelatedItemsFragment extends RowsFragment {
     private BackgroundManager mBackgroundManager;
     private Drawable mDefaultBackground;
     private ArrayObjectAdapter mRowsAdapter;
-    private static int count=0;
-    private boolean hasReloaded=true;
+    private static int count = 0;
+    private boolean hasReloaded = true;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        loadRows();
-        setupEventListeners();
-        hasReloaded=true;
+        //loadRows();
+        //setupEventListeners();
+        //hasReloaded=true;
         //setHeadersState(HEADERS_DISABLED);
 
     }
@@ -82,11 +91,22 @@ public class RelatedItemsFragment extends RowsFragment {
         //}
     }
 
+    public void createRow(int categoryID, String categoryName, List<MovieBasicInfo> list) {
+        CardPresenter cardPresenter = new CardPresenter();
+        ArrayObjectAdapter categoryRowAdapter = new ArrayObjectAdapter(cardPresenter);
+        for (int i = 0; i < list.size(); i++)
+            categoryRowAdapter.add(list.get(i));
+        HeaderItem headerItem = new HeaderItem(categoryID, categoryName);
+        mRowsAdapter.add(new ListRow(headerItem, categoryRowAdapter));
+        setAdapter(mRowsAdapter);
+    }
+
+
     private void loadRows() {
         List<Movie> relatedMovieList = moviesList.getMovies();
 
         mRowsAdapter = new ArrayObjectAdapter(new ListRowPresenter(FocusHighlight.ZOOM_FACTOR_LARGE));
-        CardPresenter cardPresenter = new CardPresenter(340,220,false);
+        CardPresenter cardPresenter = new CardPresenter(340, 220, false);
         /*
         GridItemPresenter mGridPresenter = new GridItemPresenter();
         ArrayObjectAdapter gridRowAdapter = new ArrayObjectAdapter(mGridPresenter);
@@ -96,32 +116,32 @@ public class RelatedItemsFragment extends RowsFragment {
         gridRowAdapter.add(getResources().getString(R.string.Kids));
         gridRowAdapter.add(getResources().getString(R.string.Shorts));
         rowsAdapter.add(new ListRow(gridRowAdapter));
-*/      ArrayObjectAdapter listRowAdapter = new ArrayObjectAdapter(cardPresenter);
+*/
+        ArrayObjectAdapter listRowAdapter = new ArrayObjectAdapter(cardPresenter);
         //listRowAdapter.add( ((DetailsActivityNew)getActivity()).mSelectedMovie);
         for (int j = 0; j < 10; j++) {
-                listRowAdapter.add(relatedMovieList.get(j % 5));
+            listRowAdapter.add(relatedMovieList.get(j % 5));
         }
-            HeaderItem header = new HeaderItem(0, "More Movies Like This");
-            mRowsAdapter.add(new ListRow(header, listRowAdapter));
-            setAdapter(mRowsAdapter);
-            //rowsAdapter.add(new ListRow(listRowAdapter));
-        }
+        HeaderItem header = new HeaderItem(0, "More Movies Like This");
+        mRowsAdapter.add(new ListRow(header, listRowAdapter));
+        setAdapter(mRowsAdapter);
+        //rowsAdapter.add(new ListRow(listRowAdapter));
+    }
+
     @Override
     public void setAlignment(int windowAlignOffsetFromTop) {
         super.setAlignment(100);
     }
 
-        private void prepareBackgroundManager () {
-            mBackgroundManager = BackgroundManager.getInstance(getActivity());
-            mBackgroundManager.attach(getActivity().getWindow());
-            Fragment fragment = (Fragment) getFragmentManager().findFragmentById(R.id.related_items_fragment);
-            mDefaultBackground = ContextCompat.getDrawable(getActivity(), R.drawable.black_to_transparent_shade_horizontal);
-            fragment.getView().setBackground(mDefaultBackground);
-            mDefaultBackground=ContextCompat.getDrawable(getActivity(), R.drawable.default_background);
-            mBackgroundManager.setDrawable(mDefaultBackground);
-        }
+    private void prepareBackgroundManager() {
+        mBackgroundManager = BackgroundManager.getInstance(getActivity());
+        mBackgroundManager.attach(getActivity().getWindow());
+        Fragment fragment = (Fragment) getFragmentManager().findFragmentById(R.id.related_items_fragment);
+        fragment.getView().setBackground(ContextCompat.getDrawable(getActivity(), R.drawable.transparent_to_dark_reverse_shade));
+        mBackgroundManager.setDrawable(ContextCompat.getDrawable(getActivity(), R.drawable.default_background));
+    }
 
-    private void setupEventListeners () {
+    private void setupEventListeners() {
         /*
         setOnSearchClickedListener(new View.OnClickListener() {
 
@@ -134,36 +154,38 @@ public class RelatedItemsFragment extends RowsFragment {
         */
         setOnItemViewClickedListener(new ItemViewClickedListener());
         //setOnItemViewSelectedListener(new ItemViewSelectedListener());
-        }
-        private final class ItemViewClickedListener implements OnItemViewClickedListener {
-            @Override
-            public void onItemClicked(Presenter.ViewHolder itemViewHolder, Object item,
-                                      RowPresenter.ViewHolder rowViewHolder, Row row) {
+    }
 
-                if (item instanceof Movie) {
-                    //Movie movie = (Movie) item;
-                    com.example.myottapp.models.Movie movie = (com.example.myottapp.models.Movie) item;
-                    //Log.d(TAG, "Item: " + item.toString());
-                    Intent intent = new Intent(getActivity(), DetailsActivityNew.class);
-                    intent.putExtra(DetailsActivityNew.MOVIE, movie);
+    private final class ItemViewClickedListener implements OnItemViewClickedListener {
+        @Override
+        public void onItemClicked(Presenter.ViewHolder itemViewHolder, Object item,
+                                  RowPresenter.ViewHolder rowViewHolder, Row row) {
 
-                    //Bundle bundle = ActivityOptionsCompat.makeSceneTransitionAnimation(
-                    //        getActivity(),
-                    //        ((ImageCardView) itemViewHolder.view).getMainImageView(),
-                    //        DetailsActivity.SHARED_ELEMENT_NAME)
-                    //        .toBundle();
-                    getActivity().startActivity(intent);
-
-                } else if (item instanceof String) {
-                    if (((String) item).contains(getString(R.string.error_fragment))) {
-                        Intent intent = new Intent(getActivity(), BrowseErrorActivity.class);
-                        startActivity(intent);
-                    } else {
-                        Toast.makeText(getActivity(), ((String) item), Toast.LENGTH_SHORT).show();
+            if (item instanceof MovieBasicInfo) {
+                String tag = ((MovieBasicInfo) item).getId() + "";
+                VolleyRequest volleyRequest = new VolleyRequest();
+                volleyRequest.sendJSONObjGetRequest(new VolleyCallback() {
+                    @Override
+                    public void onSuccess() {
+                        Gson gson = new GsonBuilder().create();
+                        Movie movie = gson.fromJson(volleyRequest.getResponseString(), Movie.class);
+                        Intent intent = new Intent(getActivity(), DetailsActivityNew.class);
+                        intent.putExtra(DetailsActivityNew.MOVIE, movie);
+                        getActivity().startActivity(intent);
                     }
+                }, DataModel.movieDetailsByIdURL + ((MovieBasicInfo) item).getId(), tag);
+
+            } else if (item instanceof String) {
+                if (((String) item).contains(getString(R.string.error_fragment))) {
+                    Intent intent = new Intent(getActivity(), BrowseErrorActivity.class);
+                    startActivity(intent);
+                } else {
+                    Toast.makeText(getActivity(), ((String) item), Toast.LENGTH_SHORT).show();
                 }
             }
         }
+    }
+
     private class ItemViewSelectedListener implements OnItemViewSelectedListener {
         @Override
         public void onItemSelected(
@@ -171,7 +193,7 @@ public class RelatedItemsFragment extends RowsFragment {
                 Object item,
                 RowPresenter.ViewHolder rowViewHolder,
                 Row row) {
-
+/*
             if (item instanceof Movie) {
                 ((DetailsActivityNew)getActivity()).mSelectedMovie=(Movie)item;
                 System.out.println(((DetailsActivityNew)getActivity()).mSelectedMovie.getTitle());
@@ -183,7 +205,8 @@ public class RelatedItemsFragment extends RowsFragment {
                 ((DetailsActivityNew)getActivity()).setMovieAgeRestriction(((Movie) item).getAgeRestriction());
             }
         }
+*/
+        }
 
     }
-
-    }
+}

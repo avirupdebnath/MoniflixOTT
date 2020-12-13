@@ -1,27 +1,18 @@
 package com.example.myottapp.UI;
 
-import android.content.Context;
 import android.graphics.drawable.Drawable;
-
-import androidx.leanback.widget.ImageCardView;
-import androidx.leanback.widget.Presenter;
-import androidx.core.content.ContextCompat;
-
-import android.net.Uri;
 import android.util.Log;
 import android.view.ViewGroup;
-import android.widget.TextView;
+
+import androidx.core.content.ContextCompat;
+import androidx.leanback.widget.ImageCardView;
+import androidx.leanback.widget.Presenter;
 
 import com.bumptech.glide.Glide;
 import com.example.myottapp.R;
-import com.example.myottapp.models.Movie;
 import com.example.myottapp.models.MovieBasicInfo;
 
-/*
- * A CardPresenter is used to generate Views and bind Objects to them on demand.
- * It contains an Image CardView
- */
-public class CardPresenter extends Presenter {
+public class SearchCardPresenter extends Presenter{
     private static final String TAG = "CardPresenter";
 
     private static int CARD_WIDTH;
@@ -33,16 +24,16 @@ public class CardPresenter extends Presenter {
 
     private static String movieName="";
 
-    CardPresenter(int CARD_WIDTH, int CARD_HEIGHT, boolean withTextFlag) {
-        CardPresenter.CARD_WIDTH = CARD_WIDTH;
-        CardPresenter.CARD_HEIGHT = CARD_HEIGHT;
-        CardPresenter.withTextFlag=withTextFlag;
+    SearchCardPresenter(int CARD_WIDTH, int CARD_HEIGHT, boolean withTextFlag) {
+        SearchCardPresenter.CARD_WIDTH = CARD_WIDTH;
+        SearchCardPresenter.CARD_HEIGHT = CARD_HEIGHT;
+        SearchCardPresenter.withTextFlag=withTextFlag;
     }
 
-    CardPresenter() {
-        CardPresenter.CARD_WIDTH = 300;
-        CardPresenter.CARD_HEIGHT = 200;
-        CardPresenter.withTextFlag=false;
+    SearchCardPresenter() {
+        SearchCardPresenter.CARD_WIDTH = 300;
+        SearchCardPresenter.CARD_HEIGHT = 200;
+        SearchCardPresenter.withTextFlag=false;
     }
 
 
@@ -58,7 +49,7 @@ public class CardPresenter extends Presenter {
     }
 
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent) {
+    public Presenter.ViewHolder onCreateViewHolder(ViewGroup parent) {
         Log.d(TAG, "onCreateViewHolder");
 
         sDefaultBackgroundColor =
@@ -92,7 +83,7 @@ public class CardPresenter extends Presenter {
         cardView.setFocusable(true);
         cardView.setFocusableInTouchMode(true);
         updateCardBackgroundColor(cardView, false);
-        return new ViewHolder(cardView);
+        return new Presenter.ViewHolder(cardView);
     }
 
     @Override

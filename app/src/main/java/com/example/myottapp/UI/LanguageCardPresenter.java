@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 
 import com.bumptech.glide.Glide;
 import com.example.myottapp.R;
+import com.example.myottapp.models.DataModel;
 import com.example.myottapp.models.Language;
 import com.example.myottapp.models.Movie;
 
@@ -24,7 +25,7 @@ public class LanguageCardPresenter extends Presenter {
     private static final String TAG = "CardPresenter";
 
     private static final int CARD_WIDTH = 200;
-    private static final int CARD_HEIGHT = 160;
+    private static final int CARD_HEIGHT = 180;
     private static int sSelectedBackgroundColor;
     private static int sDefaultBackgroundColor;
     private Drawable mDefaultCardImage;

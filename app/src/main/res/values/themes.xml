@@ -13,4 +13,5 @@
     <style name="myCustomImageCardTheme" parent="Theme.Leanback">
         <item name="imageCardViewStyle">@style/CustomImageCardViewTitleOnlyStyle</item>
     </style>
+
 </resources>

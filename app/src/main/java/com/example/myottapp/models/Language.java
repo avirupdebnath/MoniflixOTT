@@ -1,6 +1,8 @@
 package com.example.myottapp.models;
 
-public class Language {
+import java.io.Serializable;
+
+public class Language implements Serializable {
     int Id;
     String Name;
     String[] Content;

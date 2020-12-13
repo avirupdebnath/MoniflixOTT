@@ -9,7 +9,7 @@ import com.google.gson.GsonBuilder;
 
 import java.util.List;
 
-public class AllCategoriesList extends ViewModel {
+public class AllCategoriesList {
 
     public List<Category> categories;
 

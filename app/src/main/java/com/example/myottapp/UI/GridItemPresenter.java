@@ -16,6 +16,7 @@ import androidx.leanback.widget.Presenter;
 import androidx.leanback.widget.VerticalGridPresenter;
 
 import com.example.myottapp.R;
+import com.example.myottapp.models.DataModel;
 
 public class GridItemPresenter extends Presenter {
     public int GRID_ITEM_WIDTH;
@@ -37,7 +38,7 @@ public class GridItemPresenter extends Presenter {
 
     private void updateCardBackgroundColor(AppCompatTextView view, boolean selected) {
         int color = selected ? sSelectedBackgroundColor : this.sDefaultBackgroundColor;
-        int textColor= selected ? Color.WHITE:Color.GRAY;
+        int textColor= selected ? Color.WHITE:Color.LTGRAY;
         // Both background colors should be set because the view"s background is temporarily visible
         // during animations.
         view.setBackgroundColor(color);
@@ -82,4 +83,5 @@ public class GridItemPresenter extends Presenter {
         super.setOnClickListener(holder, listener);
 
     }
+
 }

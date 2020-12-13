@@ -1,56 +1,23 @@
 package com.example.myottapp.UI;
 
 import android.app.Activity;
-import android.app.Fragment;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
-import android.provider.ContactsContract;
-import android.util.Log;
-import android.view.Gravity;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import androidx.fragment.app.FragmentManager;
-import androidx.lifecycle.ViewModelProvider;
-import androidx.lifecycle.ViewModelProviders;
-import androidx.lifecycle.ViewModelStoreOwner;
-
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonArrayRequest;
-import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.Volley;
 import com.bumptech.glide.Glide;
 import com.example.myottapp.R;
-import com.example.myottapp.models.AllCategoriesList;
-import com.example.myottapp.models.AllLanguagesList;
-import com.example.myottapp.models.DataModel;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.loopj.android.http.AsyncHttpClient;
-import com.loopj.android.http.TextHttpResponseHandler;
 
-import org.json.JSONArray;
-import org.json.JSONObject;
-
-import cz.msebera.android.httpclient.Header;
-
-/*
- * Main Activity class that loads {@link MainFragment}.
- */
-public class MainActivity extends Activity {
+public class SeriesActivity extends Activity {
     public Context mContext=this;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_series);
         showCarousal();
         hideMovieDetails();
     }
@@ -58,7 +25,6 @@ public class MainActivity extends Activity {
         FrameLayout frameLayout=(FrameLayout)findViewById(R.id.carousal_frame);
         frameLayout.setVisibility(View.INVISIBLE);
     }
-
     public void showCarousal(){
         FrameLayout frameLayout=(FrameLayout)findViewById(R.id.carousal_frame);
         frameLayout.setVisibility(View.VISIBLE);

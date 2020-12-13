@@ -121,7 +121,7 @@
         <ImageView
             android:id="@+id/imageView3"
             android:layout_width="100dp"
-            android:layout_height="40dp"
+            android:layout_height="50dp"
             android:layout_gravity="left"
             android:src="@mipmap/ic_banner_foreground"
             android:focusable="false"
@@ -131,7 +131,7 @@
             android:id="@+id/banner_fragment"
             android:name="com.example.myottapp.UI.BannerFragment"
             android:layout_width="900dp"
-            android:layout_height="40dp"
+            android:layout_height="50dp"
             android:layout_gravity="right" />
     </FrameLayout>
 </FrameLayout>

@@ -1,5 +1,7 @@
 package com.example.myottapp.models;
 
+import java.util.Arrays;
+
 public class Category {
     int Id;
     String Name;
@@ -36,5 +38,15 @@ public class Category {
 
     public void setUserPreferences(String[] userPreferences) {
         UserPreferences = userPreferences;
+    }
+
+    @Override
+    public String toString() {
+        return "Category{" +
+                "Id=" + Id +
+                ", Name='" + Name + '\'' +
+                ", CategoryMapping=" + Arrays.toString(CategoryMapping) +
+                ", UserPreferences=" + Arrays.toString(UserPreferences) +
+                '}';
     }
 }

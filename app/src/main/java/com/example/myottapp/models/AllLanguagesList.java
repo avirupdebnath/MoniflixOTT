@@ -13,7 +13,7 @@ import org.json.JSONArray;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AllLanguagesList extends ViewModel {
+public class AllLanguagesList{
     public List<Language> languages;
 
     public AllLanguagesList(List<Language> languages) {

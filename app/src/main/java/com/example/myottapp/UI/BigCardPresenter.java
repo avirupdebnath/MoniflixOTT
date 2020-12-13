@@ -13,7 +13,11 @@ import android.view.ViewGroup;
 
 import com.bumptech.glide.Glide;
 import com.example.myottapp.R;
+import com.example.myottapp.models.DataModel;
 import com.example.myottapp.models.Movie;
+import com.example.myottapp.models.MovieBasicInfo;
+import com.example.myottapp.models.MovieBasicInfoList;
+import com.example.myottapp.models.MovieDetailsBanner;
 
 /*
  * A CardPresenter is used to generate Views and bind Objects to them on demand.
@@ -22,10 +26,11 @@ import com.example.myottapp.models.Movie;
 public class BigCardPresenter extends Presenter {
     private static final String TAG = "CardPresenter";
     private static final int CARD_WIDTH = 2000;
-    private static final int CARD_HEIGHT = 650;
+    private static final int CARD_HEIGHT = 850;
     private static int sSelectedBackgroundColor;
     private static int sDefaultBackgroundColor;
     private Drawable mDefaultCardImage;
+
 
     private static void updateCardBackgroundColor(ImageCardView view, boolean selected) {
         int color = selected ? sSelectedBackgroundColor : sDefaultBackgroundColor;
@@ -68,16 +73,16 @@ public class BigCardPresenter extends Presenter {
     @Override
     public void onBindViewHolder(Presenter.ViewHolder viewHolder, Object item) {
         //Movie movie = (Movie) item;
-        Movie movie=(Movie) item;
+        MovieDetailsBanner movieDetailsBanner =(MovieDetailsBanner) item;
         ImageCardView cardView = (ImageCardView) viewHolder.view;
 
         Log.d(TAG, "onBindViewHolder");
-        if (movie.getPoster().getUrl() != null) {
+        if (movieDetailsBanner.getPosterUrl() != null) {
             //cardView.setTitleText(movie.getTitle());
             //cardView.setContentText(movie.getStudio());
             cardView.setMainImageDimensions(CARD_WIDTH, CARD_HEIGHT);
             Glide.with(viewHolder.view.getContext())
-                    .load(movie.getPoster().getUrl())
+                    .load(movieDetailsBanner.getPosterUrl())
                     .centerCrop()
                     .error(mDefaultCardImage)
                     .into(cardView.getMainImageView());
