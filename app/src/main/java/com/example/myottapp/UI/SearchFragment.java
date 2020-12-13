@@ -130,19 +130,10 @@ public class SearchFragment extends VerticalGridFragment {
 
 
             if (item instanceof MovieBasicInfo) {
-                String tag = ((MovieBasicInfo) item).getId() + "";
-                VolleyRequest volleyRequest = new VolleyRequest();
-                volleyRequest.sendJSONObjGetRequest(new VolleyCallback() {
-                    @Override
-                    public void onSuccess() {
-                        Gson gson = new GsonBuilder().create();
-                        Movie movie = gson.fromJson(volleyRequest.getResponseString(), Movie.class);
-                        Intent intent = new Intent(getActivity(), DetailsActivityNew.class);
-                        intent.putExtra(DetailsActivityNew.MOVIE, movie);
-                        getActivity().startActivity(intent);
-                    }
-                }, DataModel.movieDetailsByIdURL + ((MovieBasicInfo) item).getId(), tag);
-
+                String tag=((MovieBasicInfo) item).getId()+"";
+                Intent intent = new Intent(getActivity(), DetailsActivityNew.class);
+                intent.putExtra(DetailsActivityNew.MOVIE, ((MovieBasicInfo)item));
+                getActivity().startActivity(intent);
             }
         }
     }

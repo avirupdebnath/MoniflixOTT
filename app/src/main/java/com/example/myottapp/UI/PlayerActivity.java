@@ -21,6 +21,7 @@ import androidx.annotation.RequiresApi;
 
 import com.example.myottapp.R;
 import com.example.myottapp.models.Movie;
+import com.example.myottapp.models.MovieBasicInfo;
 import com.google.android.exoplayer2.ExoPlayer;
 import com.google.android.exoplayer2.ExoPlayerFactory;
 import com.google.android.exoplayer2.Player;
@@ -48,6 +49,14 @@ import static android.view.View.VISIBLE;
 
 public class PlayerActivity extends Activity implements AdapterView.OnItemSelectedListener {
     private static final String TAG = "PlayerActivity";
+
+
+
+    //-------------------------------This line needs to be added for getting the data.---------------------------
+    public static final String MOVIE="movie";
+    //------------------------------------------------------------------------------------------------------------
+
+
     private static final String CLASS_NAME = "com.oxoo.spagreen.ui.activity.PlayerActivity";
     private PlayerView exoPlayerView;
     private ExoPlayer player;
@@ -79,6 +88,15 @@ public class PlayerActivity extends Activity implements AdapterView.OnItemSelect
         mSelectedMovie = (Movie) this.getIntent().getSerializableExtra(DetailsActivityNew.MOVIE);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_player);
+
+
+
+        //--------------------------------This line to store the passed data into the mSelectedMovie object-----------------------
+        mSelectedMovie=(Movie) this.getIntent().getSerializableExtra(PlayerActivity.MOVIE);
+        //-------------------------------------------------------------------------------------------------------------------------
+
+
+        System.out.println(mSelectedMovie.getAccessUrls().getHls_High());
 
         init_object();
 

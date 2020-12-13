@@ -80,7 +80,7 @@ public class DetailsActivityNew extends Activity {
                 @Override
                 public void onClick(View view) {
                     Intent intent = new Intent(DetailsActivityNew.this, PlayerActivity.class);
-                    intent.putExtra(DetailsActivityNew.MOVIE, mSelectedMovie);
+                    intent.putExtra(PlayerActivity.MOVIE, mSelectedMovie);
                     startActivity(intent);
                 }
             });
