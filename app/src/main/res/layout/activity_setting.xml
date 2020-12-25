@@ -74,6 +74,20 @@
                 android:text="Legal Notices"
                 android:textAllCaps="false"
                 />
+            <Button
+                android:id="@+id/logout_button"
+                android:gravity="left|center_vertical"
+                android:paddingLeft="24dp"
+                android:paddingRight="24dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:textColor="@color/white"
+                android:background="@drawable/button_focus"
+                android:text="Logout"
+                android:textAllCaps="false"
+                />
 
         </LinearLayout>
 
