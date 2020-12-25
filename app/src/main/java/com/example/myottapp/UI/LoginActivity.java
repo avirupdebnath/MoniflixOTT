@@ -69,9 +69,9 @@ public class LoginActivity extends Activity {
             sessionManager.createSession(cognitoSettings.getUserPool().getCurrentUser().getUserId());
             Intent intent = new Intent(LoginActivity.this, MainActivity.class);
             startActivity(intent);
-
             etEmail.setText("");
             etPass.setText("");
+            finish();
         }
 
         @Override

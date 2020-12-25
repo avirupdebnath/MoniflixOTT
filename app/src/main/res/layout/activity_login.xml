@@ -7,14 +7,27 @@
     android:background="@color/default_background"
     tools:context=".UI.LoginActivity">
 
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:alpha="0.5"
+        android:src="@drawable/ever"/>
+
     <LinearLayout
         android:id="@+id/textLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center"
         android:orientation="vertical"
-        android:background="@color/transpo"
+        android:background="@drawable/circulargradient"
+
         >
+        <ImageView
+            android:layout_width="300dp"
+            android:layout_height="150dp"
+            android:src="@mipmap/ic_banner_foreground"
+            />
+
 
 
 
