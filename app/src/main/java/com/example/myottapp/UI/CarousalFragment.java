@@ -102,11 +102,8 @@ public class CarousalFragment extends RowsFragment {
         mRowsAdapter = new ArrayObjectAdapter(new ListRowPresenter(FocusHighlight.ZOOM_FACTOR_XSMALL));
         BigCardPresenter cardPresenter = new BigCardPresenter();
         ArrayObjectAdapter listRowAdapter = new ArrayObjectAdapter(cardPresenter);
-
-        for (int j = 0; j < carousalList.size(); j++) {
-            listRowAdapter.add(carousalList.get(j));
-        }
-        mRowsAdapter.add(new ListRow(listRowAdapter));
+        listRowAdapter.addAll(0,carousalList);
+        mRowsAdapter.add(0,new ListRow(listRowAdapter));
         setAdapter(mRowsAdapter);
     }
 
@@ -124,6 +121,7 @@ public class CarousalFragment extends RowsFragment {
 
     private void setupEventListeners () {
         setOnItemViewClickedListener(new CarousalFragment.ItemViewClickedListener());
+        setOnItemViewSelectedListener(new CarousalFragment.ItemViewSelectedListener());
     }
     private final class ItemViewClickedListener implements OnItemViewClickedListener {
         @Override
@@ -152,6 +150,22 @@ public class CarousalFragment extends RowsFragment {
                     Toast.makeText(getActivity(), ((String) item), Toast.LENGTH_SHORT).show();
                 }
             }
+        }
+    }
+    private final class ItemViewSelectedListener implements OnItemViewSelectedListener {
+        @Override
+        public void onItemSelected(
+                Presenter.ViewHolder itemViewHolder,
+                Object item,
+                RowPresenter.ViewHolder rowViewHolder,
+                Row row) {
+
+           /* if(item instanceof MovieDetailsBanner) {
+                System.out.println("Inside carousal");
+                ((MainActivity) getActivity()).collapseLanguageRow();
+            }
+
+            */
         }
     }
 

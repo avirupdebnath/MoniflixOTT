@@ -2,6 +2,7 @@ package com.example.myottapp.UI;
 
 import android.app.Activity;
 import android.app.Fragment;
+import android.app.FragmentTransaction;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
@@ -53,12 +54,26 @@ public class MainActivity extends Activity {
         setContentView(R.layout.activity_main);
         showCarousal();
         hideMovieDetails();
+        //collapseLanguageRow();
     }
     public void hideCarousal(){
         FrameLayout frameLayout=(FrameLayout)findViewById(R.id.carousal_frame);
         frameLayout.setVisibility(View.INVISIBLE);
     }
-
+    public void collapseLanguageRow(){
+        FrameLayout frameLayout=(FrameLayout)findViewById(R.id.browse_frame);
+        FrameLayout.LayoutParams layoutParams= (FrameLayout.LayoutParams) frameLayout.getLayoutParams();
+        layoutParams.height=400;
+        layoutParams.width= FrameLayout.LayoutParams.MATCH_PARENT;
+        layoutParams.gravity=Gravity.BOTTOM;
+    }
+    public void expandLanguageRow(){
+        FrameLayout frameLayout=(FrameLayout)findViewById(R.id.browse_frame);
+        FrameLayout.LayoutParams layoutParams= (FrameLayout.LayoutParams) frameLayout.getLayoutParams();
+        layoutParams.height=550;
+        layoutParams.width= FrameLayout.LayoutParams.MATCH_PARENT;
+        layoutParams.gravity=Gravity.BOTTOM;
+    }
     public void showCarousal(){
         FrameLayout frameLayout=(FrameLayout)findViewById(R.id.carousal_frame);
         frameLayout.setVisibility(View.VISIBLE);

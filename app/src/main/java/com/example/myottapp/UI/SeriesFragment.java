@@ -47,6 +47,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
 
+import static com.example.myottapp.models.DataModel.languageNames;
+
 public class SeriesFragment extends RowsFragment {
     private static final String TAG = "MainFragment";
 
@@ -78,10 +80,9 @@ public class SeriesFragment extends RowsFragment {
 
 
     public void getLanguagesList(){
-        String []languageNames={"Bengali","English","Hindi","Kannada","Korean","Marathi","Russian","Tamil","Telugu"};
         if(staticLanguageList.size()==0) {
-            for (int i = 0; i < languageNames.length; i++) {
-                staticLanguageList.add(new Language(i, languageNames[i]));
+            for (int i = 0; i < DataModel.languageNames.length; i++) {
+                staticLanguageList.add(new Language(i, DataModel.languageNames[i]));
             }
         }
     }
@@ -214,18 +215,15 @@ public class SeriesFragment extends RowsFragment {
 
             if (item instanceof MovieBasicInfo) {
                 String tag=((MovieBasicInfo) item).getId()+"";
-                VolleyRequest volleyRequest=new VolleyRequest();
-                volleyRequest.sendJSONObjGetRequest(new VolleyCallback() {
-                    @Override
-                    public void onSuccess() {
-                        Gson gson=new GsonBuilder().create();
-                        Movie movie = gson.fromJson(volleyRequest.getResponseString(),Movie.class);
-                        Intent intent = new Intent(getActivity(), DetailsActivityNew.class);
-                        intent.putExtra(DetailsActivityNew.MOVIE, movie);
-                        getActivity().startActivity(intent);
-                    }
-                },DataModel.movieDetailsByIdURL+((MovieBasicInfo) item).getId(),tag);
-
+                System.out.println(tag);
+                //Intent intent = new Intent(getActivity(), DetailsActivityNew.class);
+                //intent.putExtra(DetailsActivityNew.MOVIE, ((MovieBasicInfo)item));
+                //getActivity().startActivity(intent);
+            }
+            else if(item instanceof Language){
+                Intent intent=new Intent(getActivity(),LanguageActivity.class);
+                intent.putExtra(LanguageActivity.LANGUAGE,((Language)item));
+                getActivity().startActivity(intent);
             }
             else if (item instanceof String) {
                 if (((String) item).contains(getString(R.string.error_fragment))) {

@@ -85,6 +85,7 @@ import java.util.Timer;
 
 public class MainFragment extends RowsFragment {
     private static final String TAG = "MainFragment";
+    private static boolean expanded=false;
 
     //super.onActivityCreated(savedInstanceState);
 //initializeModels();
@@ -94,7 +95,8 @@ public class MainFragment extends RowsFragment {
     private static int NUM_ROWS = 5;
     private static int NUM_COLS = 15;
 
-    static int count=0;
+
+    static boolean reload=false;
     public ArrayObjectAdapter rowsAdapter;
 
     private static String[] languages;
@@ -114,10 +116,9 @@ public class MainFragment extends RowsFragment {
 
 
     public void getLanguagesList(){
-        String []languageNames={"Kannada","Telugu","Malayalum","Tamil","Hindi","English","Korean","Russian"};
         if(staticLanguageList.size()==0) {
-            for (int i = 0; i < languageNames.length; i++) {
-                staticLanguageList.add(new Language(i, languageNames[i]));
+            for (int i = 0; i < DataModel.languageNames.length; i++) {
+                staticLanguageList.add(new Language(i, DataModel.languageNames[i]));
             }
         }
     }
@@ -161,6 +162,20 @@ public class MainFragment extends RowsFragment {
         },DataModel.movieByfilterURL,params,tag);
     }
 
+    private void addInfiniteMovies(ArrayObjectAdapter adapter, int categoryId,String categoryName, int size){
+        String tag="";
+        int pageNo=size/10;
+        VolleyRequest volleyRequest=new VolleyRequest();
+        JSONObject params= volleyRequest.paramsObjectBuilder(1,3,categoryId,pageNo,10);
+        volleyRequest.sendPostRequest(new VolleyCallback() {
+            @Override
+            public void onSuccess() {
+                MovieBasicInfoList movieBasicInfoList=MovieBasicInfoList.parseJSON("{movieBasicInfos:"+volleyRequest.getResponseString()+"}");
+                List<MovieBasicInfo> list = movieBasicInfoList.getMovieBasicInfos();
+                adapter.addAll(size+1,list);
+            }
+        },DataModel.movieByfilterURL,params,tag);
+    }
 
     public void createRow(int categoryID, String categoryName, List<MovieBasicInfo> list){
         CardPresenter cardPresenter=new CardPresenter();
@@ -231,8 +246,8 @@ public class MainFragment extends RowsFragment {
     }
 
     private void setupEventListeners() {
-        setOnItemViewClickedListener(new ItemViewClickedListener());
-        setOnItemViewSelectedListener(new ItemViewSelectedListener());
+        setOnItemViewClickedListener(new MainFragment.ItemViewClickedListener());
+        setOnItemViewSelectedListener(new MainFragment.ItemViewSelectedListener());
     }
 
     private final class ItemViewClickedListener implements OnItemViewClickedListener {
@@ -269,15 +284,37 @@ public class MainFragment extends RowsFragment {
                 Object item,
                 RowPresenter.ViewHolder rowViewHolder,
                 Row row) {
+
             if(rowsAdapter.indexOf(row)==0){
                 ((MainActivity)getActivity()).showCarousal();
                 ((MainActivity)getActivity()).hideMovieDetails();
+                ((MainActivity) getActivity()).collapseLanguageRow();
             }
             if(rowsAdapter.indexOf(row)==1){
                 ((MainActivity)getActivity()).hideCarousal();
                 ((MainActivity)getActivity()).showMovieDetails();
+                ((MainActivity) getActivity()).expandLanguageRow();
             }
+/*
+            if(item instanceof Language){
+                System.out.println("Inside Language");
+                ((MainActivity) getActivity()).expandLanguageRow();
+            }
+
+ */
             if (item instanceof MovieBasicInfo) {
+
+                //Code For Inifinite Scroll
+                int index=rowsAdapter.indexOf(row);
+                HeaderItem headerItem=row.getHeaderItem();
+                int categoryID = (int) headerItem.getId();
+                String categoryName=headerItem.getName();
+                ArrayObjectAdapter adapter= (ArrayObjectAdapter) ((ListRow) rowsAdapter.get(index)).getAdapter();
+                System.out.println("Row No. : "+index+"Adapter size"+adapter.size());
+                if(adapter.get(adapter.size()-1).equals(item))
+                    addInfiniteMovies(adapter,categoryID,categoryName,adapter.size()-1);
+
+                //Code for updating images and description
                 ((MainActivity)getActivity()).setMovieName(((MovieBasicInfo) item).getTitle());
                 //((MainActivity)getActivity()).setMovieLanguage(((Movie) item).getLanguageName());
                 //((MainActivity)getActivity()).setMovieDescription(((Movie) item).getDescription());
