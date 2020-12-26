@@ -16,7 +16,9 @@
         android:gravity="center"
         android:layout_margin="0dp"
         android:background="@color/background_gradient_start">
+
         <FrameLayout
+            android:id="@+id/posterFrame"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="right"
@@ -36,6 +38,28 @@
                 </ImageView>
             </FrameLayout>
         </FrameLayout>
+
+        <FrameLayout
+            android:id="@+id/trailer_frame"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:foreground="@drawable/transparent_to_dark_reverse_shade">
+            <FrameLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:foreground="@drawable/black_to_transparent_shade_horizontal">
+                <com.google.android.exoplayer2.ui.PlayerView
+                    android:id="@+id/trailer"
+                    android:layout_width="750dp"
+                    android:layout_height="500dp"
+                    android:gravity="right"
+                    android:layout_gravity="right"
+                    />
+            </FrameLayout>
+        </FrameLayout>
+
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -148,7 +172,7 @@
     <FrameLayout
         android:id="@+id/related_items_frame"
         android:layout_width="match_parent"
-        android:layout_height="250dp"
+        android:layout_height="200dp"
         android:layout_gravity="bottom"
         android:background="@color/transpo">
         <fragment

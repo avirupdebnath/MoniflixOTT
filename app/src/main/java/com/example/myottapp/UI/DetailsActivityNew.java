@@ -3,12 +3,14 @@ package com.example.myottapp.UI;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.VideoView;
 
 import androidx.appcompat.widget.AppCompatButton;
 
@@ -19,8 +21,26 @@ import com.example.myottapp.VolleyCallback;
 import com.example.myottapp.models.DataModel;
 import com.example.myottapp.models.Movie;
 import com.example.myottapp.models.MovieBasicInfo;
+import com.google.android.exoplayer2.ExoPlayer;
+import com.google.android.exoplayer2.ExoPlayerFactory;
+import com.google.android.exoplayer2.Player;
+import com.google.android.exoplayer2.source.MediaSource;
+import com.google.android.exoplayer2.source.MergingMediaSource;
+import com.google.android.exoplayer2.source.hls.HlsMediaSource;
+import com.google.android.exoplayer2.trackselection.AdaptiveTrackSelection;
+import com.google.android.exoplayer2.trackselection.DefaultTrackSelector;
+import com.google.android.exoplayer2.trackselection.TrackSelection;
+import com.google.android.exoplayer2.trackselection.TrackSelector;
+import com.google.android.exoplayer2.ui.PlayerView;
+import com.google.android.exoplayer2.upstream.BandwidthMeter;
+import com.google.android.exoplayer2.upstream.DataSource;
+import com.google.android.exoplayer2.upstream.DefaultBandwidthMeter;
+import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;
+import com.google.android.exoplayer2.util.Util;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+
+import static android.view.View.VISIBLE;
 
 /*
  * Details activity class that loads LeanbackDetailsFragment class
@@ -28,9 +48,14 @@ import com.google.gson.GsonBuilder;
 public class DetailsActivityNew extends Activity {
     public static final String SHARED_ELEMENT_NAME = "hero";
     public static final String MOVIE = "Movie";
+    public static int relatedContent;
+    public static String fromPage="";
+    public static int languageId;
     public Context mContext=this;
     public Movie movie;
-    public MovieBasicInfo movieBasicInfo;
+    public static MovieBasicInfo movieBasicInfo;
+    public static ExoPlayer player=null;
+    public static PlayerView exoPlayerView;
     /**
      * Called when the activity is first created.
      */
@@ -38,42 +63,46 @@ public class DetailsActivityNew extends Activity {
     public void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-
+        fromPage=this.getIntent().getStringExtra("fromPage");
         movieBasicInfo = (MovieBasicInfo) this.getIntent().getSerializableExtra(DetailsActivityNew.MOVIE);
-        setContentView(R.layout.details_activity_new);
-        getMovieDetails();
-        showOnLoadPage();
-        /*
-        if(mSelectedMovie!=null){
-            setMovieName(mSelectedMovie.getTitle());
-            setMovieAgeRestriction(mSelectedMovie.getAgeRestriction());
-            setMovieDescription(mSelectedMovie.getDescription());
-            setMovieLanguage(mSelectedMovie.getLanguageName());
-            setMoviePoster(mSelectedMovie.getPoster().getUrl());
-            setMovieRuntime(mSelectedMovie.getRunTime());
-            //movieLanguage.setText(mSelectedMovie.getLanguageName());
-            //movieAge.setText(mSelectedMovie.getAgeRestriction());
-            //movieDescription.setText(mSelectedMovie.getDescription().trim());
-            //int hr=mSelectedMovie.getRunTime()/60;
-            //int min=mSelectedMovie.getRunTime()%60;
-            //String runtime= hr+" hr "+min+" min";
-            //movieTime.setText(runtime);
-            //Glide.with(mContext)
-            //        .load(Uri.parse(mSelectedMovie.getPoster().getUrl()))
-            //        .centerCrop()
-            //        .into(moviePoster);
+        if(fromPage.equals("Main")){
+            relatedContent=this.getIntent().getIntExtra("relatedContent",0);
+        }
+        System.out.println("Related Content Value: "+relatedContent);
 
-        }  */
+        setContentView(R.layout.details_activity_new);
+        //getMovieDetails();
+        showOnLoadPage();
+
     }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if(player!=null){
+            player.stop();
+            player.release();
+        }
+    }
+
 
     void loadDetailsPage(Movie mSelectedMovie){
         if(mSelectedMovie!=null) {
+            showOnLoadPage();
+            showPosterFrame();
+            hideTrailerVideoFrame();
             setMovieName(mSelectedMovie.getTitle());
             setMovieAgeRestriction(mSelectedMovie.getAgeRestriction());
             setMovieDescription(mSelectedMovie.getDescription());
             setMovieLanguage(mSelectedMovie.getLanguageName());
             setMoviePoster(mSelectedMovie.getPoster().getUrl());
             setMovieRuntime(mSelectedMovie.getRunTime());
+            try {
+                playTrailer(mSelectedMovie.getTrailer().getUrl().getHls_High());
+            }catch (Exception e){
+                hideTrailerVideoFrame();
+                showPosterFrame();
+            }
             AppCompatButton watchNow=(AppCompatButton) findViewById(R.id.watchNowButton);
             watchNow.requestFocus();
             watchNow.setOnClickListener(new View.OnClickListener() {
@@ -88,7 +117,7 @@ public class DetailsActivityNew extends Activity {
         }
 
     }
-
+/*
     void getMovieDetails(){
         String tag="";
         VolleyRequest volleyRequest=new VolleyRequest();
@@ -98,10 +127,11 @@ public class DetailsActivityNew extends Activity {
                 Gson gson=new GsonBuilder().create();
                 movie = gson.fromJson(volleyRequest.getResponseString(),Movie.class);
                 loadDetailsPage(movie);
+                languageId=movie.getLanguageId();
             }
         }, DataModel.movieDetailsByIdURL+(movieBasicInfo.getId()),tag);
     }
-
+*/
     void showOnLoadPage(){
         FrameLayout frameLayout=(FrameLayout)findViewById(R.id.load_frame);
         frameLayout.setVisibility(View.VISIBLE);
@@ -141,6 +171,67 @@ public class DetailsActivityNew extends Activity {
                 .load(Uri.parse(url))
                 .centerCrop()
                 .into(moviePoster);
+    }
+    void hidePosterFrame(){
+        FrameLayout frameLayout=(FrameLayout)findViewById(R.id.posterFrame);
+        frameLayout.setVisibility(View.INVISIBLE);
+    }
+
+    void showPosterFrame(){
+        FrameLayout frameLayout=(FrameLayout)findViewById(R.id.posterFrame);
+        frameLayout.setVisibility(View.VISIBLE);
+    }
+
+    void hideTrailerVideoFrame(){
+        FrameLayout frameLayout=(FrameLayout)findViewById(R.id.trailer_frame);
+        frameLayout.setVisibility(View.INVISIBLE);
+    }
+
+    void showTrailerVideoFrame(){
+        FrameLayout frameLayout=(FrameLayout)findViewById(R.id.trailer_frame);
+        frameLayout.setVisibility(View.VISIBLE);
+    }
+
+    void playTrailer(String url){
+        try {
+            if (player != null) {
+                player.release();
+            }
+            player = ExoPlayerFactory.newSimpleInstance(this);
+            exoPlayerView = (PlayerView) findViewById(R.id.trailer);
+            DefaultBandwidthMeter bandwidthMeter = new DefaultBandwidthMeter();
+            player.setPlayWhenReady(true);
+            exoPlayerView.setPlayer(player);
+            exoPlayerView.hideController();
+            DataSource.Factory dataSourceFactory = new DefaultDataSourceFactory(this,
+                    Util.getUserAgent(this, getString(R.string.app_name)), bandwidthMeter);
+            MediaSource videoSource = new HlsMediaSource.Factory(dataSourceFactory)
+                    .createMediaSource(Uri.parse(url));
+            player.prepare(videoSource);
+            player.addListener(new Player.DefaultEventListener() {
+                @Override
+                public void onPlayerStateChanged(boolean playWhenReady, int playbackState) {
+                    if (playbackState == Player.STATE_READY) {
+                        hidePosterFrame();
+                        showTrailerVideoFrame();
+                    } else if (playbackState == Player.STATE_ENDED) {
+                        hideTrailerVideoFrame();
+                        showPosterFrame();
+                    } else if (playbackState == Player.STATE_BUFFERING) {
+                        hideTrailerVideoFrame();
+                        showPosterFrame();
+                        player.setPlayWhenReady(true);
+                    } /*else {
+                    // player paused in any state
+                    isPlaying = false;
+                    progressBar.setVisibility(View.GONE);
+                }*/
+                }
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
     }
 
 }

@@ -49,6 +49,8 @@ import org.json.JSONObject;
 import java.util.Collections;
 import java.util.List;
 
+import static com.example.myottapp.UI.DetailsActivityNew.fromPage;
+import static com.example.myottapp.UI.DetailsActivityNew.player;
 import static com.example.myottapp.UI.MainFragment.moviesList;
 
 public class RelatedItemsFragment extends RowsFragment {
@@ -57,15 +59,43 @@ public class RelatedItemsFragment extends RowsFragment {
     private ArrayObjectAdapter mRowsAdapter;
     private static int count = 0;
     private boolean hasReloaded = true;
+    private static int typeId;
+    public Movie movie;
+    public static int languageId;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //loadRows();
-        //setupEventListeners();
-        //hasReloaded=true;
-        //setHeadersState(HEADERS_DISABLED);
+        int CategoryId=DetailsActivityNew.relatedContent;
+        mRowsAdapter = new ArrayObjectAdapter(new ListRowPresenter(FocusHighlight.ZOOM_FACTOR_LARGE));
+        getMovieDetails();
+        if(DetailsActivityNew.fromPage.equals("Main")) {
+            updateUIByCategory(CategoryId);
+        }
+        setupEventListeners();
+    }
+    public void updateUIByCategory(int CategoryId){
+        getContent(DetailsActivityNew.movieBasicInfo.getType(), 3, CategoryId, 0, 10);
+    }
 
+    public void updateUIByLanguage(int typeId, int languageId){
+        getContent(typeId,2,languageId,0,10);
+    }
+
+    void getMovieDetails(){
+        String tag="";
+        VolleyRequest volleyRequest=new VolleyRequest();
+        volleyRequest.sendJSONObjGetRequest(new VolleyCallback() {
+            @Override
+            public void onSuccess() {
+                Gson gson=new GsonBuilder().create();
+                movie = gson.fromJson(volleyRequest.getResponseString(),Movie.class);
+                ((DetailsActivityNew)getActivity()).loadDetailsPage(movie);
+                if(DetailsActivityNew.fromPage.equals("Search")){
+                    updateUIByLanguage(DetailsActivityNew.movieBasicInfo.getType(),movie.getLanguageId());
+                }
+            }
+        }, DataModel.movieDetailsByIdURL+(DetailsActivityNew.movieBasicInfo.getId()),tag);
     }
 
     @Override
@@ -91,42 +121,38 @@ public class RelatedItemsFragment extends RowsFragment {
         //}
     }
 
-    public void createRow(int categoryID, String categoryName, List<MovieBasicInfo> list) {
-        CardPresenter cardPresenter = new CardPresenter();
-        ArrayObjectAdapter categoryRowAdapter = new ArrayObjectAdapter(cardPresenter);
-        for (int i = 0; i < list.size(); i++)
-            categoryRowAdapter.add(list.get(i));
-        HeaderItem headerItem = new HeaderItem(categoryID, categoryName);
-        mRowsAdapter.add(new ListRow(headerItem, categoryRowAdapter));
-        setAdapter(mRowsAdapter);
+    public void getContent(int contentTypeId, int filterkey, int filterValue, int pageNo, int pageSize){
+        String tag="";
+        VolleyRequest volleyRequest=new VolleyRequest();
+        JSONObject params= volleyRequest.paramsObjectBuilder(contentTypeId,filterkey,filterValue,pageNo,pageSize);
+        volleyRequest.sendPostRequest(new VolleyCallback() {
+            @Override
+            public void onSuccess() {
+                MovieBasicInfoList movieBasicInfoList=MovieBasicInfoList.parseJSON("{movieBasicInfos:"+volleyRequest.getResponseString()+"}");
+                List<MovieBasicInfo> list = movieBasicInfoList.getMovieBasicInfos();
+                createRow(list);
+            }
+        },DataModel.movieByfilterURL,params,tag);
     }
 
-
-    private void loadRows() {
-        List<Movie> relatedMovieList = moviesList.getMovies();
-
-        mRowsAdapter = new ArrayObjectAdapter(new ListRowPresenter(FocusHighlight.ZOOM_FACTOR_LARGE));
-        CardPresenter cardPresenter = new CardPresenter(340, 220, false);
-        /*
-        GridItemPresenter mGridPresenter = new GridItemPresenter();
-        ArrayObjectAdapter gridRowAdapter = new ArrayObjectAdapter(mGridPresenter);
-        gridRowAdapter.add(getResources().getString(R.string.Home));
-        gridRowAdapter.add(getResources().getString(R.string.Movies));
-        gridRowAdapter.add(getResources().getString(R.string.Series));
-        gridRowAdapter.add(getResources().getString(R.string.Kids));
-        gridRowAdapter.add(getResources().getString(R.string.Shorts));
-        rowsAdapter.add(new ListRow(gridRowAdapter));
-*/
-        ArrayObjectAdapter listRowAdapter = new ArrayObjectAdapter(cardPresenter);
-        //listRowAdapter.add( ((DetailsActivityNew)getActivity()).mSelectedMovie);
-        for (int j = 0; j < 10; j++) {
-            listRowAdapter.add(relatedMovieList.get(j % 5));
+    public void createRow(List<MovieBasicInfo> list){
+        mRowsAdapter.clear();
+        CardPresenter cardPresenter=new CardPresenter();
+        ArrayObjectAdapter categoryRowAdapter=new ArrayObjectAdapter(cardPresenter);
+        for(MovieBasicInfo m:list){
+            if(m.getId()!=DetailsActivityNew.movieBasicInfo.getId()){
+                categoryRowAdapter.add(m);
+            }
         }
-        HeaderItem header = new HeaderItem(0, "More Movies Like This");
-        mRowsAdapter.add(new ListRow(header, listRowAdapter));
-        setAdapter(mRowsAdapter);
-        //rowsAdapter.add(new ListRow(listRowAdapter));
+        //for(int i=0;i<list.size();i++)
+        //categoryRowAdapter.add(list.get(i));
+        HeaderItem headerItem=new HeaderItem(0,"More Like This");
+        if(list.size()!=0) {
+            mRowsAdapter.add(new ListRow(headerItem, categoryRowAdapter));
+            setAdapter(mRowsAdapter);
+        }
     }
+
 
     @Override
     public void setAlignment(int windowAlignOffsetFromTop) {
@@ -142,16 +168,6 @@ public class RelatedItemsFragment extends RowsFragment {
     }
 
     private void setupEventListeners() {
-        /*
-        setOnSearchClickedListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View view) {
-                Toast.makeText(getActivity(), "Implement your own in-app search", Toast.LENGTH_LONG)
-                        .show();
-            }
-        });
-        */
         setOnItemViewClickedListener(new ItemViewClickedListener());
         //setOnItemViewSelectedListener(new ItemViewSelectedListener());
     }
@@ -162,18 +178,12 @@ public class RelatedItemsFragment extends RowsFragment {
                                   RowPresenter.ViewHolder rowViewHolder, Row row) {
 
             if (item instanceof MovieBasicInfo) {
-                String tag = ((MovieBasicInfo) item).getId() + "";
-                VolleyRequest volleyRequest = new VolleyRequest();
-                volleyRequest.sendJSONObjGetRequest(new VolleyCallback() {
-                    @Override
-                    public void onSuccess() {
-                        Gson gson = new GsonBuilder().create();
-                        Movie movie = gson.fromJson(volleyRequest.getResponseString(), Movie.class);
-                        Intent intent = new Intent(getActivity(), DetailsActivityNew.class);
-                        intent.putExtra(DetailsActivityNew.MOVIE, movie);
-                        getActivity().startActivity(intent);
-                    }
-                }, DataModel.movieDetailsByIdURL + ((MovieBasicInfo) item).getId(), tag);
+                releasePlayer();
+                DetailsActivityNew.movieBasicInfo= (MovieBasicInfo) item;
+                ((DetailsActivityNew)getActivity()).showOnLoadPage();
+                getMovieDetails();
+                if(DetailsActivityNew.fromPage.equals("Main")) updateUIByCategory(DetailsActivityNew.relatedContent);
+                System.out.println("Related Content Value: "+DataModel.getCategoryIdByName(row.getHeaderItem().getName()));
 
             } else if (item instanceof String) {
                 if (((String) item).contains(getString(R.string.error_fragment))) {
@@ -208,5 +218,11 @@ public class RelatedItemsFragment extends RowsFragment {
 */
         }
 
+    }
+    public void releasePlayer(){
+        if(player!=null){
+            player.stop();
+            player.release();
+        }
     }
 }

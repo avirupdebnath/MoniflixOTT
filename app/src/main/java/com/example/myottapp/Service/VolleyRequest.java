@@ -1,5 +1,6 @@
 package com.example.myottapp.Service;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -7,9 +8,14 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.example.myottapp.VolleyCallback;
+import com.example.myottapp.models.DataModel;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class VolleyRequest {
 
@@ -36,7 +42,16 @@ public class VolleyRequest {
             public void onErrorResponse(VolleyError error) {
                 System.out.println("Error: "+ error.getMessage());
             }
-        });
+        }){
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> headers = new HashMap<>();
+                // Basic Authentication
+                //String auth = "Basic " + Base64.encodeToString(CONSUMER_KEY_AND_SECRET.getBytes(), Base64.NO_WRAP);
+                headers.put("Authorization", "Bearer " + DataModel.accessToken);
+                return headers;
+            }
+        };
         req.setRetryPolicy(new DefaultRetryPolicy(INITIAL_TIMEOUT,MAX_RETRIES,BACKOFF_MULTIPLIER));
         ApplicationController.getInstance().addToRequestQueue(req,tag);
     }
@@ -66,6 +81,7 @@ public class VolleyRequest {
                     @Override
                     public void onResponse(JSONArray response) {
                         responseString=response.toString();
+                        System.out.println(responseString);
                         callback.onSuccess();
                     }
                 },

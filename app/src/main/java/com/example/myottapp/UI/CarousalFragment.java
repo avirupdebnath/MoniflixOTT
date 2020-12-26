@@ -57,7 +57,8 @@ public class CarousalFragment extends RowsFragment {
 
     public static RequestQueue requestQueue;
 
-    void callGetCarousalRequest() {
+    void callGetCarousalRequest(int configId) {
+        String config=configId+"";
         VolleyRequest carousalRequest = new VolleyRequest();
         carousalRequest.sendGetRequest(() -> {
             DataModel.carousalItems= MovieDetailsBannerList.parseJSON("{movieDetailsBanners:"+carousalRequest.getResponseString()+"}");
@@ -65,7 +66,7 @@ public class CarousalFragment extends RowsFragment {
             System.out.println("CAROUSAL ITEMS:"+DataModel.carousalItems);
             loadRows();
             setupEventListeners();
-        }, DataModel.carousalURL, DataModel.carousalTAG);
+        }, DataModel.carousalURL+config, DataModel.carousalTAG);
 
     }
 
@@ -73,7 +74,7 @@ public class CarousalFragment extends RowsFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //requestQueue = Volley.newRequestQueue(getActivity().getApplicationContext());
-        callGetCarousalRequest();
+        callGetCarousalRequest(1);
     }
 
     @Override

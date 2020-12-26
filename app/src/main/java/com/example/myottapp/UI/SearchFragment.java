@@ -133,6 +133,7 @@ public class SearchFragment extends VerticalGridFragment {
                 String tag=((MovieBasicInfo) item).getId()+"";
                 Intent intent = new Intent(getActivity(), DetailsActivityNew.class);
                 intent.putExtra(DetailsActivityNew.MOVIE, ((MovieBasicInfo)item));
+                intent.putExtra("fromPage","Search");
                 getActivity().startActivity(intent);
             }
         }

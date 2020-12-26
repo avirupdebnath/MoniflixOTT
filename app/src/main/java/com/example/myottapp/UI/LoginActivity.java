@@ -62,11 +62,12 @@ public class LoginActivity extends Activity {
         @Override
         public void onSuccess(CognitoUserSession userSession, CognitoDevice newDevice) {
             System.out.println("Login successfull");
+            System.out.println(userSession.getAccessToken().getExpiration());
             CognitoSettings cognitoSettings = new CognitoSettings(LoginActivity.this);
-
+            System.out.println("JWT Access Token: "+String.valueOf(userSession.getAccessToken().getJWTToken()));
             System.out.println("Name: "+String.valueOf(userSession.getUsername())+" token: "+userSession.getAccessToken()+" Refresh: "+userSession.getRefreshToken());
             userDetails = new UserDetails(userSession.getUsername(),userSession.getAccessToken().toString(),userSession.getRefreshToken().toString());
-            sessionManager.createSession(cognitoSettings.getUserPool().getCurrentUser().getUserId());
+            sessionManager.createSession(cognitoSettings.getUserPool().getCurrentUser().getUserId(),userSession.getAccessToken().getJWTToken());
             Intent intent = new Intent(LoginActivity.this, MainActivity.class);
             startActivity(intent);
             etEmail.setText("");

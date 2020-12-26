@@ -1,6 +1,8 @@
 package com.example.myottapp.models;
 
-public class UserDetails {
+import java.io.Serializable;
+
+public class UserDetails implements Serializable {
     private String userName;
     private String accessToken;
     private String refreshToken;
@@ -9,6 +11,7 @@ public class UserDetails {
         this.userName = userName;
         this.accessToken = accessToken;
         this.refreshToken = refreshToken;
+
     }
 
     public String getUserName() {

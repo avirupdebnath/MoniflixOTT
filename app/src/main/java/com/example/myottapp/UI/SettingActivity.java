@@ -76,6 +76,7 @@ public class SettingActivity extends Activity {
                 CognitoSettings cognitoSettings = new CognitoSettings(SettingActivity.this);
                 cognitoSettings.getUserPool().getCurrentUser().signOut();
                 sessionManager.logout();
+                finishAffinity();
             }
         });
 

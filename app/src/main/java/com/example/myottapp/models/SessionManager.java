@@ -21,6 +21,7 @@ public class SessionManager {
     private static final String LOGIN = "IS_LOGIN";
 //    public static final String NAME = "NAME";
     public static final String EMAIL = "EMAIL";
+    public static final String ACCESS_TOKEN = "JWT Token";
 //    public static final String ID = "ID";
 
     public SessionManager(Context context) {
@@ -38,10 +39,12 @@ public class SessionManager {
 //        editor.apply();
 //
 //    }
-    public void createSession(String email){
+    public void createSession(String email, String accessToken){
 
         editor.putBoolean(LOGIN, true);
         editor.putString(EMAIL, email);
+        editor.putString(ACCESS_TOKEN,accessToken);
+        DataModel.accessToken=accessToken;
         editor.apply();
 
     }
@@ -57,6 +60,7 @@ public class SessionManager {
             ((LaunchActivity) context).finish();
         }else
         {
+            DataModel.accessToken=sharedPreferences.getString(ACCESS_TOKEN,null);
             Intent i = new Intent(context, MainActivity.class);
             context.startActivity(i);
             ((LaunchActivity) context).finish();
@@ -77,8 +81,9 @@ public class SessionManager {
 
         editor.clear();
         editor.commit();
-        Intent i = new Intent(context, LoginActivity.class);
-        context.startActivity(i);
-        ((SettingActivity) context).finish();
+        Intent intent = new Intent(context, LoginActivity.class);
+        //intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        context.startActivity(intent);
+        //((SettingActivity) context).finish();
     }
 }

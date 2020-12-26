@@ -10,52 +10,25 @@ import java.io.Serializable;
 
 public class Movie implements Serializable {
 
-    @SerializedName("MovieId")
+    private boolean IsEligible;
     private int MovieId;
-
-    @SerializedName("MovieKey")
     private String MovieKey;
-
-    @SerializedName("Title")
     private String Title;
-
-    @SerializedName("Description")
     private String  Description;
-
-    @SerializedName("LanguageId")
-    int  LanguageId;
-
-    @SerializedName("LanguageName")
+    private int  LanguageId;
     private String  LanguageName;
-
-    @SerializedName("AgeRestriction")
+    private int TierId;
+    private String TierName;
     private String AgeRestriction;
-
-    @SerializedName("RunTime")
     private int RunTime;
-
-    @SerializedName("YearOfProduction")
     private int YearOfProduction;
-
-    @SerializedName("Studio")
     private String Studio;
-
-    @SerializedName("Origin")
     private String Origin;
-
-    @SerializedName("Poster")
     private Poster Poster;
-
-    @SerializedName("Trailer")
     private Trailer Trailer;
-
-    @SerializedName("AccessUrls")
+    private Subtitle []Subtitle;
     private AccessUrls AccessUrls;
-
-    @SerializedName("CastAndCrewInfo")
     private CastAndCrewInfo[] CastAndCrewInfo;
-
-    @SerializedName("CategoryInfo")
     private CategoryInfo[] CategoryInfo;
 
     public int getMovieId() {
@@ -90,11 +63,11 @@ public class Movie implements Serializable {
         Description = description;
     }
 
-    public int getLanguageI() {
+    public int getLanguageId() {
         return LanguageId;
     }
 
-    public void setLanguageI(int languageI) {
+    public void setLanguageId(int languageI) {
         LanguageId = languageI;
     }
 
@@ -184,6 +157,38 @@ public class Movie implements Serializable {
 
     public void setCategoryInfo(com.example.myottapp.models.CategoryInfo[] categoryInfo) {
         CategoryInfo = categoryInfo;
+    }
+
+    public boolean isEligible() {
+        return IsEligible;
+    }
+
+    public void setEligible(boolean eligible) {
+        IsEligible = eligible;
+    }
+
+    public int getTierId() {
+        return TierId;
+    }
+
+    public void setTierId(int tierId) {
+        TierId = tierId;
+    }
+
+    public String getTierName() {
+        return TierName;
+    }
+
+    public void setTierName(String tierName) {
+        TierName = tierName;
+    }
+
+    public com.example.myottapp.models.Subtitle[] getSubtitle() {
+        return Subtitle;
+    }
+
+    public void setSubtitle(com.example.myottapp.models.Subtitle[] subtitle) {
+        Subtitle = subtitle;
     }
 
     @NonNull

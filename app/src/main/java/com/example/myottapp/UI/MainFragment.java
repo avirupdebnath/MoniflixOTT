@@ -259,7 +259,11 @@ public class MainFragment extends RowsFragment {
                 String tag=((MovieBasicInfo) item).getId()+"";
                 Intent intent = new Intent(getActivity(), DetailsActivityNew.class);
                 intent.putExtra(DetailsActivityNew.MOVIE, ((MovieBasicInfo)item));
+                intent.putExtra("relatedContent",DataModel.getCategoryIdByName(row.getHeaderItem().getName()));
+                intent.putExtra("fromPage","Main");
+                System.out.println("Related Content Value: "+DataModel.getCategoryIdByName(row.getHeaderItem().getName()));
                 getActivity().startActivity(intent);
+                System.out.println(tag);
             }
             else if(item instanceof Language){
                 Intent intent=new Intent(getActivity(),LanguageActivity.class);
@@ -305,6 +309,7 @@ public class MainFragment extends RowsFragment {
             if (item instanceof MovieBasicInfo) {
 
                 //Code For Inifinite Scroll
+                System.out.println("MOVIE ID: "+((MovieBasicInfo) item).getId());
                 int index=rowsAdapter.indexOf(row);
                 HeaderItem headerItem=row.getHeaderItem();
                 int categoryID = (int) headerItem.getId();
@@ -316,11 +321,11 @@ public class MainFragment extends RowsFragment {
 
                 //Code for updating images and description
                 ((MainActivity)getActivity()).setMovieName(((MovieBasicInfo) item).getTitle());
-                //((MainActivity)getActivity()).setMovieLanguage(((Movie) item).getLanguageName());
-                //((MainActivity)getActivity()).setMovieDescription(((Movie) item).getDescription());
-                //((MainActivity)getActivity()).setMovieRuntime(((Movie) item).getRunTime());
+                //((MainActivity)getActivity()).setMovieLanguage(((MovieBasicInfo) item).getLanguageName());
+                //((MainActivity)getActivity()).setMovieDescription(((MovieBasicInfo) item).getDescription());
+                //((MainActivity)getActivity()).setMovieRuntime(((MovieBasicInfo) item).getRunTime());
                 ((MainActivity)getActivity()).setMoviePoster(((MovieBasicInfo) item).getPosterUrl());
-                //((MainActivity)getActivity()).setMovieAgeRestriction(((Movie) item).getAgeRestriction());
+                //((MainActivity)getActivity()).setMovieAgeRestriction(((MovieBasicInfo) item).getAgeRestriction());
 
             }
             //if (item instanceof Movie) {
