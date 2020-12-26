@@ -44,4 +44,8 @@ dependencies {
     implementation 'com.google.android.exoplayer:exoplayer-ui:2.9.4'
     implementation 'com.google.android.exoplayer:exoplayer-hls:2.9.4'
     implementation 'androidx.cardview:cardview:1.0.0'
+
+    //AWS-Cognito
+    implementation 'com.amazonaws:aws-android-sdk-cognitoidentityprovider:2.6.3'
+    implementation 'com.amazonaws:aws-android-sdk-core:2.6.3'
 }

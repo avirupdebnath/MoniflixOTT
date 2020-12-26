@@ -43,6 +43,12 @@
     </string-array>
     <string name="spinner_title">Auto</string>
 
+    <string-array name="subtitle_list">
+        <item>Off</item>
+        <item>Hindi</item>
+        <item>English</item>
+    </string-array>
+
 
     <!--Login Activity-->
     <string name="title_activity_login2">LoginActivity2</string>

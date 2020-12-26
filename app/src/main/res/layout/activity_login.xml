@@ -4,90 +4,91 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/default_background"
     tools:context=".UI.LoginActivity">
 
-    <LinearLayout
-        android:id="@+id/center_point"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:orientation="horizontal"
-        android:layout_centerInParent="true"/>
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:alpha="0.5"
+        android:src="@drawable/ever"/>
 
     <LinearLayout
         android:id="@+id/textLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_gravity="center"
         android:gravity="center"
         android:orientation="vertical"
-        android:layout_alignRight="@+id/center_point"
-        android:layout_alignParentLeft="true"
-        android:paddingLeft="20dp"
-        android:paddingRight="20dp">
+        android:background="@drawable/circulargradient"
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Welcome"
-            android:gravity="center"
-            android:textStyle="bold"
-            android:textSize="24sp"
-            />
-
-        <EditText
-            android:id="@+id/emailLogin"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:layout_marginLeft="24dp"
-            android:layout_marginRight="24dp"
-            android:hint="Email"
-            android:textSize="24sp"
-            android:textColor="@color/lb_tv_white"
-            android:inputType="textEmailAddress" />
-
-        <EditText
-            android:id="@+id/passwordLogin"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="24dp"
-            android:layout_marginRight="24dp"
-            android:textSize="24dp"
-            android:textColor="@color/lb_tv_white"
-            android:hint="Password"
-            android:inputType="textPassword" />
-
-        <ProgressBar
-            android:id="@+id/progress_login"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:visibility="gone"
-            tools:visibility="visible" />
-
-        <Button
-            android:id="@+id/validate_button"
-            android:layout_width="300dp"
-            android:layout_height="24dp"
-            android:layout_marginTop="20dp"
-            android:text="LOGIN"
-            android:background="@drawable/round_button"
-            android:textColor="#FFFFFF"
-            />
-
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_alignParentRight="true"
-        android:layout_alignLeft="@+id/center_point"
         >
         <ImageView
-            android:id="@+id/themeImg"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:scaleType="centerCrop"
-            android:src="@drawable/login_background"
+            android:layout_width="300dp"
+            android:layout_height="150dp"
+            android:src="@mipmap/ic_banner_foreground"
+            />
+
+
+
+
+        <TextView
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:text="Welcome to TV Platform"
+            android:layout_marginBottom="10dp"
+            android:textSize="24sp"
+            android:textColor="#E8EFF3"
+            android:textStyle="bold"
+            />
+
+        <EditText
+            android:id="@+id/log_mail_id"
+            android:layout_width="300dp"
+            android:layout_height="40dp"
+            android:hint="Email Address"
+            android:textColor="@color/default_grid"
+            android:textColorHint="@color/hintColor"
+            android:paddingLeft="20dp"
+            android:textSize="18sp"
+            android:background="@drawable/round_button"
+            android:backgroundTint="#E8EFF3"
+
+            />
+        <EditText
+            android:id="@+id/log_password"
+            android:inputType="textPassword"
+            android:layout_marginTop="10dp"
+            android:layout_width="300dp"
+            android:layout_height="40dp"
+            android:textColor="@color/default_grid"
+            android:textSize="18sp"
+            android:hint="Password"
+            android:paddingLeft="20dp"
+            android:textColorHint="@color/hintColor"
+            android:background="@drawable/round_button"
+            android:backgroundTint="#E8EFF3"
+            />
+
+        <ProgressBar
+            android:id="@+id/login_progress"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:indeterminate="true"
+            android:visibility="gone"
+            android:layout_marginTop="10dp"
+            android:indeterminateTintMode="src_atop"
+            android:indeterminateTint="@color/colorPrimary"/>
+
+        <Button
+            android:id="@+id/login_btn"
+            android:layout_width="300dp"
+            android:layout_height="45dp"
+            android:text="Login"
+            android:layout_marginTop="10dp"
+            android:textStyle="bold"
+            android:textSize="30sp"
+            android:background="@drawable/round_button"
+            android:backgroundTint="@color/colorPrimary"
             />
 
     </LinearLayout>
