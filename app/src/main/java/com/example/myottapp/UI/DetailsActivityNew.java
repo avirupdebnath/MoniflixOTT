@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.VideoView;
 
@@ -18,6 +19,8 @@ import com.bumptech.glide.Glide;
 import com.example.myottapp.R;
 import com.example.myottapp.Service.VolleyRequest;
 import com.example.myottapp.VolleyCallback;
+import com.example.myottapp.models.CastAndCrewInfo;
+import com.example.myottapp.models.CategoryInfo;
 import com.example.myottapp.models.DataModel;
 import com.example.myottapp.models.Movie;
 import com.example.myottapp.models.MovieBasicInfo;
@@ -39,6 +42,8 @@ import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;
 import com.google.android.exoplayer2.util.Util;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+
+import java.util.List;
 
 import static android.view.View.VISIBLE;
 
@@ -79,6 +84,9 @@ public class DetailsActivityNew extends Activity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        releasePlayer();
+    }
+    public void releasePlayer(){
         if(player!=null){
             player.stop();
             player.release();
@@ -97,6 +105,9 @@ public class DetailsActivityNew extends Activity {
             setMovieLanguage(mSelectedMovie.getLanguageName());
             setMoviePoster(mSelectedMovie.getPoster().getUrl());
             setMovieRuntime(mSelectedMovie.getRunTime());
+            setMovieCast(mSelectedMovie.getCastAndCrewInfo());
+            setYearOfProduction(mSelectedMovie.getYearOfProduction());
+            setMovieGenre(mSelectedMovie.getCategoryInfo());
             try {
                 playTrailer(mSelectedMovie.getTrailer().getUrl().getHls_High());
             }catch (Exception e){
@@ -108,6 +119,9 @@ public class DetailsActivityNew extends Activity {
             watchNow.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    releasePlayer();
+                    hideTrailerVideoFrame();
+                    showPosterFrame();
                     Intent intent = new Intent(DetailsActivityNew.this, PlayerActivity.class);
                     intent.putExtra(PlayerActivity.MOVIE, mSelectedMovie);
                     startActivity(intent);
@@ -117,21 +131,7 @@ public class DetailsActivityNew extends Activity {
         }
 
     }
-/*
-    void getMovieDetails(){
-        String tag="";
-        VolleyRequest volleyRequest=new VolleyRequest();
-        volleyRequest.sendJSONObjGetRequest(new VolleyCallback() {
-            @Override
-            public void onSuccess() {
-                Gson gson=new GsonBuilder().create();
-                movie = gson.fromJson(volleyRequest.getResponseString(),Movie.class);
-                loadDetailsPage(movie);
-                languageId=movie.getLanguageId();
-            }
-        }, DataModel.movieDetailsByIdURL+(movieBasicInfo.getId()),tag);
-    }
-*/
+
     void showOnLoadPage(){
         FrameLayout frameLayout=(FrameLayout)findViewById(R.id.load_frame);
         frameLayout.setVisibility(View.VISIBLE);
@@ -152,7 +152,7 @@ public class DetailsActivityNew extends Activity {
     }
     void setMovieAgeRestriction(String s){
         TextView movieAge=(TextView) findViewById(R.id.movie_age);
-        movieAge.setText(s);
+        movieAge.setText(s+"+");
     }
     void setMovieDescription(String s){
         TextView movieDescription=(TextView) findViewById(R.id.movie_desrciption);
@@ -171,6 +171,49 @@ public class DetailsActivityNew extends Activity {
                 .load(Uri.parse(url))
                 .centerCrop()
                 .into(moviePoster);
+    }
+    void setYearOfProduction(int year){
+        String yearOfProduction=year+"";
+        TextView prodYear=findViewById(R.id.yearOfProduction);
+        prodYear.setText(yearOfProduction);
+    }
+    void setMovieCast(CastAndCrewInfo[] cast){
+        String directors="";
+        String actors="";
+        LinearLayout d=findViewById(R.id.directorsLayout);
+        LinearLayout c=findViewById(R.id.castLayout);
+        for(CastAndCrewInfo crew : cast){
+            if(crew.getType()==1){
+                if(actors.equals(""))actors+=crew.getCastCrewName();
+                else actors+=", "+crew.getCastCrewName();
+            }
+            else if(crew.getType()==2){
+                if(directors.equals(""))directors+=crew.getCastCrewName();
+                else directors+=", "+crew.getCastCrewName();
+            }
+        }
+        TextView directorText=findViewById(R.id.Directors);
+        TextView castAndCrew=findViewById(R.id.CastInfo);
+        directorText.setText(directors);
+        castAndCrew.setText(actors);
+        d.setVisibility(View.VISIBLE);
+        c.setVisibility(View.VISIBLE);
+        if(directors.equals("")) {
+            d.setVisibility(View.INVISIBLE);
+        }
+        if(actors.equals("")){
+            c.setVisibility(View.INVISIBLE);
+        }
+    }
+    void setMovieGenre(CategoryInfo[] categoryInfos){
+        String genres="";
+        for(CategoryInfo c: categoryInfos){
+            if(genres.equals(""))genres+=c.getName();
+            else genres+=", "+c.getName();
+        }
+        TextView genreText=findViewById(R.id.genres);
+        genreText.setText(genres);
+
     }
     void hidePosterFrame(){
         FrameLayout frameLayout=(FrameLayout)findViewById(R.id.posterFrame);

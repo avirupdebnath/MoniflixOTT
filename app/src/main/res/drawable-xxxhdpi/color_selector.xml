@@ -10,4 +10,6 @@
     <item android:state_focused="true"
         android:drawable="@drawable/selected_state" tools:ignore="StateListReachable" />
     <!-- default -->
+    <!-- default -->
+    <item android:drawable="@drawable/unselected_state" />
 </selector>

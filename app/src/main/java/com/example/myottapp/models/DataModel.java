@@ -17,7 +17,7 @@ public class DataModel {
 
     public static String languageNames[]={"Kannada","Telugu","Malayalum","Tamil","Hindi","English","Korean","Russian"};
 
-    public static MovieDetailsBannerList carousalItems=new MovieDetailsBannerList();
+    public static MovieBasicInfoList carousalItems=new MovieBasicInfoList();
 
     public static int getCategoryIdByName(String categoryName){
         for (Category c: CategoriesList){

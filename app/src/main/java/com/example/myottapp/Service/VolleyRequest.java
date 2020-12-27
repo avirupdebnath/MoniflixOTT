@@ -70,7 +70,16 @@ public class VolleyRequest {
             public void onErrorResponse(VolleyError error) {
                 System.out.println("Error: "+ error.getMessage());
             }
-        });
+        }) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> headers = new HashMap<>();
+                // Basic Authentication
+                //String auth = "Basic " + Base64.encodeToString(CONSUMER_KEY_AND_SECRET.getBytes(), Base64.NO_WRAP);
+                headers.put("Authorization", "Bearer " + DataModel.accessToken);
+                return headers;
+            }
+        };
         req.setRetryPolicy(new DefaultRetryPolicy(INITIAL_TIMEOUT,MAX_RETRIES,BACKOFF_MULTIPLIER));
         ApplicationController.getInstance().addToRequestQueue(req,tag);
     }

@@ -1,5 +1,7 @@
 package com.example.myottapp.models;
 
+import androidx.annotation.NonNull;
+
 import java.io.Serializable;
 
 public class MovieBasicInfo implements Serializable {
@@ -38,5 +40,11 @@ public class MovieBasicInfo implements Serializable {
 
     public void setPosterUrl(String posterUrl) {
         PosterUrl = posterUrl;
+    }
+
+    @NonNull
+    @Override
+    public String toString() {
+        return this.getId()+" "+this.getPosterUrl();
     }
 }

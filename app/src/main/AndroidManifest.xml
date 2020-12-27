@@ -20,6 +20,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MyOTTApp">
         <activity android:name=".UI.LoginActivity"></activity>
+        <activity android:name=".UI.MovieActivity"></activity>
         <activity
             android:name=".UI.LaunchActivity"
             android:banner="@mipmap/ic_banner"

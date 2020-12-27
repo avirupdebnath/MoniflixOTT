@@ -6,7 +6,7 @@ public class CastAndCrewInfo implements Serializable {
 
     private String CastCrewName;
     private String  SkillName;
-    private String  Type;
+    private int  Type;
 
     public String getCastCrewName() {
         return CastCrewName;
@@ -24,11 +24,11 @@ public class CastAndCrewInfo implements Serializable {
         SkillName = skillName;
     }
 
-    public String getType() {
+    public int getType() {
         return Type;
     }
 
-    public void setType(String type) {
+    public void setType(int type) {
         Type = type;
     }
 

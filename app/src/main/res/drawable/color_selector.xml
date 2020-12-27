@@ -7,6 +7,6 @@
     <item android:state_activated="true"
         android:drawable="@drawable/selected_state" tools:ignore="StateListReachable" />
     <!-- default -->
-    <item android:drawable="@drawable/shape_round" />
+    <item android:drawable="@drawable/unselected_state" />
 
 </selector>

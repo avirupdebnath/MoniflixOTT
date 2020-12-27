@@ -112,7 +112,7 @@
                 <Spinner
                     android:id="@+id/subTitleRow"
                     android:backgroundTint="@color/transpo"
-                    android:popupBackground="#CC000000"
+                    android:popupBackground="#F2000000"
                     android:dropDownSelector="@color/onHover"
                     android:layout_width="1dp"
                     android:layout_height="1dp"
@@ -207,7 +207,7 @@
                 <Spinner
                     android:id="@+id/video_qualitySP"
                     android:backgroundTint="@color/transpo"
-                    android:popupBackground="#CC000000"
+                    android:popupBackground="#F2000000"
                     android:dropDownSelector="@color/onHover"
                     android:layout_width="1dp"
                     android:layout_height="1dp"

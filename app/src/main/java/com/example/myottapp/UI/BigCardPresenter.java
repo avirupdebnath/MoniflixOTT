@@ -1,6 +1,5 @@
 package com.example.myottapp.UI;
 
-import android.content.Context;
 import android.graphics.drawable.Drawable;
 
 import androidx.appcompat.view.ContextThemeWrapper;
@@ -13,11 +12,7 @@ import android.view.ViewGroup;
 
 import com.bumptech.glide.Glide;
 import com.example.myottapp.R;
-import com.example.myottapp.models.DataModel;
-import com.example.myottapp.models.Movie;
 import com.example.myottapp.models.MovieBasicInfo;
-import com.example.myottapp.models.MovieBasicInfoList;
-import com.example.myottapp.models.MovieDetailsBanner;
 
 /*
  * A CardPresenter is used to generate Views and bind Objects to them on demand.
@@ -73,16 +68,16 @@ public class BigCardPresenter extends Presenter {
     @Override
     public void onBindViewHolder(Presenter.ViewHolder viewHolder, Object item) {
         //Movie movie = (Movie) item;
-        MovieDetailsBanner movieDetailsBanner =(MovieDetailsBanner) item;
+        MovieBasicInfo movieBasicInfo =(MovieBasicInfo) item;
         ImageCardView cardView = (ImageCardView) viewHolder.view;
 
         Log.d(TAG, "onBindViewHolder");
-        if (movieDetailsBanner.getPosterUrl() != null) {
+        if (movieBasicInfo.getPosterUrl() != null) {
             //cardView.setTitleText(movie.getTitle());
             //cardView.setContentText(movie.getStudio());
             cardView.setMainImageDimensions(CARD_WIDTH, CARD_HEIGHT);
             Glide.with(viewHolder.view.getContext())
-                    .load(movieDetailsBanner.getPosterUrl())
+                    .load(movieBasicInfo.getPosterUrl())
                     .centerCrop()
                     .error(mDefaultCardImage)
                     .into(cardView.getMainImageView());

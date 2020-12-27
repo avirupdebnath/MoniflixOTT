@@ -127,8 +127,8 @@ public class BannerFragment extends RowsFragment {
                         Toast.makeText(getActivity(), ((String) item), Toast.LENGTH_SHORT).show();
                     }
                     else if(((String) item).contains(getString(R.string.Movies))) {
-                        //Intent intent = new Intent(getActivity(), SettingActivity.class);
-                        //startActivity(intent);
+                        Intent intent = new Intent(getActivity(), MovieActivity.class);
+                        startActivity(intent);
                         BannerFragment.position=2;
                         Toast.makeText(getActivity(), ((String) item), Toast.LENGTH_SHORT).show();
                     }
