@@ -69,7 +69,7 @@ public class LoginActivity extends Activity {
             System.out.println("JWT Access Token: "+String.valueOf(userSession.getIdToken().getJWTToken()));
             System.out.println("Name: "+String.valueOf(userSession.getUsername())+" token: "+userSession.getAccessToken()+" Refresh: "+userSession.getRefreshToken());
             userDetails = new UserDetails(userSession.getUsername(),userSession.getAccessToken().toString(),userSession.getRefreshToken().toString());
-            sessionManager.createSession(cognitoSettings.getUserPool().getCurrentUser().getUserId(),userSession.getAccessToken().getJWTToken());
+            sessionManager.createSession(cognitoSettings.getUserPool().getCurrentUser().getUserId(),etPass.getText().toString().trim(),userSession.getAccessToken().getJWTToken());
             Intent intent = new Intent(LoginActivity.this, MainActivity.class);
             startActivity(intent);
             etEmail.setText("");
@@ -81,7 +81,7 @@ public class LoginActivity extends Activity {
         public void getAuthenticationDetails(AuthenticationContinuation authenticationContinuation, String userId) {
             System.out.println("in getAuthentication");
 
-            AuthenticationDetails authenticationDetails = new AuthenticationDetails(userId, String.valueOf(etPass.getText()),null);
+            AuthenticationDetails authenticationDetails = new AuthenticationDetails(userId, etPass.getText().toString().trim(),null);
 
             authenticationContinuation.setAuthenticationDetails(authenticationDetails);
 

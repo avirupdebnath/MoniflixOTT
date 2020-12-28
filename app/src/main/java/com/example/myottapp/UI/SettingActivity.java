@@ -75,6 +75,14 @@ public class SettingActivity extends Activity {
                 }
             }
         });
+        logout.setOnFocusChangeListener(new View.OnFocusChangeListener(){
+            @Override public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus) {
+                    header.setText("Logout");
+                    description.setText("Are you sure want to logout?");
+                }
+            }
+        });
 
         logout.setOnClickListener(new View.OnClickListener() {
             @Override
