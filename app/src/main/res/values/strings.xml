@@ -36,12 +36,14 @@
 
     <!--player-->
     <string-array name="quality_array">
-        <item>360p</item>
-        <item>720p</item>
-        <item>1080p</item>
+        <item>Low 360p </item>
+        <item>Medium 720p</item>
+        <item>High 1080p</item>
         <item>Auto</item>
     </string-array>
     <string name="spinner_title">Auto</string>
+    <string name="subtitle_spinner_name">Select a Subtitle Track</string>
+    <string name="video_quality_spinner_name">Select a Video Quality</string>
 
     <string-array name="subtitle_list">
         <item>Off</item>

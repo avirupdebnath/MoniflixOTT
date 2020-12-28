@@ -11,6 +11,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.VideoView;
 
 import androidx.appcompat.widget.AppCompatButton;
@@ -43,6 +44,7 @@ import com.google.android.exoplayer2.util.Util;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static android.view.View.VISIBLE;
@@ -80,6 +82,13 @@ public class DetailsActivityNew extends Activity {
         showOnLoadPage();
 
     }
+    /*
+    @Override
+    protected void onResume() {
+        super.onResume();
+        finish();
+        startActivity(getIntent());
+    }*/
 
     @Override
     protected void onDestroy() {
@@ -127,9 +136,17 @@ public class DetailsActivityNew extends Activity {
                     startActivity(intent);
                 }
             });
+            AppCompatButton addToWatchList=(AppCompatButton) findViewById(R.id.AddToWatchListButton);
+            addToWatchList.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    DataModel.watchlist.add(movieBasicInfo);
+                    System.out.println(movieBasicInfo.getId()+" Added to watchlist");
+                    Toast.makeText(DetailsActivityNew.this, "Item Added to Watchlist", Toast.LENGTH_SHORT).show();
+                }
+            });
             hideOnLoadPage();
         }
-
     }
 
     void showOnLoadPage(){

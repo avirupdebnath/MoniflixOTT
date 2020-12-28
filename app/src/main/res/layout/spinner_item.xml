@@ -2,8 +2,9 @@
 <TextView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:gravity="center"
+    android:gravity="left"
     android:padding="15dp"
-    android:textColor="@color/lb_tv_white"
-    android:background="@drawable/color_selector"
-    android:textSize="15sp" />
+    android:paddingLeft="30dp"
+    android:textColor="@color/white"
+    android:background="@drawable/spinner_color_selector"
+    android:textSize="16sp" />

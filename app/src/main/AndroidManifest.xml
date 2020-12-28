@@ -4,7 +4,6 @@
     package="com.example.myottapp">
 
     <uses-permission android:name="android.permission.INTERNET" />
-
     <uses-feature
         android:name="android.hardware.touchscreen"
         android:required="false" />
@@ -15,12 +14,11 @@
     <application
         android:name=".Service.ApplicationController"
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@mipmap/ic_banner"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/Theme.MyOTTApp">
         <activity android:name=".UI.LoginActivity"></activity>
-        <activity android:name=".UI.MovieActivity"></activity>
         <activity
             android:name=".UI.LaunchActivity"
             android:banner="@mipmap/ic_banner"
@@ -31,11 +29,11 @@
             android:screenOrientation="landscape">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LEANBACK_LAUNCHER" />
             </intent-filter>
         </activity>
         <activity android:name=".UI.SeriesActivity" />
+        <activity android:name=".UI.MovieActivity"/>
         <activity android:name=".UI.LanguageActivity" />
         <activity android:name=".UI.SearchActivity" />
         <activity android:name=".UI.DetailsActivity" />

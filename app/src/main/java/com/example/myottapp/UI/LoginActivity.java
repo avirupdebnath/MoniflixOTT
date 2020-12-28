@@ -39,7 +39,7 @@ public class LoginActivity extends Activity {
         etPass = findViewById(R.id.log_password);
         progressBar = findViewById(R.id.login_progress);
         loginBtn = findViewById(R.id.login_btn);
-
+        progressBar.setVisibility(View.GONE);
         loginBtn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 loginBtn.setVisibility(View.INVISIBLE);
@@ -61,6 +61,7 @@ public class LoginActivity extends Activity {
     final AuthenticationHandler authenticationHandler = new AuthenticationHandler() {
         @Override
         public void onSuccess(CognitoUserSession userSession, CognitoDevice newDevice) {
+            progressBar.setVisibility(View.GONE);
             System.out.println("Login successfull");
             System.out.println(userSession.getAccessToken().getExpiration());
             CognitoSettings cognitoSettings = new CognitoSettings(LoginActivity.this);
@@ -99,18 +100,18 @@ public class LoginActivity extends Activity {
         @Override
         public void onFailure(Exception exception) {
             System.out.println("Error : "+exception.getLocalizedMessage());
+            loginBtn.setVisibility(View.VISIBLE);
+            progressBar.setVisibility(View.GONE);
         }
     };
 
     private void login(String email, final String password) {
         progressBar.setVisibility(View.VISIBLE);
-
         CognitoSettings cognitoSettings = new CognitoSettings(LoginActivity.this);
         CognitoUser thisUser = cognitoSettings.getUserPool()
                 .getUser(String.valueOf(email));
-
         thisUser.getSessionInBackground(authenticationHandler);
-        progressBar.setVisibility(View.GONE);
+        //progressBar.setVisibility(View.GONE);
     }
 
 

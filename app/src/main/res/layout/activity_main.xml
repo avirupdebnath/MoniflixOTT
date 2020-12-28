@@ -156,7 +156,7 @@
             android:id="@+id/imageView3"
             android:layout_width="100dp"
             android:layout_height="50dp"
-            android:layout_gravity="left"
+            android:layout_gravity="top"
             android:src="@mipmap/ic_banner_foreground"
             android:focusable="false"
             android:focusableInTouchMode="false"/>

@@ -107,19 +107,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="left"
                 android:orientation="horizontal"
-                android:layout_weight="1"
-                >
-                <Spinner
-                    android:id="@+id/subTitleRow"
-                    android:backgroundTint="@color/transpo"
-                    android:popupBackground="#F2000000"
-                    android:dropDownSelector="@color/onHover"
-                    android:layout_width="1dp"
-                    android:layout_height="1dp"
-                    android:background="@drawable/exo_button_focus"
-                    android:nextFocusLeft="@+id/img_settings"
-                    android:textColor="@android:color/white"
-                    />
+                android:layout_weight="1">
                 <ImageButton
                     android:id="@+id/img_subtitle"
                     android:layout_width="wrap_content"
@@ -129,6 +117,16 @@
                     android:src="@drawable/ic_subtitles_white_24dp"
                     android:background="@drawable/exo_button_focus"
                     style="@style/ExoMediaButton"/>
+                <Spinner
+                    android:focusable="false"
+                    android:id="@+id/subTitleRow"
+                    android:spinnerMode="dialog"
+                    android:prompt="@string/subtitle_spinner_name"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:background="@drawable/exo_button_focus"
+                    android:theme="@style/MyApplicationTheme"
+                    />
             </LinearLayout>
 
                 <!--<ImageButton android:id="@id/exo_prev"
@@ -206,13 +204,13 @@
 
                 <Spinner
                     android:id="@+id/video_qualitySP"
-                    android:backgroundTint="@color/transpo"
-                    android:popupBackground="#F2000000"
-                    android:dropDownSelector="@color/onHover"
-                    android:layout_width="1dp"
-                    android:layout_height="1dp"
+                    android:spinnerMode="dialog"
+                    android:prompt="@string/video_quality_spinner_name"
+                    android:theme="@style/MyApplicationTheme"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
                     android:background="@drawable/exo_button_focus"
-                    android:nextFocusLeft="@+id/img_settings"
+                    android:focusable="false"
                     android:textColor="@android:color/white"
                     />
             </LinearLayout>

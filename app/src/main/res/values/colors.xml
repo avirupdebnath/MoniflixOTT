@@ -10,7 +10,7 @@
     <color name="colorButtonFocusedTV">#ED1C24</color>
     <color name="colorButtonPressedTV">#C9181F</color>
     <color name="transpo">#000000FF</color>
-    <color name="onHover">#4DC9181F</color>
+    <color name="onHover">#BFC9181F</color>
     <color name="unPlayed">#33DDDDDD</color>
     <color name="language_card">#001e33</color>
     <color name="default_background">#181818</color>

@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.ContactsContract;
@@ -49,14 +50,28 @@ import cz.msebera.android.httpclient.Header;
  */
 public class MainActivity extends Activity {
     public Context mContext=this;
+    public static int activityCreated;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        activityCreated=1;
         setContentView(R.layout.activity_main);
         showCarousal();
         hideMovieDetails();
+        BannerFragment.position=1;
         //collapseLanguageRow();
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if(activityCreated!=1) {
+            Intent intent = new Intent(this, MainActivity.class);
+            startActivity(intent);
+            finish();
+        }
+    }
+
     public void hideCarousal(){
         FrameLayout frameLayout=(FrameLayout)findViewById(R.id.carousal_frame);
         frameLayout.setVisibility(View.INVISIBLE);

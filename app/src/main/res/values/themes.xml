@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <style name="Theme.MyOTTApp" parent="@style/Theme.Leanback" />
     <style name="CustomImageCardViewStyle" parent="Widget.Leanback.ImageCardViewStyle">
         <item name="lbImageCardViewType">ImageOnly</item>
@@ -12,6 +12,15 @@
     </style>
     <style name="myCustomImageCardTheme" parent="Theme.Leanback">
         <item name="imageCardViewStyle">@style/CustomImageCardViewTitleOnlyStyle</item>
+    </style>
+
+    <style name="MyApplicationTheme" parent="@style/Theme.AppCompat.Dialog.MinWidth">
+        <item name="android:colorBackgroundFloating" tools:targetApi="m">
+            @color/transparent_black
+        </item>
+        <item name="android:colorControlHighlight">
+            @color/onHover
+        </item>
     </style>
 
 </resources>

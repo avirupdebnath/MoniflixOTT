@@ -1,8 +1,14 @@
 package com.example.myottapp.models;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.ListIterator;
 
 public class DataModel {
 
@@ -15,6 +21,7 @@ public class DataModel {
     public static List<Category> CategoriesList;
     public static final String carousalTAG="Carousal";
 
+
     public static String languageNames[]={"Kannada","Telugu","Malayalum","Tamil","Hindi","English","Korean","Russian"};
 
     public static MovieBasicInfoList carousalItems=new MovieBasicInfoList();
@@ -25,5 +32,7 @@ public class DataModel {
         }
         return 1;
     }
+
+    public static List<MovieBasicInfo> watchlist=new ArrayList<MovieBasicInfo>();
 
 }

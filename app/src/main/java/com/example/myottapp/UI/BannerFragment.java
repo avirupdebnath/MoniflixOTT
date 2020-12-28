@@ -31,7 +31,7 @@ import com.example.myottapp.R;
 import com.example.myottapp.extras.Movie;
 
 public class BannerFragment extends RowsFragment {
-    private static int position = 1;
+    public static int position = 1;
     private static final String TAG = "BannerFragment";
     private BackgroundManager mBackgroundManager;
     private Drawable mDefaultBackground;

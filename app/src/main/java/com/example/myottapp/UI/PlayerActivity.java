@@ -2,13 +2,17 @@ package com.example.myottapp.UI;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
@@ -18,10 +22,14 @@ import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
+import androidx.core.content.ContextCompat;
 
 import com.example.myottapp.R;
 import com.example.myottapp.models.Movie;
+import com.example.myottapp.models.Subtitle;
 import com.google.android.exoplayer2.C;
 import com.google.android.exoplayer2.ExoPlayer;
 import com.google.android.exoplayer2.ExoPlayerFactory;
@@ -51,6 +59,7 @@ import com.google.android.exoplayer2.util.MimeTypes;
 import com.google.android.exoplayer2.util.Util;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import static android.view.View.VISIBLE;
 
@@ -108,20 +117,27 @@ public class PlayerActivity extends Activity implements AdapterView.OnItemSelect
         vidval = "https://d2s5cesslnh4wz.cloudfront.net/fb2cca61-145d-4fb6-8f61-46e78514b110/hls1/master_med.m3u8?Expires=1607794028&Signature=Jkd~naUTuz9HVkWZlxh2B0QFNuClGAuHwRk3mIatbuHEocLauYydS9f1weeANtLUCOuRFphxvOnSAxatyu74~Z7PDzJQ-oCnJpmxwVmoC77DSYYSZ5VcExL4of1Kp2DyOGC8sU2PmAXl0qjZb6~h64OTBjQuT3Q7-dmVnLaBpM1Siajk0tosO8eV2PB7prG5heXm2DcKbiVL8l~J3JPBaFpMfEi2WL-YUUVDgFhGbstpDZGZfUhuLVsFn-rM-~xvCMfXhOSCo6AoZt3FZBfRuF2dnj50sExwQSEvBVCOvLnD48FXIbz9FXeQfK9gSuHMZjlza97MMmApVONTBcWzPA__&Key-Pair-Id=APKAIKKEJUUNH5EV374Q";
 
 
-        ArrayList textlist = new ArrayList();
-        textlist.add(0,"OFF");
-        textlist.add("https://dev-videovillage-content-essences.s3.ap-south-1.amazonaws.com/ala.vtt");
-        textlist.add("https://dev-videovillage-content-essences.s3.ap-south-1.amazonaws.com/ala.vtt");
+        List<String> textlist = new ArrayList<String>();
+        //textlist.add(0,"OFF");
+        //textlist.add("https://dev-videovillage-content-essences.s3.ap-south-1.amazonaws.com/ala.vtt");
+        //textlist.add("https://dev-videovillage-content-essences.s3.ap-south-1.amazonaws.com/ala.vtt");
 
-        ArrayAdapter<CharSequence> s_adapter = ArrayAdapter.createFromResource(this,R.array.subtitle_list,R.layout.subtitle_item);
-        s_adapter.setDropDownViewResource(R.layout.subtitle_item);
-        subList.setAdapter(s_adapter);
+        String []spinnerArray=new String[mSelectedMovie.getSubtitle().length+1];
+        spinnerArray[0]="Off";
+        textlist.add("OFF");
+        int i=1;
+        for(Subtitle s: mSelectedMovie.getSubtitle()){
+            spinnerArray[i++]=s.getLanguageName();
+            textlist.add(s.getUrl());
+        }
+        ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>
+                (this,(R.layout.spinner_item), spinnerArray); //selected item will look like a spinner set from XML
+        subList.setAdapter(spinnerArrayAdapter);
         subList.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 Log.d("Video Quality", position + "");
                 long time = player.getCurrentPosition();
-
                 subval = textlist.get(position).toString();
                 buildMediaSource(vidval, subval);
                 player.seekTo(0, time);
