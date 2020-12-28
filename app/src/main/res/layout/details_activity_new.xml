@@ -276,6 +276,7 @@
         android:background="@drawable/text_black_to_transparent_shade">
         <ImageView
             android:id="@+id/imageView3"
+            android:layout_marginLeft="45dp"
             android:layout_width="100dp"
             android:layout_height="50dp"
             android:layout_gravity="left"
@@ -311,6 +312,7 @@
             android:background="@color/transpo">
             <ImageView
                 android:id="@+id/imageLogo_onload"
+                android:layout_marginLeft="45dp"
                 android:layout_width="100dp"
                 android:layout_height="50dp"
                 android:layout_gravity="left"
@@ -324,7 +326,9 @@
             android:layout_height="60dp"
             android:layout_gravity="center"
             android:indeterminate="true"
+            android:indeterminateTintMode="src_atop"
             android:indeterminateTint="@color/colorPrimary">
+
 
         </ProgressBar>
     </FrameLayout>

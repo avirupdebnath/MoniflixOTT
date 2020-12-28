@@ -2,11 +2,11 @@
 <selector xmlns:tools="http://schemas.android.com/tools" xmlns:android="http://schemas.android.com/apk/res/android">
     <!-- pressed -->
     <item android:state_pressed="true"
-        android:drawable="@color/colorButtonPressedTV" />
+        android:drawable="@color/onHover" />
     <!-- focused -->
-    <item android:state_focused="true" android:drawable="@color/colorButtonFocusedTV" tools:ignore="StateListReachable" />
+    <item android:state_focused="true" android:drawable="@color/onHover" tools:ignore="StateListReachable" />
     <!-- default -->
     <item android:drawable="@color/transpo" />
-    <item android:drawable="@color/colorPrimary" android:state_focused="true" android:state_pressed="false" android:state_selected="true" tools:ignore="StateListReachable" />
+    <item android:drawable="@color/onHover" android:state_focused="true" android:state_pressed="false" android:state_selected="true" tools:ignore="StateListReachable" />
 
 </selector>

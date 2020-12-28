@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.ContactsContract;
@@ -57,6 +58,7 @@ public class MovieActivity extends Activity {
         hideMovieDetails();
         //collapseLanguageRow();
     }
+
     public void hideCarousal(){
         FrameLayout frameLayout=(FrameLayout)findViewById(R.id.carousal_frame);
         frameLayout.setVisibility(View.INVISIBLE);

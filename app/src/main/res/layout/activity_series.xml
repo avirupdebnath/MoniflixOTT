@@ -104,7 +104,7 @@
         android:orientation="horizontal"
         android:gravity="center"
         android:layout_gravity="top"
-        android:layout_margin="0dp"
+        android:layout_marginTop="0.01dp"
         android:background="@drawable/default_background"
         android:foreground="@drawable/transparent_to_dark_reverse_shade">
         <fragment
@@ -123,6 +123,7 @@
         android:focusable="false"
         android:background="@drawable/text_black_to_transparent_shade">
         <ImageView
+            android:layout_marginLeft="45dp"
             android:id="@+id/imageView3"
             android:layout_width="100dp"
             android:layout_height="50dp"
@@ -134,8 +135,8 @@
         <fragment
             android:id="@+id/banner_fragment"
             android:name="com.example.myottapp.UI.BannerFragment"
-            android:layout_width="900dp"
-            android:layout_height="50dp"
+            android:layout_width="580dp"
+            android:layout_height="60dp"
             android:layout_gravity="right" />
     </FrameLayout>
     <FrameLayout

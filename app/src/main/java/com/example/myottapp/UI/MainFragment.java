@@ -2,6 +2,7 @@ package com.example.myottapp.UI;
 
 import android.app.Fragment;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -70,6 +71,7 @@ import com.example.myottapp.models.Movie;
 import com.example.myottapp.models.MovieBasicInfo;
 import com.example.myottapp.models.MovieBasicInfoList;
 import com.example.myottapp.models.MovieList;
+import com.example.myottapp.models.SessionManager;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
@@ -201,6 +203,7 @@ public class MainFragment extends RowsFragment {
     }
     public void getWatchlist(){
         try {
+            DataModel.watchlist= MovieBasicInfoList.parseJSON(SessionManager.sharedPreferences.getString("WATCHLIST",null)).getMovieBasicInfos();
             System.out.println("WATCHLIST: " + DataModel.watchlist.get(0).getId());
             createRow(rowCount++,"Watchlist",DataModel.watchlist);
         }catch(Exception e){}
@@ -276,7 +279,6 @@ public class MainFragment extends RowsFragment {
                 intent.putExtra(DetailsActivityNew.MOVIE, ((MovieBasicInfo)item));
                 intent.putExtra("relatedContent",DataModel.getCategoryIdByName(row.getHeaderItem().getName()));
                 intent.putExtra("fromPage","Main");
-                MainActivity.activityCreated=0;
                 System.out.println("Related Content Value: "+DataModel.getCategoryIdByName(row.getHeaderItem().getName()));
                 getActivity().startActivity(intent);
                 System.out.println(tag);
@@ -284,7 +286,6 @@ public class MainFragment extends RowsFragment {
             else if(item instanceof Language){
                 Intent intent=new Intent(getActivity(),LanguageActivity.class);
                 intent.putExtra(LanguageActivity.LANGUAGE,((Language)item));
-                MainActivity.activityCreated=0;
                 getActivity().startActivity(intent);
             }
             else if (item instanceof String) {

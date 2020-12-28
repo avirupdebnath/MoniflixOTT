@@ -145,6 +145,7 @@
         android:background="@drawable/text_black_to_transparent_shade">
     <ImageView
         android:layout_width="100dp"
+        android:layout_marginLeft="45dp"
         android:layout_height="50dp"
         android:src="@mipmap/ic_banner_foreground">
     </ImageView>
@@ -152,6 +153,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="|"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="5dp"
             android:textSize="35sp">
 
         </TextView>
@@ -161,7 +164,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
         android:text="Language"
-        android:layout_marginLeft="20dp">
+        android:layout_marginLeft="15dp">
 
     </TextView>
     </LinearLayout>
@@ -186,6 +189,7 @@
         android:layout_height="60dp"
         android:layout_gravity="center"
         android:indeterminate="true"
+        android:indeterminateTintMode="src_atop"
         android:indeterminateTint="@color/colorPrimary">
 
     </ProgressBar>
@@ -194,6 +198,7 @@
         android:layout_height="wrap_content"
         android:background="@drawable/text_black_to_transparent_shade">
         <ImageView
+            android:layout_marginLeft="45dp"
             android:layout_width="100dp"
             android:layout_height="50dp"
             android:src="@mipmap/ic_banner_foreground">
@@ -201,6 +206,8 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_gravity="center_vertical"
             android:textColor="@color/white"
             android:text="|"
             android:textSize="35sp">
@@ -213,7 +220,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:text="Language"
-            android:layout_marginLeft="20dp">
+            android:layout_marginLeft="15dp">
 
         </TextView>
     </LinearLayout>

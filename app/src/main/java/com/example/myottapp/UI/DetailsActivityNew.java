@@ -25,6 +25,8 @@ import com.example.myottapp.models.CategoryInfo;
 import com.example.myottapp.models.DataModel;
 import com.example.myottapp.models.Movie;
 import com.example.myottapp.models.MovieBasicInfo;
+import com.example.myottapp.models.MovieBasicInfoList;
+import com.example.myottapp.models.SessionManager;
 import com.google.android.exoplayer2.ExoPlayer;
 import com.google.android.exoplayer2.ExoPlayerFactory;
 import com.google.android.exoplayer2.Player;
@@ -142,6 +144,13 @@ public class DetailsActivityNew extends Activity {
                 public void onClick(View view) {
                     DataModel.watchlist.add(movieBasicInfo);
                     System.out.println(movieBasicInfo.getId()+" Added to watchlist");
+                    MainActivity.activityCreated=0;
+                    MovieBasicInfoList watchlistMovies=new MovieBasicInfoList();
+                    watchlistMovies.setMovieBasicInfos(DataModel.watchlist);
+                    Gson gson = new Gson();
+                    SessionManager.editor.putString("WATCHLIST", gson.toJson(watchlistMovies));
+                    SessionManager.editor.commit();
+                    System.out.println(SessionManager.sharedPreferences.getString("WATCHLIST",null));
                     Toast.makeText(DetailsActivityNew.this, "Item Added to Watchlist", Toast.LENGTH_SHORT).show();
                 }
             });

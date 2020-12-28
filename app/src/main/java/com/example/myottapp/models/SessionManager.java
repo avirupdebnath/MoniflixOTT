@@ -12,8 +12,8 @@ import com.example.myottapp.UI.SettingActivity;
 import java.util.HashMap;
 
 public class SessionManager {
-    SharedPreferences sharedPreferences;
-    public SharedPreferences.Editor editor;
+    public static SharedPreferences sharedPreferences;
+    public static SharedPreferences.Editor editor;
     public Context context;
     int PRIVATE_MODE = 0;
 
@@ -22,6 +22,7 @@ public class SessionManager {
 //    public static final String NAME = "NAME";
     public static final String EMAIL = "EMAIL";
     public static final String ACCESS_TOKEN = "JWT Token";
+    public static final String WATCHLIST="WatchList";
 //    public static final String ID = "ID";
 
     public SessionManager(Context context) {

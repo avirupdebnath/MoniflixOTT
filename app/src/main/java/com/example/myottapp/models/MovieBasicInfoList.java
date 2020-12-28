@@ -3,9 +3,10 @@ package com.example.myottapp.models;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class MovieBasicInfoList {
+public class MovieBasicInfoList implements Serializable {
     private List<MovieBasicInfo> movieBasicInfos;
 
     public List<MovieBasicInfo> getMovieBasicInfos() {

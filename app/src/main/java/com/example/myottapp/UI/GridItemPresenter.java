@@ -25,8 +25,8 @@ public class GridItemPresenter extends Presenter {
     private int sDefaultBackgroundColor;
 
     GridItemPresenter(){
-        this.GRID_ITEM_HEIGHT=60;
-        this.GRID_ITEM_WIDTH=200;
+        this.GRID_ITEM_HEIGHT=70;
+        this.GRID_ITEM_WIDTH=120;
         sDefaultBackgroundColor = Color.TRANSPARENT;
     }
 

@@ -66,6 +66,7 @@ public class LoginActivity extends Activity {
             System.out.println(userSession.getAccessToken().getExpiration());
             CognitoSettings cognitoSettings = new CognitoSettings(LoginActivity.this);
             System.out.println("JWT Access Token: "+String.valueOf(userSession.getAccessToken().getJWTToken()));
+            System.out.println("JWT Access Token: "+String.valueOf(userSession.getIdToken().getJWTToken()));
             System.out.println("Name: "+String.valueOf(userSession.getUsername())+" token: "+userSession.getAccessToken()+" Refresh: "+userSession.getRefreshToken());
             userDetails = new UserDetails(userSession.getUsername(),userSession.getAccessToken().toString(),userSession.getRefreshToken().toString());
             sessionManager.createSession(cognitoSettings.getUserPool().getCurrentUser().getUserId(),userSession.getAccessToken().getJWTToken());
@@ -102,6 +103,7 @@ public class LoginActivity extends Activity {
             System.out.println("Error : "+exception.getLocalizedMessage());
             loginBtn.setVisibility(View.VISIBLE);
             progressBar.setVisibility(View.GONE);
+            Toast.makeText(LoginActivity.this,"Please enter valid email and password", Toast.LENGTH_LONG).show();
         }
     };
 

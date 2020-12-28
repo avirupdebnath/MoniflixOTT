@@ -21,6 +21,7 @@ public class SeriesActivity extends Activity {
         showCarousal();
         hideMovieDetails();
     }
+
     public void hideCarousal(){
         FrameLayout frameLayout=(FrameLayout)findViewById(R.id.carousal_frame);
         frameLayout.setVisibility(View.INVISIBLE);

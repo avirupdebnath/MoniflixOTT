@@ -58,13 +58,13 @@ public class MainActivity extends Activity {
         setContentView(R.layout.activity_main);
         showCarousal();
         hideMovieDetails();
-        BannerFragment.position=1;
         //collapseLanguageRow();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
+        BannerFragment.position=1;
         if(activityCreated!=1) {
             Intent intent = new Intent(this, MainActivity.class);
             startActivity(intent);
