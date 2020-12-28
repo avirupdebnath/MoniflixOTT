@@ -20,17 +20,12 @@
         android:gravity="center"
         android:orientation="vertical"
         android:background="@drawable/circulargradient"
-
         >
         <ImageView
-            android:layout_width="300dp"
+            android:layout_width="350dp"
             android:layout_height="150dp"
             android:src="@mipmap/ic_banner_foreground"
             />
-
-
-
-
         <TextView
             android:layout_width="300dp"
             android:layout_height="wrap_content"
@@ -86,7 +81,7 @@
             android:text="Login"
             android:layout_marginTop="10dp"
             android:textStyle="bold"
-            android:textSize="30sp"
+            android:textSize="24sp"
             android:background="@drawable/round_button"
             android:backgroundTint="@color/colorPrimary"
             />
