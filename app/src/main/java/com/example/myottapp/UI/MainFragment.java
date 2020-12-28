@@ -206,7 +206,9 @@ public class MainFragment extends RowsFragment {
             DataModel.watchlist= MovieBasicInfoList.parseJSON(SessionManager.sharedPreferences.getString("WATCHLIST",null)).getMovieBasicInfos();
             System.out.println("WATCHLIST: " + DataModel.watchlist.get(0).getId());
             createRow(rowCount++,"Watchlist",DataModel.watchlist);
-        }catch(Exception e){}
+        }catch(Exception e){
+            rowCount++;
+        }
 
     }
 
@@ -217,13 +219,13 @@ public class MainFragment extends RowsFragment {
     }
 
     public void loadUIElements(){
-        getCategories();  //loads movie rows on success of retrieving categories.
         getLanguagesList();
         loadLanguages();
         getWatchlist();
         getLatestMovies();
         getTopRatedMovies();
         getComingSoonMovies();
+        getCategories();  //loads movie rows on success of retrieving categories.
     }
 
     @Override
@@ -332,10 +334,10 @@ public class MainFragment extends RowsFragment {
                 HeaderItem headerItem=row.getHeaderItem();
                 int categoryID=0;
                 if(((MovieBasicInfo) item).getType()==1){
-                    categoryID =((int) headerItem.getId())-3;
+                    categoryID =((int) headerItem.getId())-4;
                 }
-                else if(((((MovieBasicInfo) item).getType()==1))){
-                    categoryID =((int)headerItem.getId())-(DataModel.CategoriesList).size()-3;
+                else if(((((MovieBasicInfo) item).getType()==2))){
+                    categoryID =((int)headerItem.getId())-(DataModel.CategoriesList).size()-4;
                 }
                 System.out.println(categoryID);
                 String categoryName=headerItem.getName();
