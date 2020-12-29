@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
@@ -95,8 +96,14 @@ public class RelatedItemsFragment extends RowsFragment {
                     updateUIByLanguage(DetailsActivityNew.movieBasicInfo.getType(),movie.getLanguageId());
                 }
             }
+            @Override
+            public void onError() {
+                ((DetailsActivityNew)getActivity()).refreshToken();
+            }
         }, DataModel.movieDetailsByIdURL+(DetailsActivityNew.movieBasicInfo.getId()),tag);
     }
+
+
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
@@ -131,6 +138,11 @@ public class RelatedItemsFragment extends RowsFragment {
                 MovieBasicInfoList movieBasicInfoList=MovieBasicInfoList.parseJSON("{movieBasicInfos:"+volleyRequest.getResponseString()+"}");
                 List<MovieBasicInfo> list = movieBasicInfoList.getMovieBasicInfos();
                 createRow(list);
+            }
+
+            @Override
+            public void onError() {
+
             }
         },DataModel.movieByfilterURL,params,tag);
     }

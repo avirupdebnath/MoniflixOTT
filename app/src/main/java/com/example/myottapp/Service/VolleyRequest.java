@@ -1,5 +1,7 @@
 package com.example.myottapp.Service;
 
+import android.content.Intent;
+
 import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
@@ -7,6 +9,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.example.myottapp.UI.DetailsActivityNew;
 import com.example.myottapp.VolleyCallback;
 import com.example.myottapp.models.DataModel;
 
@@ -20,6 +23,7 @@ import java.util.Map;
 public class VolleyRequest {
 
     private String responseString="";
+    private String errorString="";
     private static final int INITIAL_TIMEOUT=5*1000;
     private static final int MAX_RETRIES=2;
     private static final float BACKOFF_MULTIPLIER=1.0f;
@@ -27,7 +31,7 @@ public class VolleyRequest {
     public  String getResponseString() {
         return responseString;
     }
-
+    public String getErrorString(){return errorString;}
     public void sendJSONObjGetRequest(final VolleyCallback callback,String url,String tag){
         JsonObjectRequest req = new JsonObjectRequest(Request.Method.GET, url, null,
                 new Response.Listener<JSONObject>() {
@@ -40,7 +44,9 @@ public class VolleyRequest {
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
+                errorString="Error";
                 System.out.println("Error: "+ error.getMessage());
+                callback.onError();
             }
         }){
             @Override

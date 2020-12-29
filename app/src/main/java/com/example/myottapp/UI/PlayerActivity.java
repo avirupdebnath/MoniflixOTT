@@ -332,7 +332,6 @@ public class PlayerActivity extends Activity implements AdapterView.OnItemSelect
             releasePlayer();
             super.onBackPressed();
         }
-
     }
 
     @Override

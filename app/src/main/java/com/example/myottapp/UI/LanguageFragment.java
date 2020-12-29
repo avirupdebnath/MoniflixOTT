@@ -79,6 +79,11 @@ public class LanguageFragment extends RowsFragment {
                 List<MovieBasicInfo> list = movieBasicInfoList.getMovieBasicInfos();
                 createRow(contentTypeId,contentType,list);
             }
+
+            @Override
+            public void onError() {
+
+            }
         },DataModel.movieByfilterURL,params,tag);
     }
 

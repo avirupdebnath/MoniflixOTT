@@ -66,8 +66,6 @@ public class LoginActivity extends Activity {
             System.out.println(userSession.getAccessToken().getExpiration());
             CognitoSettings cognitoSettings = new CognitoSettings(LoginActivity.this);
             System.out.println("JWT Access Token: "+String.valueOf(userSession.getAccessToken().getJWTToken()));
-            System.out.println("JWT Access Token: "+String.valueOf(userSession.getIdToken().getJWTToken()));
-            System.out.println("Name: "+String.valueOf(userSession.getUsername())+" token: "+userSession.getAccessToken()+" Refresh: "+userSession.getRefreshToken());
             userDetails = new UserDetails(userSession.getUsername(),userSession.getAccessToken().toString(),userSession.getRefreshToken().toString());
             sessionManager.createSession(cognitoSettings.getUserPool().getCurrentUser().getUserId(),etPass.getText().toString().trim(),userSession.getAccessToken().getJWTToken());
             Intent intent = new Intent(LoginActivity.this, MainActivity.class);

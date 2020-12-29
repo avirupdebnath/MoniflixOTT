@@ -76,6 +76,11 @@ public class SearchFragment extends VerticalGridFragment {
                     List<MovieBasicInfo> movieBasicInfos = movieBasicInfoList.getMovieBasicInfos();
                     createRow(movieBasicInfos);
                 }
+
+                @Override
+                public void onError() {
+
+                }
             }, DataModel.searchURL + key, tag);
         }
     }

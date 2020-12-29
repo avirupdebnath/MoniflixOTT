@@ -50,6 +50,11 @@ public class CarousalFragment extends RowsFragment {
                 List<MovieBasicInfo> list = movieBasicInfoList.getMovieBasicInfos();
                 createRow(list);
             }
+
+            @Override
+            public void onError() {
+
+            }
         },DataModel.carousalURL+config,DataModel.carousalTAG);
     }
 

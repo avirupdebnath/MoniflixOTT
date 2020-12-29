@@ -32,6 +32,7 @@
                 <category android:name="android.intent.category.LEANBACK_LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".UI.TokenRefresherActivity"/>
         <activity android:name=".UI.SeriesActivity" />
         <activity android:name=".UI.MovieActivity"/>
         <activity android:name=".UI.LanguageActivity" />

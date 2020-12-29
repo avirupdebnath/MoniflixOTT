@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.VideoView;
@@ -63,14 +64,13 @@ public class DetailsActivityNew extends Activity {
     public Context mContext=this;
     public Movie movie;
     public static MovieBasicInfo movieBasicInfo;
-    public static ExoPlayer player=null;
+    public static ExoPlayer player;
     public static PlayerView exoPlayerView;
     /**
      * Called when the activity is first created.
      */
     @Override
     public void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
         fromPage=this.getIntent().getStringExtra("fromPage");
         movieBasicInfo = (MovieBasicInfo) this.getIntent().getSerializableExtra(DetailsActivityNew.MOVIE);
@@ -78,7 +78,6 @@ public class DetailsActivityNew extends Activity {
             relatedContent=this.getIntent().getIntExtra("relatedContent",0);
         }
         System.out.println("Related Content Value: "+relatedContent);
-
         setContentView(R.layout.details_activity_new);
         //getMovieDetails();
         showOnLoadPage();
@@ -95,15 +94,18 @@ public class DetailsActivityNew extends Activity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        releasePlayer();
     }
     public void releasePlayer(){
         if(player!=null){
-            player.stop();
             player.release();
         }
     }
 
+    @Override
+    public void onBackPressed() {
+        releasePlayer();
+        super.onBackPressed();
+    }
 
     void loadDetailsPage(Movie mSelectedMovie){
         if(mSelectedMovie!=null) {
@@ -263,9 +265,6 @@ public class DetailsActivityNew extends Activity {
 
     void playTrailer(String url){
         try {
-            if (player != null) {
-                player.release();
-            }
             player = ExoPlayerFactory.newSimpleInstance(this);
             exoPlayerView = (PlayerView) findViewById(R.id.trailer);
             DefaultBandwidthMeter bandwidthMeter = new DefaultBandwidthMeter();
@@ -303,4 +302,16 @@ public class DetailsActivityNew extends Activity {
 
     }
 
+    public void refreshToken(){
+        ProgressBar progressBar=findViewById(R.id.progress_bar);
+        Intent intent =new Intent(DetailsActivityNew.this,TokenRefresherActivity.class);
+        intent.putExtra(DetailsActivityNew.MOVIE, movieBasicInfo);
+        if(fromPage.equals("Main")){
+            intent.putExtra("relatedContent",relatedContent);
+        }
+        intent.putExtra("fromPage",fromPage);
+        progressBar.setVisibility(View.INVISIBLE);
+        this.startActivity(intent);
+        this.finish();
+    }
 }

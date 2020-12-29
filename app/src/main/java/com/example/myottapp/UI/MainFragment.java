@@ -148,6 +148,11 @@ public class MainFragment extends RowsFragment {
                 System.out.println(DataModel.CategoriesList);
                 loadMovieRows();
             }
+
+            @Override
+            public void onError() {
+
+            }
         },DataModel.movieCategoriesURL,"");
     }
 
@@ -161,6 +166,11 @@ public class MainFragment extends RowsFragment {
                 MovieBasicInfoList movieBasicInfoList=MovieBasicInfoList.parseJSON("{movieBasicInfos:"+volleyRequest.getResponseString()+"}");
                 List<MovieBasicInfo> list = movieBasicInfoList.getMovieBasicInfos();
                 createRow(rowID,categoryName,list);
+            }
+
+            @Override
+            public void onError() {
+
             }
         },DataModel.movieByfilterURL,params,tag);
     }
@@ -176,6 +186,11 @@ public class MainFragment extends RowsFragment {
                 MovieBasicInfoList movieBasicInfoList=MovieBasicInfoList.parseJSON("{movieBasicInfos:"+volleyRequest.getResponseString()+"}");
                 List<MovieBasicInfo> list = movieBasicInfoList.getMovieBasicInfos();
                 adapter.addAll(size+1,list);
+            }
+
+            @Override
+            public void onError() {
+
             }
         },DataModel.movieByfilterURL,params,tag);
     }
