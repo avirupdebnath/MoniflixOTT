@@ -54,6 +54,10 @@ public class MovieActivity extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_movies);
+
+        CarousalFragment carousalFragment=new CarousalFragment();
+        carousalFragment.setConfigId(3);
+
         showCarousal();
         hideMovieDetails();
         //collapseLanguageRow();

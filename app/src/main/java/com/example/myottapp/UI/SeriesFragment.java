@@ -256,10 +256,12 @@ public class SeriesFragment extends RowsFragment {
             if(rowsAdapter.indexOf(row)==0){
                 ((SeriesActivity)getActivity()).showCarousal();
                 ((SeriesActivity)getActivity()).hideMovieDetails();
+                ((SeriesActivity) getActivity()).collapseLanguageRow();
             }
             if(rowsAdapter.indexOf(row)==1){
                 ((SeriesActivity)getActivity()).hideCarousal();
                 ((SeriesActivity)getActivity()).showMovieDetails();
+                ((SeriesActivity) getActivity()).expandLanguageRow();
             }
             if (item instanceof MovieBasicInfo) {
                 ((SeriesActivity)getActivity()).setMovieName(((MovieBasicInfo) item).getTitle());

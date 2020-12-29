@@ -36,9 +36,11 @@ public class CarousalFragment extends RowsFragment {
     private BackgroundManager mBackgroundManager;
     private Drawable mDefaultBackground;
     private ArrayObjectAdapter mRowsAdapter;
-    public static MovieBasicInfoList movieBasicInfoList;
+    private int configId=1;
 
-    public static RequestQueue requestQueue;
+    public void setConfigId(int configId) {
+        this.configId = configId;
+    }
 
     public void getCarousal(int configId){
         String config=configId+"";
@@ -63,7 +65,7 @@ public class CarousalFragment extends RowsFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //requestQueue = Volley.newRequestQueue(getActivity().getApplicationContext());
-        getCarousal(1);
+        getCarousal(configId);
         setupEventListeners();
     }
 

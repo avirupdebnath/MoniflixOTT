@@ -56,7 +56,6 @@ public class LoginActivity extends Activity {
                 }
             }
         });
-
     }
     final AuthenticationHandler authenticationHandler = new AuthenticationHandler() {
         @Override
@@ -78,11 +77,8 @@ public class LoginActivity extends Activity {
         @Override
         public void getAuthenticationDetails(AuthenticationContinuation authenticationContinuation, String userId) {
             System.out.println("in getAuthentication");
-
             AuthenticationDetails authenticationDetails = new AuthenticationDetails(userId, etPass.getText().toString().trim(),null);
-
             authenticationContinuation.setAuthenticationDetails(authenticationDetails);
-
             authenticationContinuation.continueTask();
         }
 
@@ -113,7 +109,6 @@ public class LoginActivity extends Activity {
         thisUser.getSessionInBackground(authenticationHandler);
         //progressBar.setVisibility(View.GONE);
     }
-
 
     public boolean isValidEmailAddress(String email) {
         String ePattern = "^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\])|(([a-zA-Z\\-0-9]+\\.)+[a-zA-Z]{2,}))$";

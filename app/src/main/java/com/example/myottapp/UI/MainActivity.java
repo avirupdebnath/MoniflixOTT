@@ -56,6 +56,10 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         activityCreated=1;
         setContentView(R.layout.activity_main);
+
+        CarousalFragment carousalFragment=new CarousalFragment();
+        carousalFragment.setConfigId(1);
+
         showCarousal();
         hideMovieDetails();
         //collapseLanguageRow();

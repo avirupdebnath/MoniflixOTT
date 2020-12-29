@@ -22,7 +22,7 @@ public class DataModel {
     public static final String carousalTAG="Carousal";
 
 
-    public static String languageNames[]={"Kannada","Telugu","Malayalum","Tamil","Hindi","English","Korean","Russian"};
+    public static String languageNames[]={"Kannada","Telugu","Malayalam","Tamil","Hindi","English","Korean","Russian"};
 
     public static MovieBasicInfoList carousalItems=new MovieBasicInfoList();
 

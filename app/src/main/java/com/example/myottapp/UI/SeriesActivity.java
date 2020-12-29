@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -18,8 +19,27 @@ public class SeriesActivity extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_series);
+
+        CarousalFragment carousalFragment=new CarousalFragment();
+        carousalFragment.setConfigId(1);
+
         showCarousal();
         hideMovieDetails();
+    }
+
+    public void collapseLanguageRow(){
+        FrameLayout frameLayout=(FrameLayout)findViewById(R.id.browse_frame);
+        FrameLayout.LayoutParams layoutParams= (FrameLayout.LayoutParams) frameLayout.getLayoutParams();
+        layoutParams.height=400;
+        layoutParams.width= FrameLayout.LayoutParams.MATCH_PARENT;
+        layoutParams.gravity= Gravity.BOTTOM;
+    }
+    public void expandLanguageRow(){
+        FrameLayout frameLayout=(FrameLayout)findViewById(R.id.browse_frame);
+        FrameLayout.LayoutParams layoutParams= (FrameLayout.LayoutParams) frameLayout.getLayoutParams();
+        layoutParams.height=550;
+        layoutParams.width= FrameLayout.LayoutParams.MATCH_PARENT;
+        layoutParams.gravity=Gravity.BOTTOM;
     }
 
     public void hideCarousal(){
