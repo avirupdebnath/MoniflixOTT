@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.os.Bundle;
 
 import com.example.myottapp.R;
-import com.example.myottapp.models.Movie;
 
 /*
  * Details activity class that loads LeanbackDetailsFragment class

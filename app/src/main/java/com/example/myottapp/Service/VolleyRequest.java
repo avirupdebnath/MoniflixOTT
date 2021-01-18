@@ -1,7 +1,5 @@
 package com.example.myottapp.Service;
 
-import android.content.Intent;
-
 import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
@@ -9,8 +7,6 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
-import com.example.myottapp.UI.DetailsActivityNew;
-import com.example.myottapp.VolleyCallback;
 import com.example.myottapp.models.DataModel;
 
 import org.json.JSONArray;
@@ -24,7 +20,7 @@ public class VolleyRequest {
 
     private String responseString="";
     private String errorString="";
-    private static final int INITIAL_TIMEOUT=5*1000;
+    private static final int INITIAL_TIMEOUT=20*1000;
     private static final int MAX_RETRIES=2;
     private static final float BACKOFF_MULTIPLIER=1.0f;
 

@@ -2,10 +2,6 @@ package com.example.myottapp.models;
 
 import androidx.annotation.NonNull;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.annotations.SerializedName;
-
 import java.io.Serializable;
 
 public class Movie implements Serializable {

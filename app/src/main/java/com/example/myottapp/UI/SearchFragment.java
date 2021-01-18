@@ -1,42 +1,29 @@
 package com.example.myottapp.UI;
 
-import android.app.Fragment;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.EditText;
-import android.widget.FrameLayout;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
-import androidx.fragment.app.FragmentManager;
 import androidx.leanback.app.BackgroundManager;
 import androidx.leanback.app.VerticalGridFragment;
-import androidx.leanback.app.VerticalGridSupportFragment;
 import androidx.leanback.widget.ArrayObjectAdapter;
-import androidx.leanback.widget.BrowseFrameLayout;
-import androidx.leanback.widget.FocusHighlight;
-import androidx.leanback.widget.HeaderItem;
-import androidx.leanback.widget.ListRow;
 import androidx.leanback.widget.OnItemViewClickedListener;
 import androidx.leanback.widget.Presenter;
 import androidx.leanback.widget.Row;
 import androidx.leanback.widget.RowPresenter;
 import androidx.leanback.widget.VerticalGridPresenter;
+import androidx.leanback.widget.VerticalGridView;
 
 import com.example.myottapp.R;
 import com.example.myottapp.Service.VolleyRequest;
-import com.example.myottapp.VolleyCallback;
+import com.example.myottapp.Service.VolleyCallback;
 import com.example.myottapp.models.DataModel;
-import com.example.myottapp.models.Movie;
 import com.example.myottapp.models.MovieBasicInfo;
 import com.example.myottapp.models.MovieBasicInfoList;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 
 import java.util.Collection;
 import java.util.Iterator;
@@ -53,8 +40,19 @@ public class SearchFragment extends VerticalGridFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        VerticalGridPresenter gridPresenter = new VerticalGridPresenter();
-        gridPresenter.setNumberOfColumns(3);
+        VerticalGridPresenter gridPresenter = new VerticalGridPresenter(){
+            @Override
+            protected void initializeGridViewHolder(ViewHolder vh) {
+                super.initializeGridViewHolder(vh);
+                VerticalGridView gridView = vh.getGridView();
+                int top= 200;//this is the new value for top padding
+                int bottom = 10;
+                int right = 10;
+                int left = 100;
+                gridView.setPadding(left,top,right,bottom);
+            }
+        };
+        gridPresenter.setNumberOfColumns(4);
         setGridPresenter(gridPresenter);
         //CustomListRowPresenter listRowPresenter = new CustomListRowPresenter(FocusHighlight.ZOOM_FACTOR_SMALL, position);
         //listRowPresenter.setShadowEnabled(false);
@@ -94,7 +92,7 @@ public class SearchFragment extends VerticalGridFragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        setTitle("Search Results");
+        //setTitle("Search Results");
         }
 
     public void createRow(List<MovieBasicInfo> list){

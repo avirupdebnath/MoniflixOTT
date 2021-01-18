@@ -7,7 +7,6 @@ package com.example.myottapp.UI;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
@@ -21,7 +20,6 @@ import com.amazonaws.mobileconnectors.cognitoidentityprovider.continuations.Chal
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.continuations.MultiFactorAuthenticationContinuation;
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.handlers.AuthenticationHandler;
 import com.example.myottapp.R;
-import com.example.myottapp.models.DataModel;
 import com.example.myottapp.models.MovieBasicInfo;
 import com.example.myottapp.models.SessionManager;
 

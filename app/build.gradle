@@ -7,7 +7,7 @@ android {
 
     defaultConfig {
         applicationId "com.example.myottapp"
-        minSdkVersion 21
+        minSdkVersion 22
         targetSdkVersion 29
         versionCode 1
         versionName "1.0"
@@ -46,6 +46,6 @@ dependencies {
     implementation 'androidx.cardview:cardview:1.0.0'
 
     //AWS-Cognito
-    implementation 'com.amazonaws:aws-android-sdk-cognitoidentityprovider:2.6.3'
-    implementation 'com.amazonaws:aws-android-sdk-core:2.6.3'
+    implementation 'com.amazonaws:aws-android-sdk-cognitoidentityprovider:2.20.1'
+    implementation 'com.amazonaws:aws-android-sdk-core:2.20.1'
 }

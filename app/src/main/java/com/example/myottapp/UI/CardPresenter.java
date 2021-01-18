@@ -1,20 +1,16 @@
 package com.example.myottapp.UI;
 
-import android.content.Context;
 import android.graphics.drawable.Drawable;
 
 import androidx.leanback.widget.ImageCardView;
 import androidx.leanback.widget.Presenter;
 import androidx.core.content.ContextCompat;
 
-import android.net.Uri;
 import android.util.Log;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.example.myottapp.R;
-import com.example.myottapp.models.Movie;
 import com.example.myottapp.models.MovieBasicInfo;
 
 /*

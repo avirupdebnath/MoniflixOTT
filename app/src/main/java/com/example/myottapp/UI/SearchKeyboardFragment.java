@@ -4,7 +4,6 @@ import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.FrameLayout;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -12,13 +11,12 @@ import androidx.core.content.ContextCompat;
 import androidx.leanback.app.BackgroundManager;
 import androidx.leanback.app.VerticalGridFragment;
 import androidx.leanback.widget.ArrayObjectAdapter;
-import androidx.leanback.widget.FocusHighlight;
-import androidx.leanback.widget.ListRowPresenter;
 import androidx.leanback.widget.OnItemViewClickedListener;
 import androidx.leanback.widget.Presenter;
 import androidx.leanback.widget.Row;
 import androidx.leanback.widget.RowPresenter;
 import androidx.leanback.widget.VerticalGridPresenter;
+import androidx.leanback.widget.VerticalGridView;
 
 import com.example.myottapp.R;
 
@@ -33,7 +31,18 @@ public class SearchKeyboardFragment extends VerticalGridFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        VerticalGridPresenter gridPresenter = new VerticalGridPresenter();
+        VerticalGridPresenter gridPresenter = new VerticalGridPresenter(){
+            @Override
+            protected void initializeGridViewHolder(ViewHolder vh) {
+                super.initializeGridViewHolder(vh);
+                VerticalGridView gridView = vh.getGridView();
+                int top= 370;//this is the new value for top padding
+                int bottom = 10;
+                int right = 5;
+                int left = 110;
+                gridView.setPadding(left,top,right,bottom);
+            }
+        };
         gridPresenter.setNumberOfColumns(6);
         setGridPresenter(gridPresenter);
         searchKey="";

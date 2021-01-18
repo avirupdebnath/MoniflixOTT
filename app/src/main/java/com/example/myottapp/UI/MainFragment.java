@@ -2,30 +2,17 @@ package com.example.myottapp.UI;
 
 import android.app.Fragment;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.cardview.widget.CardView;
 import androidx.leanback.app.BackgroundManager;
-import androidx.leanback.app.BrowseFragment;
 import androidx.leanback.app.RowsFragment;
-import androidx.leanback.app.RowsSupportFragment;
 import androidx.leanback.widget.ArrayObjectAdapter;
-import androidx.leanback.widget.BrowseFrameLayout;
 import androidx.leanback.widget.FocusHighlight;
 import androidx.leanback.widget.HeaderItem;
-import androidx.leanback.widget.ImageCardView;
 import androidx.leanback.widget.ListRow;
 import androidx.leanback.widget.ListRowPresenter;
 import androidx.leanback.widget.OnItemViewClickedListener;
@@ -33,55 +20,29 @@ import androidx.leanback.widget.OnItemViewSelectedListener;
 import androidx.leanback.widget.Presenter;
 import androidx.leanback.widget.Row;
 import androidx.leanback.widget.RowPresenter;
-import androidx.core.app.ActivityOptionsCompat;
 import androidx.core.content.ContextCompat;
 
-import android.provider.ContactsContract;
 import android.util.DisplayMetrics;
 import android.util.Log;
-import android.util.TypedValue;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.FrameLayout;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
-import com.android.volley.DefaultRetryPolicy;
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.VolleyLog;
-import com.android.volley.toolbox.JsonArrayRequest;
-import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.Volley;
 import com.example.myottapp.R;
-import com.example.myottapp.Service.ApplicationController;
-import com.example.myottapp.Service.CustomRequest;
 import com.example.myottapp.Service.VolleyRequest;
-import com.example.myottapp.VolleyCallback;
-import com.example.myottapp.extras.Processor;
+import com.example.myottapp.Service.VolleyCallback;
 import com.example.myottapp.models.AllCategoriesList;
 import com.example.myottapp.models.AllLanguagesList;
 import com.example.myottapp.models.Category;
 import com.example.myottapp.models.DataModel;
 import com.example.myottapp.models.Language;
-import com.example.myottapp.models.Movie;
 import com.example.myottapp.models.MovieBasicInfo;
 import com.example.myottapp.models.MovieBasicInfoList;
-import com.example.myottapp.models.MovieList;
 import com.example.myottapp.models.SessionManager;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonObject;
 
-import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Timer;
 
@@ -131,9 +92,8 @@ public class MainFragment extends RowsFragment {
         //for(int n=0;n<staticLanguageList.size();n++){
         //    languagesRowAdapter.add(staticLanguageList.get(n));
         //}
-        int rowNo=rowCount++;
-        languagesRowAdapter.addAll(rowNo,staticLanguageList);
-        HeaderItem headerItem=new HeaderItem(rowNo,"Languages");
+        languagesRowAdapter.addAll(0,staticLanguageList);
+        HeaderItem headerItem=new HeaderItem(0,"Languages");
         rowsAdapter.add(new ListRow(headerItem, languagesRowAdapter));
         setAdapter(rowsAdapter);
     }
@@ -156,6 +116,25 @@ public class MainFragment extends RowsFragment {
         },DataModel.movieCategoriesURL,"");
     }
 
+    public void getMovies(String categoryName,int filterKey, int filterValue, int pageNo, int pageSize){
+        String tag=categoryName;
+        VolleyRequest volleyRequest=new VolleyRequest();
+        JSONObject params= volleyRequest.paramsObjectBuilder(1,filterKey,filterValue,pageNo,pageSize);
+        volleyRequest.sendPostRequest(new VolleyCallback() {
+            @Override
+            public void onSuccess() {
+                MovieBasicInfoList movieBasicInfoList=MovieBasicInfoList.parseJSON("{movieBasicInfos:"+volleyRequest.getResponseString()+"}");
+                List<MovieBasicInfo> list = movieBasicInfoList.getMovieBasicInfos();
+                createRow(filterValue+4,categoryName,list);
+            }
+
+            @Override
+            public void onError() {
+
+            }
+        },DataModel.movieByfilterURL,params,tag);
+    }
+
     public void getMovies(String categoryName,int filterKey, int filterValue, int pageNo, int pageSize,int rowID){
         String tag=categoryName;
         VolleyRequest volleyRequest=new VolleyRequest();
@@ -167,7 +146,6 @@ public class MainFragment extends RowsFragment {
                 List<MovieBasicInfo> list = movieBasicInfoList.getMovieBasicInfos();
                 createRow(rowID,categoryName,list);
             }
-
             @Override
             public void onError() {
 
@@ -177,7 +155,9 @@ public class MainFragment extends RowsFragment {
 
     private void addInfiniteMovies(ArrayObjectAdapter adapter, int categoryId, int size){
         String tag="";
-        int pageNo=size/10;
+        int pageNo=(size+10)/10;
+        pageNo+=1;
+        System.out.println("PageNo.: "+pageNo);
         VolleyRequest volleyRequest=new VolleyRequest();
         JSONObject params= volleyRequest.paramsObjectBuilder(1,3,categoryId,pageNo,10);
         volleyRequest.sendPostRequest(new VolleyCallback() {
@@ -195,32 +175,32 @@ public class MainFragment extends RowsFragment {
         },DataModel.movieByfilterURL,params,tag);
     }
 
-    public void createRow(int rowID, String headerName, List<MovieBasicInfo> list){
+    public void createRow(int categoryId, String headerName, List<MovieBasicInfo> list){
         CardPresenter cardPresenter=new CardPresenter();
         ArrayObjectAdapter categoryRowAdapter=new ArrayObjectAdapter(cardPresenter);
         //for(int i=0;i<list.size();i++)
             //categoryRowAdapter.add(list.get(i));
         categoryRowAdapter.addAll(0,list);
-        HeaderItem headerItem=new HeaderItem(rowID,headerName);
+        HeaderItem headerItem=new HeaderItem(categoryId,headerName);
         if(list.size()!=0) {
             rowsAdapter.add(new ListRow(headerItem, categoryRowAdapter));
             setAdapter(rowsAdapter);
         }
     }
     public void getComingSoonMovies(){
-        getMovies("Coming Soon",5,0,0,10,rowCount++);
+        getMovies("Coming Soon",5,0,1,10,2);
     }
     public void getLatestMovies(){
-        getMovies("Latest Movies",4,0,0,10,rowCount++);
+        getMovies("Latest Movies",4,0,1,10,3);
     }
     public void getTopRatedMovies(){
-        getMovies("Top Rated Movies",6,0,0,10,rowCount++);
+        getMovies("Top Rated Movies",6,0,1,10,4);
     }
     public void getWatchlist(){
         try {
             DataModel.watchlist= MovieBasicInfoList.parseJSON(SessionManager.sharedPreferences.getString("WATCHLIST",null)).getMovieBasicInfos();
             System.out.println("WATCHLIST: " + DataModel.watchlist.get(0).getId());
-            createRow(rowCount++,"Watchlist",DataModel.watchlist);
+            createRow(1,"Watchlist",DataModel.watchlist);
         }catch(Exception e){
             rowCount++;
         }
@@ -229,7 +209,7 @@ public class MainFragment extends RowsFragment {
 
     public void loadMovieRows(){
         for(Category c: DataModel.CategoriesList){
-            getMovies(c.getName(),3,c.getId(),0,10,rowCount++);
+            getMovies(c.getName(),3,c.getId(),1,10);
         }
     }
 
@@ -269,7 +249,7 @@ public class MainFragment extends RowsFragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        prepareBackgroundManager();
+            prepareBackgroundManager();
     }
 
     private void prepareBackgroundManager () {
@@ -364,10 +344,17 @@ public class MainFragment extends RowsFragment {
                 //Code for updating images and description
                 ((MainActivity)getActivity()).setMovieName(((MovieBasicInfo) item).getTitle());
                 //((MainActivity)getActivity()).setMovieLanguage(((MovieBasicInfo) item).getLanguageName());
-                //((MainActivity)getActivity()).setMovieDescription(((MovieBasicInfo) item).getDescription());
-                //((MainActivity)getActivity()).setMovieRuntime(((MovieBasicInfo) item).getRunTime());
+                String description=((MovieBasicInfo) item).getDescription();
+                if ((description.length() <= 303)) {
+                    ((MainActivity) getActivity()).setMovieDescription(description);
+                } else {
+                    ((MainActivity) getActivity()).setMovieDescription(description.substring(0, 300) + "...");
+                }
+
+                ((MainActivity)getActivity()).setMovieRuntime(((MovieBasicInfo) item).getRunTime());
                 ((MainActivity)getActivity()).setMoviePoster(((MovieBasicInfo) item).getPosterUrl());
-                //((MainActivity)getActivity()).setMovieAgeRestriction(((MovieBasicInfo) item).getAgeRestriction());
+                ((MainActivity)getActivity()).setYearOfProduction(((MovieBasicInfo) item).getYearOfProduction());
+                ((MainActivity)getActivity()).setMovieAgeRestriction(((MovieBasicInfo) item).getAgeRestriction()+"+");
 
             }
             //if (item instanceof Movie) {

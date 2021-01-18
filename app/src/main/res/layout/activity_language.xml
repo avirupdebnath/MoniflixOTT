@@ -53,6 +53,8 @@
                 android:textColor="@color/white"
                 android:textSize="40sp"></TextView>
 
+
+<!--
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -70,6 +72,7 @@
                     android:text="Japanese"
                     android:textSize="12sp"></TextView>
             </LinearLayout>
+-->
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

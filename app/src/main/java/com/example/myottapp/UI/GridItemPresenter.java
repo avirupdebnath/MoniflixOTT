@@ -1,22 +1,16 @@
 package com.example.myottapp.UI;
 
-import android.content.Context;
 import android.graphics.Color;
-import android.graphics.drawable.Drawable;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatTextView;
 import androidx.core.content.ContextCompat;
 import androidx.leanback.widget.Presenter;
-import androidx.leanback.widget.VerticalGridPresenter;
 
 import com.example.myottapp.R;
-import com.example.myottapp.models.DataModel;
 
 public class GridItemPresenter extends Presenter {
     public int GRID_ITEM_WIDTH;

@@ -1,7 +1,5 @@
 package com.example.myottapp.extras;
 
-import com.example.myottapp.extras.Movie;
-
 import java.util.ArrayList;
 import java.util.List;
 

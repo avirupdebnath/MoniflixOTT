@@ -55,24 +55,27 @@
                 android:text="Movie Name"
                 android:textColor="@color/white"
                 android:textSize="40sp"></TextView>
+            <!--
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="50dp"
 
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="50dp"
+                    android:layout_marginBottom="5dp"
+                    android:orientation="horizontal">
 
-            android:layout_marginBottom="5dp"
-            android:orientation="horizontal">
-            <TextView
-                android:id="@+id/movie_language"
-                android:textColor="@color/white"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentTop="true"
-                android:layout_marginEnd="10dp"
-                android:text="Japanese"
-                android:textSize="12sp"></TextView>
+                    <TextView
+                        android:id="@+id/movie_language"
+                        android:textColor="@color/white"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentTop="true"
+                        android:layout_marginEnd="10dp"
+                        android:text="Japanese"
+                        android:textSize="12sp"></TextView>
+
         </LinearLayout>
+        -->
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -97,7 +100,7 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentTop="true"
                     android:layout_marginEnd="10dp"
-                    android:text="2020"
+                    android:text="2019"
                     android:textSize="12sp"></TextView>
 
                 <TextView
@@ -189,6 +192,40 @@
             android:name="com.example.myottapp.UI.MainFragment"
             android:layout_height="match_parent"
             android:layout_width="match_parent" />
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/load_frame"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/default_background">
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginBottom="5dp"
+            android:focusable="false"
+            android:background="@color/transpo">
+            <ImageView
+                android:id="@+id/imageLogo_onload"
+                android:layout_marginLeft="45dp"
+                android:layout_width="100dp"
+                android:layout_height="50dp"
+                android:layout_gravity="left"
+                android:src="@mipmap/ic_banner_foreground"
+                android:focusable="false"
+                android:focusableInTouchMode="false"/>
+        </FrameLayout>
+        <ProgressBar
+            android:id="@+id/progress_bar"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_gravity="center"
+            android:indeterminate="true"
+            android:indeterminateTintMode="src_atop"
+            android:indeterminateTint="@color/colorPrimary">
+        </ProgressBar>
     </FrameLayout>
 </FrameLayout>
 

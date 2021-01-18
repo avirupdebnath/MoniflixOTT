@@ -2,29 +2,69 @@ package com.example.myottapp.UI;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Path;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+
 import com.bumptech.glide.Glide;
 import com.example.myottapp.R;
+import com.example.myottapp.models.DataModel;
 
 public class SeriesActivity extends Activity {
     public Context mContext=this;
+    public static int row=0;
+    public static int maxRow;
+    public CarousalFragment carousalFragment;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_series);
 
-        CarousalFragment carousalFragment=new CarousalFragment();
-        carousalFragment.setConfigId(1);
+        DataModel.refreshTokenCount=0;
+
+        CarousalFragment carousalFragment= (CarousalFragment) getFragmentManager().findFragmentById(R.id.carousal_fragment);
+        carousalFragment.getCarousal(3,"Series");
 
         showCarousal();
         hideMovieDetails();
+    }
+/*
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_DPAD_UP) {
+            if (row == 2) {
+                hideMovieDetails();
+                showCarousal();
+                row--;
+            }
+            else if (row > 0) row--;
+        } else if (keyCode == KeyEvent.KEYCODE_DPAD_DOWN) {
+            if (row == 1) {
+                hideCarousal();
+                showMovieDetails();
+            }
+            if (row != maxRow + 1) row++;
+        }
+        System.out.println(row);
+        return super.onKeyDown(keyCode, event);
+    }
+
+*/
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        DataModel.refreshTokenCount=0;
     }
 
     public void collapseLanguageRow(){
@@ -63,10 +103,13 @@ public class SeriesActivity extends Activity {
         TextView movieName=(TextView) findViewById(R.id.movie_name);
         movieName.setText(s);
     }
+    /*
     void setMovieLanguage(String s){
         TextView movieLanguage=(TextView) findViewById(R.id.movie_language);
         movieLanguage.setText(s);
     }
+
+     */
     void setMovieAgeRestriction(String s){
         TextView movieAge=(TextView) findViewById(R.id.movie_age);
         movieAge.setText(s);
@@ -89,6 +132,22 @@ public class SeriesActivity extends Activity {
                 .centerCrop()
                 .into(moviePoster);
     }
+    void setYearOfProduction(int year){
+        String yearOfProduction=year+"";
+        TextView prodYear=findViewById(R.id.yearOfProduction);
+        prodYear.setText(yearOfProduction);
+    }
+
+    void showOnLoadPage(){
+        FrameLayout frameLayout=(FrameLayout)findViewById(R.id.load_frame);
+        frameLayout.setVisibility(View.VISIBLE);
+    }
+
+    void hideOnLoadPage() {
+        FrameLayout frameLayout=(FrameLayout)findViewById(R.id.load_frame);
+        frameLayout.setVisibility(View.INVISIBLE);
+    }
+
 
 
 }

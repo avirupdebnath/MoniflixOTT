@@ -3,7 +3,6 @@ package com.example.myottapp.UI;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
@@ -13,14 +12,11 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.VideoView;
 
 import androidx.appcompat.widget.AppCompatButton;
 
 import com.bumptech.glide.Glide;
 import com.example.myottapp.R;
-import com.example.myottapp.Service.VolleyRequest;
-import com.example.myottapp.VolleyCallback;
 import com.example.myottapp.models.CastAndCrewInfo;
 import com.example.myottapp.models.CategoryInfo;
 import com.example.myottapp.models.DataModel;
@@ -34,23 +30,12 @@ import com.google.android.exoplayer2.Player;
 import com.google.android.exoplayer2.source.MediaSource;
 import com.google.android.exoplayer2.source.MergingMediaSource;
 import com.google.android.exoplayer2.source.hls.HlsMediaSource;
-import com.google.android.exoplayer2.trackselection.AdaptiveTrackSelection;
-import com.google.android.exoplayer2.trackselection.DefaultTrackSelector;
-import com.google.android.exoplayer2.trackselection.TrackSelection;
-import com.google.android.exoplayer2.trackselection.TrackSelector;
 import com.google.android.exoplayer2.ui.PlayerView;
-import com.google.android.exoplayer2.upstream.BandwidthMeter;
 import com.google.android.exoplayer2.upstream.DataSource;
 import com.google.android.exoplayer2.upstream.DefaultBandwidthMeter;
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;
 import com.google.android.exoplayer2.util.Util;
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import static android.view.View.VISIBLE;
 
 /*
  * Details activity class that loads LeanbackDetailsFragment class
@@ -116,13 +101,13 @@ public class DetailsActivityNew extends Activity {
             setMovieAgeRestriction(mSelectedMovie.getAgeRestriction());
             setMovieDescription(mSelectedMovie.getDescription());
             setMovieLanguage(mSelectedMovie.getLanguageName());
-            setMoviePoster(mSelectedMovie.getPoster().getUrl());
             setMovieRuntime(mSelectedMovie.getRunTime());
             setMovieCast(mSelectedMovie.getCastAndCrewInfo());
             setYearOfProduction(mSelectedMovie.getYearOfProduction());
             setMovieGenre(mSelectedMovie.getCategoryInfo());
             try {
-                playTrailer(mSelectedMovie.getTrailer().getUrl().getHls_High());
+                setMoviePoster(mSelectedMovie.getPoster().getUrl());
+                playTrailer(mSelectedMovie.getTrailer().getUrl().getHls_Low());
             }catch (Exception e){
                 hideTrailerVideoFrame();
                 showPosterFrame();
@@ -182,9 +167,13 @@ public class DetailsActivityNew extends Activity {
         TextView movieAge=(TextView) findViewById(R.id.movie_age);
         movieAge.setText(s+"+");
     }
-    void setMovieDescription(String s){
+    void setMovieDescription(String description){
         TextView movieDescription=(TextView) findViewById(R.id.movie_desrciption);
-        movieDescription.setText(s);
+        if ((description.length() <= 303)) {
+            movieDescription.setText(description);
+        } else {
+            movieDescription.setText(description.substring(0, 300) + "...");
+        }
     }
     void setMovieRuntime(int n){
         TextView movieTime=(TextView) findViewById(R.id.movie_time);
@@ -227,10 +216,10 @@ public class DetailsActivityNew extends Activity {
         d.setVisibility(View.VISIBLE);
         c.setVisibility(View.VISIBLE);
         if(directors.equals("")) {
-            d.setVisibility(View.INVISIBLE);
+            d.setVisibility(View.GONE);
         }
         if(actors.equals("")){
-            c.setVisibility(View.INVISIBLE);
+            c.setVisibility(View.GONE);
         }
     }
     void setMovieGenre(CategoryInfo[] categoryInfos){
@@ -275,7 +264,8 @@ public class DetailsActivityNew extends Activity {
                     Util.getUserAgent(this, getString(R.string.app_name)), bandwidthMeter);
             MediaSource videoSource = new HlsMediaSource.Factory(dataSourceFactory)
                     .createMediaSource(Uri.parse(url));
-            player.prepare(videoSource);
+            MergingMediaSource mergedSource= new MergingMediaSource(videoSource);
+            player.prepare(mergedSource);
             player.addListener(new Player.DefaultEventListener() {
                 @Override
                 public void onPlayerStateChanged(boolean playWhenReady, int playbackState) {
@@ -302,16 +292,20 @@ public class DetailsActivityNew extends Activity {
 
     }
 
-    public void refreshToken(){
-        ProgressBar progressBar=findViewById(R.id.progress_bar);
-        Intent intent =new Intent(DetailsActivityNew.this,TokenRefresherActivity.class);
-        intent.putExtra(DetailsActivityNew.MOVIE, movieBasicInfo);
-        if(fromPage.equals("Main")){
-            intent.putExtra("relatedContent",relatedContent);
+    public void refreshToken() {
+        ProgressBar progressBar = findViewById(R.id.progress_bar);
+        if (DataModel.refreshTokenCount == 0) {
+            Intent intent = new Intent(DetailsActivityNew.this, TokenRefresherActivity.class);
+            intent.putExtra(DetailsActivityNew.MOVIE, movieBasicInfo);
+            if (fromPage.equals("Main")) {
+                intent.putExtra("relatedContent", relatedContent);
+            }
+            intent.putExtra("fromPage", fromPage);
+            DataModel.refreshTokenCount = 1;
+            progressBar.setVisibility(View.INVISIBLE);
+            this.startActivity(intent);
+            this.finish();
         }
-        intent.putExtra("fromPage",fromPage);
-        progressBar.setVisibility(View.INVISIBLE);
-        this.startActivity(intent);
-        this.finish();
+        else progressBar.setVisibility(View.INVISIBLE);
     }
 }

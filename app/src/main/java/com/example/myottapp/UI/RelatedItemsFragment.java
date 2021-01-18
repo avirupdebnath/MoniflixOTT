@@ -2,28 +2,19 @@ package com.example.myottapp.UI;
 
 import android.app.Fragment;
 import android.content.Intent;
-import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.provider.Settings;
-import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.View;
-import android.widget.AbsListView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.core.app.ActivityOptionsCompat;
 import androidx.core.content.ContextCompat;
 import androidx.leanback.app.BackgroundManager;
 import androidx.leanback.app.RowsFragment;
 import androidx.leanback.widget.ArrayObjectAdapter;
-import androidx.leanback.widget.BaseOnItemViewSelectedListener;
 import androidx.leanback.widget.FocusHighlight;
 import androidx.leanback.widget.HeaderItem;
-import androidx.leanback.widget.ImageCardView;
 import androidx.leanback.widget.ListRow;
 import androidx.leanback.widget.ListRowPresenter;
 import androidx.leanback.widget.OnItemViewClickedListener;
@@ -32,12 +23,9 @@ import androidx.leanback.widget.Presenter;
 import androidx.leanback.widget.Row;
 import androidx.leanback.widget.RowPresenter;
 
-import com.android.volley.RequestQueue;
-import com.android.volley.toolbox.Volley;
 import com.example.myottapp.R;
 import com.example.myottapp.Service.VolleyRequest;
-import com.example.myottapp.VolleyCallback;
-import com.example.myottapp.extras.MovieList;
+import com.example.myottapp.Service.VolleyCallback;
 import com.example.myottapp.models.DataModel;
 import com.example.myottapp.models.Movie;
 import com.example.myottapp.models.MovieBasicInfo;
@@ -47,12 +35,9 @@ import com.google.gson.GsonBuilder;
 
 import org.json.JSONObject;
 
-import java.util.Collections;
 import java.util.List;
 
-import static com.example.myottapp.UI.DetailsActivityNew.fromPage;
 import static com.example.myottapp.UI.DetailsActivityNew.player;
-import static com.example.myottapp.UI.MainFragment.moviesList;
 
 public class RelatedItemsFragment extends RowsFragment {
     private BackgroundManager mBackgroundManager;

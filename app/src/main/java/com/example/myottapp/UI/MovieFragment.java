@@ -2,29 +2,17 @@ package com.example.myottapp.UI;
 
 import android.app.Fragment;
 import android.content.Intent;
-import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.cardview.widget.CardView;
 import androidx.leanback.app.BackgroundManager;
-import androidx.leanback.app.BrowseFragment;
 import androidx.leanback.app.RowsFragment;
-import androidx.leanback.app.RowsSupportFragment;
 import androidx.leanback.widget.ArrayObjectAdapter;
-import androidx.leanback.widget.BrowseFrameLayout;
 import androidx.leanback.widget.FocusHighlight;
 import androidx.leanback.widget.HeaderItem;
-import androidx.leanback.widget.ImageCardView;
 import androidx.leanback.widget.ListRow;
 import androidx.leanback.widget.ListRowPresenter;
 import androidx.leanback.widget.OnItemViewClickedListener;
@@ -32,35 +20,17 @@ import androidx.leanback.widget.OnItemViewSelectedListener;
 import androidx.leanback.widget.Presenter;
 import androidx.leanback.widget.Row;
 import androidx.leanback.widget.RowPresenter;
-import androidx.core.app.ActivityOptionsCompat;
 import androidx.core.content.ContextCompat;
 
-import android.provider.ContactsContract;
 import android.util.DisplayMetrics;
 import android.util.Log;
-import android.util.TypedValue;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.FrameLayout;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
-import com.android.volley.DefaultRetryPolicy;
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.VolleyLog;
-import com.android.volley.toolbox.JsonArrayRequest;
-import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.Volley;
 import com.example.myottapp.R;
-import com.example.myottapp.Service.ApplicationController;
-import com.example.myottapp.Service.CustomRequest;
 import com.example.myottapp.Service.VolleyRequest;
-import com.example.myottapp.VolleyCallback;
-import com.example.myottapp.extras.Processor;
+import com.example.myottapp.Service.VolleyCallback;
 import com.example.myottapp.models.AllCategoriesList;
 import com.example.myottapp.models.AllLanguagesList;
 import com.example.myottapp.models.Category;
@@ -69,17 +39,10 @@ import com.example.myottapp.models.Language;
 import com.example.myottapp.models.Movie;
 import com.example.myottapp.models.MovieBasicInfo;
 import com.example.myottapp.models.MovieBasicInfoList;
-import com.example.myottapp.models.MovieList;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonObject;
 
-import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Timer;
 
@@ -336,11 +299,17 @@ public class MovieFragment extends RowsFragment {
 
                 //Code for updating images and description
                 ((MovieActivity)getActivity()).setMovieName(((MovieBasicInfo) item).getTitle());
-                //((MainActivity)getActivity()).setMovieLanguage(((MovieBasicInfo) item).getLanguageName());
-                //((MainActivity)getActivity()).setMovieDescription(((MovieBasicInfo) item).getDescription());
-                //((MainActivity)getActivity()).setMovieRuntime(((MovieBasicInfo) item).getRunTime());
+                //((MovieActivity)getActivity()).setMovieLanguage(((MovieBasicInfo) item).getLanguageName());
+                String description=((MovieBasicInfo) item).getDescription();
+                if ((description.length() <= 303)) {
+                    ((MovieActivity) getActivity()).setMovieDescription(description);
+                } else {
+                    ((MovieActivity) getActivity()).setMovieDescription(description.substring(0, 300) + "...");
+                }
+                ((MovieActivity)getActivity()).setMovieRuntime(((MovieBasicInfo) item).getRunTime());
                 ((MovieActivity)getActivity()).setMoviePoster(((MovieBasicInfo) item).getPosterUrl());
-                //((MainActivity)getActivity()).setMovieAgeRestriction(((MovieBasicInfo) item).getAgeRestriction());
+                ((MovieActivity)getActivity()).setYearOfProduction(((MovieBasicInfo) item).getYearOfProduction());
+                ((MovieActivity)getActivity()).setMovieAgeRestriction(((MovieBasicInfo) item).getAgeRestriction()+"+");
 
             }
             //if (item instanceof Movie) {

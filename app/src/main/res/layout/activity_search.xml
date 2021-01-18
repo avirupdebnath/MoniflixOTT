@@ -12,7 +12,7 @@
     android:descendantFocusability="afterDescendants"
     android:background="@color/background_gradient_start">
     <LinearLayout
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:layout_marginTop="20dp"
@@ -22,10 +22,30 @@
             android:layout_width="300dp"
             android:id="@+id/search_key"
             android:layout_height="40dp"
-            android:layout_marginTop="70dp"
+            android:layout_marginTop="80dp"
             android:text=" Search For Movies, Series..."
             android:gravity="center_vertical"
             android:background="@drawable/white_border"
+            android:padding="5dp"
+            android:textColor="@color/white">
+        </TextView>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_gravity="right"
+        android:background="@drawable/text_black_to_transparent_shade">
+
+        <TextView
+            android:id="@+id/SearchResultsFor"
+            android:layout_width="450dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_marginRight="100dp"
+            android:gravity="center_vertical"
+            android:textSize="30sp"
+            android:layout_gravity="left"
             android:padding="5dp"
             android:textColor="@color/white">
         </TextView>
@@ -36,7 +56,7 @@
         android:layout_height="match_parent">
         <LinearLayout
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="vertical">
 
             <fragment
@@ -49,7 +69,7 @@
         <fragment
             android:id="@+id/search_fragment"
             android:name="com.example.myottapp.UI.SearchFragment"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
 
@@ -70,6 +90,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="5dp"
             android:text="|"
+            android:textColor="@color/white"
             android:layout_gravity="center_vertical"
             android:textSize="35sp">
 
@@ -79,6 +100,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:text="Search"
+            android:textColor="@color/white"
             android:layout_marginLeft="15dp">
 
         </TextView>

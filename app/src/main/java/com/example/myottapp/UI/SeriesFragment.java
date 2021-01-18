@@ -29,25 +29,21 @@ import androidx.leanback.widget.RowPresenter;
 
 import com.example.myottapp.R;
 import com.example.myottapp.Service.VolleyRequest;
-import com.example.myottapp.VolleyCallback;
+import com.example.myottapp.Service.VolleyCallback;
 import com.example.myottapp.models.AllCategoriesList;
 import com.example.myottapp.models.AllLanguagesList;
 import com.example.myottapp.models.Category;
 import com.example.myottapp.models.DataModel;
 import com.example.myottapp.models.Language;
-import com.example.myottapp.models.Movie;
 import com.example.myottapp.models.MovieBasicInfo;
 import com.example.myottapp.models.MovieBasicInfoList;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
+import com.example.myottapp.models.Series;
 
 import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
-
-import static com.example.myottapp.models.DataModel.languageNames;
 
 public class SeriesFragment extends RowsFragment {
     private static final String TAG = "MainFragment";
@@ -146,6 +142,7 @@ public class SeriesFragment extends RowsFragment {
             rowsAdapter.add(new ListRow(headerItem, categoryRowAdapter));
             setAdapter(rowsAdapter);
         }
+        SeriesActivity.maxRow=rowsAdapter.size();
     }
 
 
@@ -246,6 +243,7 @@ public class SeriesFragment extends RowsFragment {
         }
     }
 
+
     private final class ItemViewSelectedListener implements OnItemViewSelectedListener {
         @Override
         public void onItemSelected(
@@ -253,6 +251,7 @@ public class SeriesFragment extends RowsFragment {
                 Object item,
                 RowPresenter.ViewHolder rowViewHolder,
                 Row row) {
+
             if(rowsAdapter.indexOf(row)==0){
                 ((SeriesActivity)getActivity()).showCarousal();
                 ((SeriesActivity)getActivity()).hideMovieDetails();
@@ -266,10 +265,20 @@ public class SeriesFragment extends RowsFragment {
             if (item instanceof MovieBasicInfo) {
                 ((SeriesActivity)getActivity()).setMovieName(((MovieBasicInfo) item).getTitle());
                 //((MainActivity)getActivity()).setMovieLanguage(((Movie) item).getLanguageName());
-                //((MainActivity)getActivity()).setMovieDescription(((Movie) item).getDescription());
-                //((MainActivity)getActivity()).setMovieRuntime(((Movie) item).getRunTime());
+
+                /*
+                String description=((MovieBasicInfo) item).getDescription();
+                if ((description.length() <= 303)) {
+                    ((SeriesActivity) getActivity()).setMovieDescription(description);
+                } else {
+                    ((SeriesActivity) getActivity()).setMovieDescription(description.substring(0, 300) + "...");
+                }
+                */
+                //((SeriesActivity)getActivity()).setMovieRuntime(((MovieBasicInfo) item).getRunTime());
                 ((SeriesActivity)getActivity()).setMoviePoster(((MovieBasicInfo) item).getPosterUrl());
-                //((MainActivity)getActivity()).setMovieAgeRestriction(((Movie) item).getAgeRestriction());
+
+                //((SeriesActivity)getActivity()).setMovieAgeRestriction(((MovieBasicInfo) item).getAgeRestriction()+"+");
+                ((SeriesActivity)getActivity()).setYearOfProduction(((MovieBasicInfo) item).getYearOfProduction());
 
             }
             //if (item instanceof Movie) {

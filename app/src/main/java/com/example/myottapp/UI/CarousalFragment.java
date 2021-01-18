@@ -22,13 +22,14 @@ import androidx.leanback.widget.Presenter;
 import androidx.leanback.widget.Row;
 import androidx.leanback.widget.RowPresenter;
 
-import com.android.volley.RequestQueue;
 import com.example.myottapp.R;
 import com.example.myottapp.Service.VolleyRequest;
-import com.example.myottapp.VolleyCallback;
+import com.example.myottapp.Service.VolleyCallback;
 import com.example.myottapp.models.DataModel;
+import com.example.myottapp.models.Movie;
 import com.example.myottapp.models.MovieBasicInfo;
 import com.example.myottapp.models.MovieBasicInfoList;
+import com.example.myottapp.models.Series;
 
 import java.util.List;
 
@@ -36,13 +37,9 @@ public class CarousalFragment extends RowsFragment {
     private BackgroundManager mBackgroundManager;
     private Drawable mDefaultBackground;
     private ArrayObjectAdapter mRowsAdapter;
-    private int configId=1;
 
-    public void setConfigId(int configId) {
-        this.configId = configId;
-    }
 
-    public void getCarousal(int configId){
+    public void getCarousal(int configId,String activityName){
         String config=configId+"";
         VolleyRequest volleyRequest=new VolleyRequest();
         volleyRequest.sendGetRequest(new VolleyCallback() {
@@ -51,11 +48,12 @@ public class CarousalFragment extends RowsFragment {
                 MovieBasicInfoList movieBasicInfoList=MovieBasicInfoList.parseJSON("{movieBasicInfos:"+volleyRequest.getResponseString()+"}");
                 List<MovieBasicInfo> list = movieBasicInfoList.getMovieBasicInfos();
                 createRow(list);
+                if(activityName.equals("Main"))((MainActivity)getActivity()).hideOnLoadPage();
+                else if (activityName.equals("Movie"))((MovieActivity)getActivity()).hideOnLoadPage();
+                else if (activityName.equals("Series"))((SeriesActivity)getActivity()).hideOnLoadPage();
             }
-
             @Override
             public void onError() {
-
             }
         },DataModel.carousalURL+config,DataModel.carousalTAG);
     }
@@ -65,7 +63,7 @@ public class CarousalFragment extends RowsFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //requestQueue = Volley.newRequestQueue(getActivity().getApplicationContext());
-        getCarousal(configId);
+        //getCarousal(DataModel.configId);
         setupEventListeners();
     }
 
@@ -148,13 +146,12 @@ public class CarousalFragment extends RowsFragment {
                 Object item,
                 RowPresenter.ViewHolder rowViewHolder,
                 Row row) {
-
-           /* if(item instanceof MovieDetailsBanner) {
+            /*
+            if(item instanceof MovieBasicInfo) {
                 System.out.println("Inside carousal");
-                ((MainActivity) getActivity()).collapseLanguageRow();
-            }
+                ((SeriesActivity)getActivity()).collapseLanguageRow();
+            }*/
 
-            */
         }
     }
 

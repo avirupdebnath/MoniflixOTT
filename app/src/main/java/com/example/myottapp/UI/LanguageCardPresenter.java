@@ -1,6 +1,5 @@
 package com.example.myottapp.UI;
 
-import android.content.Context;
 import android.graphics.drawable.Drawable;
 
 import androidx.leanback.widget.ImageCardView;
@@ -13,9 +12,7 @@ import android.view.ViewGroup;
 
 import com.bumptech.glide.Glide;
 import com.example.myottapp.R;
-import com.example.myottapp.models.DataModel;
 import com.example.myottapp.models.Language;
-import com.example.myottapp.models.Movie;
 
 /*
  * A CardPresenter is used to generate Views and bind Objects to them on demand.

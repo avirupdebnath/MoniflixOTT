@@ -1,9 +1,5 @@
 package com.example.myottapp.models;
 
-import androidx.annotation.NonNull;
-import androidx.lifecycle.ViewModel;
-import androidx.lifecycle.ViewModelProvider;
-
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 

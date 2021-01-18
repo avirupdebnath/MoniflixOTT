@@ -12,17 +12,17 @@
         android:required="true" />
 
     <application
-        android:name=".Service.ApplicationController"
+        android:name="com.example.myottapp.Service.ApplicationController"
         android:allowBackup="true"
         android:icon="@mipmap/ic_banner"
         android:label="@string/app_name"
+        android:logo="@mipmap/ic_banner"
         android:supportsRtl="true"
         android:theme="@style/Theme.MyOTTApp">
-        <activity android:name=".UI.LoginActivity"></activity>
+        <activity android:name="com.example.myottapp.UI.LoginActivity"></activity>
         <activity
-            android:name=".UI.LaunchActivity"
+            android:name="com.example.myottapp.UI.LaunchActivity"
             android:banner="@mipmap/ic_banner"
-            android:icon="@drawable/app_icon_your_company"
             android:label="@string/app_name"
             android:logo="@mipmap/ic_banner"
             android:noHistory="true"
@@ -32,18 +32,18 @@
                 <category android:name="android.intent.category.LEANBACK_LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".UI.TokenRefresherActivity"/>
-        <activity android:name=".UI.SeriesActivity" />
-        <activity android:name=".UI.MovieActivity"/>
-        <activity android:name=".UI.LanguageActivity" />
-        <activity android:name=".UI.SearchActivity" />
-        <activity android:name=".UI.DetailsActivity" />
-        <activity android:name=".UI.PlaybackActivity" />
-        <activity android:name=".UI.BrowseErrorActivity" />
-        <activity android:name=".UI.DetailsActivityNew" />
-        <activity android:name=".UI.PlayerActivity" />
-        <activity android:name=".UI.MainActivity" />
-        <activity android:name=".UI.SettingActivity" />
+        <activity android:name="com.example.myottapp.UI.TokenRefresherActivity"/>
+        <activity android:name="com.example.myottapp.UI.SeriesActivity" />
+        <activity android:name="com.example.myottapp.UI.MovieActivity"/>
+        <activity android:name="com.example.myottapp.UI.LanguageActivity" />
+        <activity android:name="com.example.myottapp.UI.SearchActivity" />
+        <activity android:name="com.example.myottapp.UI.DetailsActivity" />
+        <activity android:name="com.example.myottapp.UI.PlaybackActivity" />
+        <activity android:name="com.example.myottapp.UI.BrowseErrorActivity" />
+        <activity android:name="com.example.myottapp.UI.DetailsActivityNew" />
+        <activity android:name="com.example.myottapp.UI.PlayerActivity" />
+        <activity android:name="com.example.myottapp.UI.MainActivity" />
+        <activity android:name="com.example.myottapp.UI.SettingActivity" />
     </application>
 
 </manifest>

@@ -12,7 +12,6 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.example.myottapp.R;
 import com.example.myottapp.models.Language;
-import com.example.myottapp.models.Movie;
 
 public class LanguageActivity extends Activity {
     public static Language mLanguage;
@@ -76,10 +75,14 @@ public class LanguageActivity extends Activity {
         TextView movieName=(TextView) findViewById(R.id.movie_name);
         movieName.setText(s);
     }
+
+    /*
     void setMovieLanguage(String s){
         TextView movieLanguage=(TextView) findViewById(R.id.movie_language);
         movieLanguage.setText(s);
     }
+     */
+
     void setMovieAgeRestriction(String s){
         TextView movieAge=(TextView) findViewById(R.id.movie_age);
         movieAge.setText(s);

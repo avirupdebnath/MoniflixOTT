@@ -105,7 +105,7 @@ public class LoginActivity extends Activity {
         progressBar.setVisibility(View.VISIBLE);
         CognitoSettings cognitoSettings = new CognitoSettings(LoginActivity.this);
         CognitoUser thisUser = cognitoSettings.getUserPool()
-                .getUser(String.valueOf(email));
+                .getUser(email);
         thisUser.getSessionInBackground(authenticationHandler);
         //progressBar.setVisibility(View.GONE);
     }

@@ -10,8 +10,6 @@ import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 import androidx.leanback.app.BackgroundManager;
 import androidx.leanback.app.RowsFragment;
-import androidx.leanback.app.VerticalGridFragment;
-import androidx.leanback.app.VerticalGridSupportFragment;
 import androidx.leanback.widget.ArrayObjectAdapter;
 import androidx.leanback.widget.FocusHighlight;
 import androidx.leanback.widget.HeaderItem;
@@ -21,18 +19,14 @@ import androidx.leanback.widget.OnItemViewSelectedListener;
 import androidx.leanback.widget.Presenter;
 import androidx.leanback.widget.Row;
 import androidx.leanback.widget.RowPresenter;
-import androidx.leanback.widget.VerticalGridPresenter;
 
 import com.example.myottapp.R;
 import com.example.myottapp.Service.VolleyRequest;
-import com.example.myottapp.VolleyCallback;
+import com.example.myottapp.Service.VolleyCallback;
 import com.example.myottapp.models.DataModel;
 import com.example.myottapp.models.Language;
-import com.example.myottapp.models.Movie;
 import com.example.myottapp.models.MovieBasicInfo;
 import com.example.myottapp.models.MovieBasicInfoList;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 
 import org.json.JSONObject;
 
@@ -169,10 +163,15 @@ public class LanguageFragment extends RowsFragment {
             if (item instanceof MovieBasicInfo) {
                 ((LanguageActivity)getActivity()).setMovieName(((MovieBasicInfo) item).getTitle());
                 //((LanguageActivity)getActivity()).setMovieLanguage(((Movie) item).getLanguageName());
-                //((LanguageActivity)getActivity()).setMovieDescription(((Movie) item).getDescription());
-                //((LanguageActivity)getActivity()).setMovieRuntime(((Movie) item).getRunTime());
+                String description=((MovieBasicInfo) item).getDescription();
+                if ((description.length() <= 303)) {
+                    ((LanguageActivity) getActivity()).setMovieDescription(description);
+                } else {
+                    ((LanguageActivity) getActivity()).setMovieDescription(description.substring(0, 300) + "...");
+                }
+                ((LanguageActivity)getActivity()).setMovieRuntime(((MovieBasicInfo) item).getRunTime());
                 ((LanguageActivity)getActivity()).setMoviePoster(((MovieBasicInfo) item).getPosterUrl());
-                //((LanguageActivity)getActivity()).setMovieAgeRestriction(((Movie) item).getAgeRestriction());
+                ((LanguageActivity)getActivity()).setMovieAgeRestriction(((MovieBasicInfo) item).getAgeRestriction()+"+");
 
             }
             //if (item instanceof Movie) {

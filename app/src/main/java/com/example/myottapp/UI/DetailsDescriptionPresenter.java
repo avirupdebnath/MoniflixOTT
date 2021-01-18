@@ -3,7 +3,6 @@ package com.example.myottapp.UI;
 import androidx.leanback.widget.AbstractDetailsDescriptionPresenter;
 
 import com.example.myottapp.models.Movie;
-import com.example.myottapp.models.MovieList;
 
 public class DetailsDescriptionPresenter extends AbstractDetailsDescriptionPresenter {
 
