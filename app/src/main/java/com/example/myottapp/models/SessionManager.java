@@ -4,7 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 
-import com.example.myottapp.UI.LoginActivity;
+import com.example.myottapp.UI.Activities.LoginActivity;
 
 import java.util.HashMap;
 

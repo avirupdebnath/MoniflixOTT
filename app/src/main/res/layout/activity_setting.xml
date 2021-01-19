@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="horizontal"
     android:background="@drawable/default_background"
-    tools:context=".UI.SettingActivity">
+    tools:context=".UI.Activities.SettingActivity">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -152,7 +152,7 @@
 
             <fragment
                 android:id="@+id/banner_fragment"
-                android:name="com.example.myottapp.UI.BannerFragment"
+                android:name="com.example.myottapp.UI.Fragments.BannerFragment"
                 android:layout_width="790dp"
                 android:layout_height="60dp"
                 android:layout_gravity="right" />

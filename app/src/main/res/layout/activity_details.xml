@@ -292,7 +292,7 @@
         android:background="@color/transpo">
         <fragment
             android:id="@+id/related_items_fragment"
-            android:name="com.example.myottapp.UI.RelatedItemsFragment"
+            android:name="com.example.myottapp.UI.Fragments.RelatedItemsFragment"
             android:layout_height="match_parent"
             android:layout_width="match_parent" />
     </FrameLayout>

@@ -61,14 +61,14 @@
 
             <fragment
                 android:id="@+id/search_keyboard_fragment"
-                android:name="com.example.myottapp.UI.SearchKeyboardFragment"
+                android:name="com.example.myottapp.UI.Fragments.SearchKeyboardFragment"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
 
         </LinearLayout>
         <fragment
             android:id="@+id/search_fragment"
-            android:name="com.example.myottapp.UI.SearchFragment"
+            android:name="com.example.myottapp.UI.Fragments.SearchFragment"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 

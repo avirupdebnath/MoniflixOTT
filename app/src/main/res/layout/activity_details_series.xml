@@ -309,7 +309,7 @@
         android:background="@color/transpo">
         <fragment
             android:id="@+id/episodes_fragment"
-            android:name="com.example.myottapp.UI.EpisodesFragment"
+            android:name="com.example.myottapp.UI.Fragments.EpisodesFragment"
             android:layout_height="match_parent"
             android:layout_width="match_parent" />
     </FrameLayout>

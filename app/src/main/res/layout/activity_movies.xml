@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:baselineAligned="false"
     android:orientation="vertical"
-    tools:context=".UI.MainActivity"
+    tools:context=".UI.Activities.MainActivity"
     android:background="@color/background_gradient_start">
     <FrameLayout
         android:id="@+id/details_frame"
@@ -142,7 +142,7 @@
         <fragment
             android:layout_gravity="bottom"
             android:id="@+id/carousal_fragment"
-            android:name="com.example.myottapp.UI.CarousalFragment"
+            android:name="com.example.myottapp.UI.Fragments.CarousalFragment"
             android:layout_height="match_parent"
             android:layout_width="match_parent"/>
     </FrameLayout>
@@ -170,7 +170,7 @@
 
             <fragment
                 android:id="@+id/banner_fragment"
-                android:name="com.example.myottapp.UI.BannerFragment"
+                android:name="com.example.myottapp.UI.Fragments.BannerFragment"
                 android:layout_width="790dp"
                 android:layout_height="60dp"
                 android:layout_gravity="right" />
@@ -185,7 +185,7 @@
         android:background="@color/transpo">
         <fragment
             android:id="@+id/main_browse_fragment"
-            android:name="com.example.myottapp.UI.MovieFragment"
+            android:name="com.example.myottapp.UI.Fragments.MovieFragment"
             android:layout_height="match_parent"
             android:layout_width="match_parent" />
     </FrameLayout>

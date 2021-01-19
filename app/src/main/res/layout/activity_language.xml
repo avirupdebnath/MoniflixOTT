@@ -176,7 +176,7 @@
     <fragment
         android:id="@+id/language_fragment"
         android:layout_gravity="bottom"
-        android:name="com.example.myottapp.UI.LanguageFragment"
+        android:name="com.example.myottapp.UI.Fragments.LanguageFragment"
         android:layout_width="match_parent"
         android:layout_height="240dp"
         />
