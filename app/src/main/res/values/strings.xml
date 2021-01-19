@@ -31,6 +31,9 @@
     <string name="WatchNowBtn">Watch Now</string>
     <string name="AddToMylist">Add To My List</string>
 
+    <!--Series Details-->
+    <string name="SeasonSpinnerTitle">Select Season</string>
+
     <!-- Error messages -->
     <string name="error_fragment_message">An error occurred</string>
     <string name="dismiss_error">Dismiss</string>

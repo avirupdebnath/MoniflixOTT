@@ -111,7 +111,6 @@ public class MainFragment extends RowsFragment {
 
             @Override
             public void onError() {
-
             }
         },DataModel.movieCategoriesURL,"");
     }
@@ -130,7 +129,6 @@ public class MainFragment extends RowsFragment {
 
             @Override
             public void onError() {
-
             }
         },DataModel.movieByfilterURL,params,tag);
     }
@@ -148,7 +146,6 @@ public class MainFragment extends RowsFragment {
             }
             @Override
             public void onError() {
-
             }
         },DataModel.movieByfilterURL,params,tag);
     }
@@ -170,13 +167,12 @@ public class MainFragment extends RowsFragment {
 
             @Override
             public void onError() {
-
             }
         },DataModel.movieByfilterURL,params,tag);
     }
 
     public void createRow(int categoryId, String headerName, List<MovieBasicInfo> list){
-        CardPresenter cardPresenter=new CardPresenter();
+        CardPresenter cardPresenter =new CardPresenter();
         ArrayObjectAdapter categoryRowAdapter=new ArrayObjectAdapter(cardPresenter);
         //for(int i=0;i<list.size();i++)
             //categoryRowAdapter.add(list.get(i));
@@ -272,8 +268,8 @@ public class MainFragment extends RowsFragment {
 
             if (item instanceof MovieBasicInfo) {
                 String tag=((MovieBasicInfo) item).getId()+"";
-                Intent intent = new Intent(getActivity(), DetailsActivityNew.class);
-                intent.putExtra(DetailsActivityNew.MOVIE, ((MovieBasicInfo)item));
+                Intent intent = new Intent(getActivity(), DetailsActivity.class);
+                intent.putExtra(DetailsActivity.MOVIE, ((MovieBasicInfo)item));
                 intent.putExtra("relatedContent",DataModel.getCategoryIdByName(row.getHeaderItem().getName()));
                 intent.putExtra("fromPage","Main");
                 System.out.println("Related Content Value: "+DataModel.getCategoryIdByName(row.getHeaderItem().getName()));

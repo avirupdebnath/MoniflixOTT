@@ -19,7 +19,7 @@
             @color/transparent_black
         </item>
         <item name="android:colorControlHighlight">
-            @color/onHover
+            @color/colorButtonPressedTV
         </item>
     </style>
 

@@ -27,65 +27,51 @@ import com.example.myottapp.R;
 import com.example.myottapp.Service.VolleyRequest;
 import com.example.myottapp.Service.VolleyCallback;
 import com.example.myottapp.models.DataModel;
-import com.example.myottapp.models.Movie;
+import com.example.myottapp.models.Episodes;
 import com.example.myottapp.models.MovieBasicInfo;
-import com.example.myottapp.models.MovieBasicInfoList;
+import com.example.myottapp.models.Series;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-
-import org.json.JSONObject;
 
 import java.util.List;
 
 import static com.example.myottapp.UI.DetailsActivity.player;
 
-public class RelatedItemsFragment extends RowsFragment {
+public class EpisodesFragment extends RowsFragment {
     private BackgroundManager mBackgroundManager;
     private Drawable mDefaultBackground;
     private ArrayObjectAdapter mRowsAdapter;
     private static int count = 0;
     private boolean hasReloaded = true;
     private static int typeId;
-    public Movie movie;
+    public Series series;
     public static int languageId;
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        int CategoryId= DetailsActivity.relatedContent;
         mRowsAdapter = new ArrayObjectAdapter(new ListRowPresenter(FocusHighlight.ZOOM_FACTOR_LARGE));
-        getMovieDetails();
-        if(DetailsActivity.fromPage.equals("Main")) {
-            updateUIByCategory(CategoryId);
-        }
+        getSeriesDetails();
         setupEventListeners();
     }
-    public void updateUIByCategory(int CategoryId){
-        getContent(DetailsActivity.movieBasicInfo.getType(), 3, CategoryId, 0, 10);
-    }
 
-    public void updateUIByLanguage(int typeId, int languageId){
-        getContent(typeId,2,languageId,0,10);
-    }
-
-    void getMovieDetails(){
+    void getSeriesDetails(){
         String tag="";
         VolleyRequest volleyRequest=new VolleyRequest();
         volleyRequest.sendJSONObjGetRequest(new VolleyCallback() {
             @Override
             public void onSuccess() {
                 Gson gson=new GsonBuilder().create();
-                movie = gson.fromJson(volleyRequest.getResponseString(),Movie.class);
-                ((DetailsActivity)getActivity()).loadDetailsPage(movie);
-                if(DetailsActivity.fromPage.equals("Search")){
-                    updateUIByLanguage(DetailsActivity.movieBasicInfo.getType(),movie.getLanguageId());
-                }
+                series = gson.fromJson(volleyRequest.getResponseString(),Series.class);
+                ((DetailsActivitySeries)getActivity()).setSeasonSpinner(series);
+
             }
             @Override
             public void onError() {
                 ((DetailsActivity)getActivity()).refreshToken();
             }
-        }, DataModel.movieDetailsByIdURL+(DetailsActivity.movieBasicInfo.getId()),tag);
+        }, DataModel.seriesDetailsByIdURL+(DetailsActivitySeries.movieBasicInfo.getId()),tag);
     }
 
 
@@ -113,37 +99,15 @@ public class RelatedItemsFragment extends RowsFragment {
         //}
     }
 
-    public void getContent(int contentTypeId, int filterkey, int filterValue, int pageNo, int pageSize){
-        String tag="";
-        VolleyRequest volleyRequest=new VolleyRequest();
-        JSONObject params= volleyRequest.paramsObjectBuilder(contentTypeId,filterkey,filterValue,pageNo,pageSize);
-        volleyRequest.sendPostRequest(new VolleyCallback() {
-            @Override
-            public void onSuccess() {
-                MovieBasicInfoList movieBasicInfoList=MovieBasicInfoList.parseJSON("{movieBasicInfos:"+volleyRequest.getResponseString()+"}");
-                List<MovieBasicInfo> list = movieBasicInfoList.getMovieBasicInfos();
-                createRow(list);
-            }
 
-            @Override
-            public void onError() {
-
-            }
-        },DataModel.movieByfilterURL,params,tag);
-    }
-
-    public void createRow(List<MovieBasicInfo> list){
+    public void createRow(List<Episodes> list){
         mRowsAdapter.clear();
-        CardPresenter cardPresenter =new CardPresenter();
-        ArrayObjectAdapter categoryRowAdapter=new ArrayObjectAdapter(cardPresenter);
-        for(MovieBasicInfo m:list){
-            if(m.getId()!= DetailsActivity.movieBasicInfo.getId()){
-                categoryRowAdapter.add(m);
-            }
-        }
+        EpisodesCardPresenter episodesCardPresenter =new EpisodesCardPresenter();
+        ArrayObjectAdapter categoryRowAdapter=new ArrayObjectAdapter(episodesCardPresenter);
+        categoryRowAdapter.addAll(0,list);
         //for(int i=0;i<list.size();i++)
         //categoryRowAdapter.add(list.get(i));
-        HeaderItem headerItem=new HeaderItem(0,"More Like This");
+        HeaderItem headerItem=new HeaderItem(0,"Episodes");
         if(list.size()!=0) {
             mRowsAdapter.add(new ListRow(headerItem, categoryRowAdapter));
             setAdapter(mRowsAdapter);
@@ -159,15 +123,16 @@ public class RelatedItemsFragment extends RowsFragment {
     private void prepareBackgroundManager() {
         mBackgroundManager = BackgroundManager.getInstance(getActivity());
         mBackgroundManager.attach(getActivity().getWindow());
-        Fragment fragment = (Fragment) getFragmentManager().findFragmentById(R.id.related_items_fragment);
+        Fragment fragment = (Fragment) getFragmentManager().findFragmentById(R.id.episodes_fragment);
         fragment.getView().setBackground(ContextCompat.getDrawable(getActivity(), R.drawable.transparent_to_dark_reverse_shade));
         mBackgroundManager.setDrawable(ContextCompat.getDrawable(getActivity(), R.drawable.default_background));
     }
 
     private void setupEventListeners() {
         setOnItemViewClickedListener(new ItemViewClickedListener());
-        //setOnItemViewSelectedListener(new ItemViewSelectedListener());
+        setOnItemViewSelectedListener(new ItemViewSelectedListener());
     }
+
 
     private final class ItemViewClickedListener implements OnItemViewClickedListener {
         @Override
@@ -176,11 +141,9 @@ public class RelatedItemsFragment extends RowsFragment {
 
             if (item instanceof MovieBasicInfo) {
                 releasePlayer();
-                DetailsActivity.movieBasicInfo= (MovieBasicInfo) item;
+                DetailsActivitySeries.movieBasicInfo= (MovieBasicInfo) item;
                 ((DetailsActivity)getActivity()).showOnLoadPage();
-                getMovieDetails();
-                if(DetailsActivity.fromPage.equals("Main")) updateUIByCategory(DetailsActivity.relatedContent);
-                System.out.println("Related Content Value: "+DataModel.getCategoryIdByName(row.getHeaderItem().getName()));
+                getSeriesDetails();
 
             } else if (item instanceof String) {
                 if (((String) item).contains(getString(R.string.error_fragment))) {
@@ -200,6 +163,10 @@ public class RelatedItemsFragment extends RowsFragment {
                 Object item,
                 RowPresenter.ViewHolder rowViewHolder,
                 Row row) {
+
+            if(item instanceof Episodes){
+                ((DetailsActivitySeries)getActivity()).episodePage((Episodes) item);
+            }
 /*
             if (item instanceof Movie) {
                 ((DetailsActivity)getActivity()).mSelectedMovie=(Movie)item;

@@ -26,10 +26,8 @@ import com.example.myottapp.R;
 import com.example.myottapp.Service.VolleyRequest;
 import com.example.myottapp.Service.VolleyCallback;
 import com.example.myottapp.models.DataModel;
-import com.example.myottapp.models.Movie;
 import com.example.myottapp.models.MovieBasicInfo;
 import com.example.myottapp.models.MovieBasicInfoList;
-import com.example.myottapp.models.Series;
 
 import java.util.List;
 
@@ -123,8 +121,8 @@ public class CarousalFragment extends RowsFragment {
 
             if (item instanceof MovieBasicInfo) {
                 String tag=((MovieBasicInfo) item).getId()+"";
-                Intent intent = new Intent(getActivity(), DetailsActivityNew.class);
-                intent.putExtra(DetailsActivityNew.MOVIE, ((MovieBasicInfo)item));
+                Intent intent = new Intent(getActivity(), DetailsActivity.class);
+                intent.putExtra(DetailsActivity.MOVIE, ((MovieBasicInfo)item));
                 intent.putExtra("fromPage","Search");
                 getActivity().startActivity(intent);
 

@@ -81,7 +81,7 @@ public class PlayerActivity extends Activity implements AdapterView.OnItemSelect
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        mSelectedMovie = (Movie) this.getIntent().getSerializableExtra(DetailsActivityNew.MOVIE);
+        mSelectedMovie = (Movie) this.getIntent().getSerializableExtra(DetailsActivity.MOVIE);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_player);
 

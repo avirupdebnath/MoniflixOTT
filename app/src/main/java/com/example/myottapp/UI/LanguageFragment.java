@@ -24,7 +24,6 @@ import com.example.myottapp.R;
 import com.example.myottapp.Service.VolleyRequest;
 import com.example.myottapp.Service.VolleyCallback;
 import com.example.myottapp.models.DataModel;
-import com.example.myottapp.models.Language;
 import com.example.myottapp.models.MovieBasicInfo;
 import com.example.myottapp.models.MovieBasicInfoList;
 
@@ -76,7 +75,6 @@ public class LanguageFragment extends RowsFragment {
 
             @Override
             public void onError() {
-
             }
         },DataModel.movieByfilterURL,params,tag);
     }
@@ -101,7 +99,7 @@ public class LanguageFragment extends RowsFragment {
     }
 
     public void createRow(int contentTypeId, String contentType, List<MovieBasicInfo> list){
-        CardPresenter cardPresenter=new CardPresenter();
+        CardPresenter cardPresenter =new CardPresenter();
         ArrayObjectAdapter languageRowAdapter=new ArrayObjectAdapter(cardPresenter);
         languageRowAdapter.addAll(0,list);
         HeaderItem headerItem=new HeaderItem(contentTypeId,contentType);
@@ -144,8 +142,8 @@ public class LanguageFragment extends RowsFragment {
 
             if (item instanceof MovieBasicInfo) {
                 String tag=((MovieBasicInfo) item).getId()+"";
-                Intent intent = new Intent(getActivity(), DetailsActivityNew.class);
-                intent.putExtra(DetailsActivityNew.MOVIE, ((MovieBasicInfo)item));
+                Intent intent = new Intent(getActivity(), DetailsActivity.class);
+                intent.putExtra(DetailsActivity.MOVIE, ((MovieBasicInfo)item));
                 intent.putExtra("fromPage","Search");
                 getActivity().startActivity(intent);
 

@@ -78,6 +78,16 @@
                 android:textColor="@color/white"
                 android:layout_marginBottom="5dp">
             </TextView>
+            <TextView
+                android:id="@+id/episode_name"
+                android:layout_height="wrap_content"
+                android:layout_width="600dp"
+                android:text="Episode Name"
+                android:layout_marginLeft="50dp"
+                android:textSize="20sp"
+                android:textColor="@color/white"
+                android:layout_marginBottom="5dp">
+            </TextView>
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -162,7 +172,6 @@
             </LinearLayout>
 
             <TextView
-                android:layout_marginBottom="15dp"
                 android:id="@+id/movie_desrciption"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="50dp"
@@ -178,7 +187,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="50dp"
-                android:layout_marginBottom="5dp"
+                android:layout_marginTop="5dp"
                 android:orientation="horizontal">
                 <TextView
                     android:layout_height="wrap_content"
@@ -232,26 +241,30 @@
                 </TextView>
 
             </LinearLayout>
-
-
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom">
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="left"
                 android:layout_marginLeft="50dp"
-                android:layout_marginTop="20dp">
+                android:layout_marginBottom="160dp">
 
-                <androidx.appcompat.widget.AppCompatButton
-                    android:id="@+id/watchNowButton"
-                    android:layout_width="wrap_content"
+                <Spinner
+                    android:focusable="false"
+                    android:id="@+id/seasonSpinner"
+                    android:spinnerMode="dialog"
+                    android:prompt="@string/SeasonSpinnerTitle"
+                    android:layout_width="120dp"
                     android:layout_height="wrap_content"
-                    android:text="@string/WatchNowBtn"
-                    android:textSize="15sp"
-                    android:layout_marginRight="10dp"
-                    android:focusedByDefault="true"
-                    android:padding="10dp"
-                    android:focusable="true"
-                    android:background="@drawable/color_selector"/>
+                    android:textAlignment="center"
+                    android:layout_marginRight="20dp"
+                    android:background="@drawable/color_selector"
+                    android:theme="@style/MyApplicationTheme"
+                    />
 
                 <androidx.appcompat.widget.AppCompatButton
                     android:id="@+id/AddToWatchListButton"
@@ -263,9 +276,13 @@
                     android:focusable="true"
                     android:layout_marginRight="10dp"
                     android:background="@drawable/color_selector"/>
+
+
             </LinearLayout>
         </LinearLayout>
     </FrameLayout>
+
+
     <FrameLayout
         android:layout_width="match_parent"
         android:id="@+id/banner_linear_layout"
@@ -291,8 +308,8 @@
         android:layout_gravity="bottom"
         android:background="@color/transpo">
         <fragment
-            android:id="@+id/related_items_fragment"
-            android:name="com.example.myottapp.UI.RelatedItemsFragment"
+            android:id="@+id/episodes_fragment"
+            android:name="com.example.myottapp.UI.EpisodesFragment"
             android:layout_height="match_parent"
             android:layout_width="match_parent" />
     </FrameLayout>

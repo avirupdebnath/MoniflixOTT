@@ -2,27 +2,34 @@ package com.example.myottapp.UI;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ProgressBar;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.widget.AppCompatButton;
+import androidx.leanback.app.RowsFragment;
 
 import com.bumptech.glide.Glide;
 import com.example.myottapp.R;
+import com.example.myottapp.Service.VolleyCallback;
+import com.example.myottapp.Service.VolleyRequest;
 import com.example.myottapp.models.CastAndCrewInfo;
 import com.example.myottapp.models.CategoryInfo;
 import com.example.myottapp.models.DataModel;
-import com.example.myottapp.models.Movie;
+import com.example.myottapp.models.Episodes;
 import com.example.myottapp.models.MovieBasicInfo;
 import com.example.myottapp.models.MovieBasicInfoList;
+import com.example.myottapp.models.Seasons;
+import com.example.myottapp.models.Series;
 import com.example.myottapp.models.SessionManager;
 import com.google.android.exoplayer2.ExoPlayer;
 import com.google.android.exoplayer2.ExoPlayerFactory;
@@ -30,42 +37,56 @@ import com.google.android.exoplayer2.Player;
 import com.google.android.exoplayer2.source.MediaSource;
 import com.google.android.exoplayer2.source.MergingMediaSource;
 import com.google.android.exoplayer2.source.hls.HlsMediaSource;
+import com.google.android.exoplayer2.trackselection.AdaptiveTrackSelection;
+import com.google.android.exoplayer2.trackselection.DefaultTrackSelector;
+import com.google.android.exoplayer2.trackselection.TrackSelection;
+import com.google.android.exoplayer2.trackselection.TrackSelector;
 import com.google.android.exoplayer2.ui.PlayerView;
+import com.google.android.exoplayer2.upstream.BandwidthMeter;
 import com.google.android.exoplayer2.upstream.DataSource;
 import com.google.android.exoplayer2.upstream.DefaultBandwidthMeter;
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;
 import com.google.android.exoplayer2.util.Util;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import static android.view.View.VISIBLE;
 
 /*
  * Details activity class that loads LeanbackDetailsFragment class
  */
-public class DetailsActivityNew extends Activity {
+public class DetailsActivitySeries extends Activity {
     public static final String SHARED_ELEMENT_NAME = "hero";
-    public static final String MOVIE = "Movie";
+    public static final String SERIES = "Series";
     public static int relatedContent;
     public static String fromPage="";
     public static int languageId;
     public Context mContext=this;
-    public Movie movie;
+    public Series Series;
     public static MovieBasicInfo movieBasicInfo;
     public static ExoPlayer player;
     public static PlayerView exoPlayerView;
+    Seasons season;
+    Spinner seasonSpinner;
+    public static Episodes episode;
+    boolean justCreated=false;
+
     /**
      * Called when the activity is first created.
      */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        fromPage=this.getIntent().getStringExtra("fromPage");
-        movieBasicInfo = (MovieBasicInfo) this.getIntent().getSerializableExtra(DetailsActivityNew.MOVIE);
-        if(fromPage.equals("Main")){
-            relatedContent=this.getIntent().getIntExtra("relatedContent",0);
-        }
-        System.out.println("Related Content Value: "+relatedContent);
-        setContentView(R.layout.details_activity_new);
+        movieBasicInfo = (MovieBasicInfo) this.getIntent().getSerializableExtra(DetailsActivitySeries.SERIES);
+        setContentView(R.layout.activity_details_series);
         //getMovieDetails();
+        episode=new Episodes();
         showOnLoadPage();
+        justCreated=true;
+        seasonSpinner=findViewById(R.id.seasonSpinner);
 
     }
     /*
@@ -75,6 +96,52 @@ public class DetailsActivityNew extends Activity {
         finish();
         startActivity(getIntent());
     }*/
+
+    public void setSeasonSpinner(Series mSelectedSeries){
+        Seasons season[]=mSelectedSeries.getSeasons();
+        String []spinnerArray=new String[mSelectedSeries.getNoOfSeasons()];
+        ArrayList<Seasons> list=new ArrayList<Seasons>();
+        int i=0;
+        for(Seasons s: season){
+            spinnerArray[i++]="Season "+s.getSeasonNo();
+            list.add(s);
+        }
+        ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>
+                (this,(R.layout.spinner_item), spinnerArray); //selected item will look like a spinner set from XML
+        seasonSpinner.setAdapter(spinnerArrayAdapter);
+        seasonSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                justCreated=true;
+                int seasonId=list.get(position).getSeasonId();
+                getEpisodesBySeasonId(seasonId);
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+    }
+
+    public void getEpisodesBySeasonId(int id){
+        VolleyRequest volleyRequest=new VolleyRequest();
+        volleyRequest.sendJSONObjGetRequest(new VolleyCallback() {
+            @Override
+            public void onSuccess() {
+                Gson gson=new GsonBuilder().create();
+                season = gson.fromJson(volleyRequest.getResponseString(),Seasons.class);
+                List<Episodes> episodes=season.getEpisodes();
+                EpisodesFragment episodesFragment=(EpisodesFragment) getFragmentManager().findFragmentById(R.id.episodes_fragment);
+                episodesFragment.createRow(episodes);
+                initialPage(season);
+                loadDetailsPage(season);
+            }
+            @Override
+            public void onError() {
+            }
+        }, DataModel.episodesBySeasonIdURL+id,"");
+    }
+
 
     @Override
     protected void onDestroy() {
@@ -92,39 +159,27 @@ public class DetailsActivityNew extends Activity {
         super.onBackPressed();
     }
 
-    void loadDetailsPage(Movie mSelectedMovie){
-        if(mSelectedMovie!=null) {
+    void loadDetailsPage(Seasons season){
+        if(season!=null) {
+            if(player!=null) player.release();
             showOnLoadPage();
             showPosterFrame();
             hideTrailerVideoFrame();
-            setMovieName(mSelectedMovie.getTitle());
-            setMovieAgeRestriction(mSelectedMovie.getAgeRestriction());
-            setMovieDescription(mSelectedMovie.getDescription());
-            setMovieLanguage(mSelectedMovie.getLanguageName());
-            setMovieRuntime(mSelectedMovie.getRunTime());
-            setMovieCast(mSelectedMovie.getCastAndCrewInfo());
-            setYearOfProduction(mSelectedMovie.getYearOfProduction());
-            setMovieGenre(mSelectedMovie.getCategoryInfo());
+            setMovieName(season.getTitle());
+            setMovieAgeRestriction(season.getAgeRestriction());
+            setMovieDescription(season.getDescription());
+            //setMovieLanguage(mSelectedSeries.getLanguageName());
+            setMovieCast(season.getCastAndCrewInfo());
+            setYearOfProduction(season.getYearOfProduction());
+            setMovieGenre(season.getCategoryInfo());
+            setMoviePoster(season.getPoster().getUrl());
+            /*
             try {
-                setMoviePoster(mSelectedMovie.getPoster().getUrl());
-                playTrailer(mSelectedMovie.getTrailer().getUrl().getHls_Low());
+                playTrailer(season.getTrailer().getUrl().getHls_Low());
             }catch (Exception e){
                 hideTrailerVideoFrame();
                 showPosterFrame();
-            }
-            AppCompatButton watchNow=(AppCompatButton) findViewById(R.id.watchNowButton);
-            watchNow.requestFocus();
-            watchNow.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    releasePlayer();
-                    hideTrailerVideoFrame();
-                    showPosterFrame();
-                    Intent intent = new Intent(DetailsActivityNew.this, PlayerActivity.class);
-                    intent.putExtra(PlayerActivity.MOVIE, mSelectedMovie);
-                    startActivity(intent);
-                }
-            });
+            }*/
             AppCompatButton addToWatchList=(AppCompatButton) findViewById(R.id.AddToWatchListButton);
             addToWatchList.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -138,7 +193,7 @@ public class DetailsActivityNew extends Activity {
                     SessionManager.editor.putString("WATCHLIST", gson.toJson(watchlistMovies));
                     SessionManager.editor.commit();
                     System.out.println(SessionManager.sharedPreferences.getString("WATCHLIST",null));
-                    Toast.makeText(DetailsActivityNew.this, "Item Added to Watchlist", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(DetailsActivitySeries.this, "Item Added to Watchlist", Toast.LENGTH_SHORT).show();
                 }
             });
             hideOnLoadPage();
@@ -254,18 +309,26 @@ public class DetailsActivityNew extends Activity {
 
     void playTrailer(String url){
         try {
-            player = ExoPlayerFactory.newSimpleInstance(this);
+            if (player != null) {
+                player.release();
+            }
+            BandwidthMeter bandwidthMeter=new DefaultBandwidthMeter();
+            TrackSelection.Factory videoTrackSelectionFactory = new
+                    AdaptiveTrackSelection.Factory(bandwidthMeter);
+            TrackSelector trackSelector = new
+                    DefaultTrackSelector(videoTrackSelectionFactory);
+            player = ExoPlayerFactory.newSimpleInstance((Context) this, trackSelector);
+            player.setPlayWhenReady(true);
             exoPlayerView = (PlayerView) findViewById(R.id.trailer);
-            DefaultBandwidthMeter bandwidthMeter = new DefaultBandwidthMeter();
+            DefaultBandwidthMeter defaultBandwidthMeter = new DefaultBandwidthMeter();
             player.setPlayWhenReady(true);
             exoPlayerView.setPlayer(player);
             exoPlayerView.hideController();
             DataSource.Factory dataSourceFactory = new DefaultDataSourceFactory(this,
-                    Util.getUserAgent(this, getString(R.string.app_name)), bandwidthMeter);
+                    Util.getUserAgent(this, getString(R.string.app_name)), defaultBandwidthMeter);
             MediaSource videoSource = new HlsMediaSource.Factory(dataSourceFactory)
                     .createMediaSource(Uri.parse(url));
-            MergingMediaSource mergedSource= new MergingMediaSource(videoSource);
-            player.prepare(mergedSource);
+            player.prepare(videoSource);
             player.addListener(new Player.DefaultEventListener() {
                 @Override
                 public void onPlayerStateChanged(boolean playWhenReady, int playbackState) {
@@ -292,11 +355,76 @@ public class DetailsActivityNew extends Activity {
 
     }
 
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_DPAD_UP) {
+                initialPage(season);
+                seasonSpinner.requestFocus();
+                releasePlayer();
+        } else if (keyCode == KeyEvent.KEYCODE_DPAD_DOWN) {
+                justCreated=false;
+                episodePage(episode);
+        }
+        return super.onKeyDown(keyCode, event);
+    }
+
+    public void initialPage(Seasons season){
+        TextView episodeName=(TextView) findViewById(R.id.episode_name);
+        TextView runtime=(TextView) findViewById(R.id.movie_time);
+        AppCompatButton addToWatchList=(AppCompatButton) findViewById(R.id.AddToWatchListButton);
+        LinearLayout dirLayout=findViewById(R.id.directorsLayout);
+        LinearLayout castlayout=findViewById(R.id.castLayout);
+
+        episodeName.setVisibility(View.GONE);
+        runtime.setVisibility(View.GONE);
+        addToWatchList.setVisibility(View.VISIBLE);
+        seasonSpinner.setVisibility(View.VISIBLE);
+        dirLayout.setVisibility(View.VISIBLE);
+        castlayout.setVisibility(View.VISIBLE);
+        hideTrailerVideoFrame();
+        showPosterFrame();
+        seasonSpinner.requestFocus();
+        setMovieDescription(season.getDescription());
+        setMoviePoster(season.getPoster().getUrl());
+
+    }
+    public void episodePage(Episodes episode){
+        DetailsActivitySeries.episode = episode;
+        if(!justCreated) {
+            TextView episodeName = (TextView) findViewById(R.id.episode_name);
+            TextView runtime = (TextView) findViewById(R.id.movie_time);
+            AppCompatButton addToWatchList = (AppCompatButton) findViewById(R.id.AddToWatchListButton);
+            LinearLayout dirLayout=findViewById(R.id.directorsLayout);
+            LinearLayout castlayout=findViewById(R.id.castLayout);
+
+            episodeName.setVisibility(View.VISIBLE);
+            runtime.setVisibility(View.VISIBLE);
+
+            dirLayout.setVisibility(View.GONE);
+            castlayout.setVisibility(View.GONE);
+            //addToWatchList.setVisibility(View.GONE);
+            //seasonSpinner.setVisibility(View.GONE);
+            episodeName.setText(episode.getTitle());
+            setMovieRuntime(episode.getRunTime());
+            setMovieDescription(episode.getDescription());
+            setMoviePoster(episode.getPoster().getUrl());
+            hideTrailerVideoFrame();
+            showPosterFrame();
+            try{
+                playTrailer(episode.getAccessUrls().getHls_High());
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+        }
+
+    }
+
+    /*
     public void refreshToken() {
         ProgressBar progressBar = findViewById(R.id.progress_bar);
         if (DataModel.refreshTokenCount == 0) {
-            Intent intent = new Intent(DetailsActivityNew.this, TokenRefresherActivity.class);
-            intent.putExtra(DetailsActivityNew.MOVIE, movieBasicInfo);
+            Intent intent = new Intent(DetailsActivitySeries.this, TokenRefresherActivity.class);
+            intent.putExtra(DetailsActivity.MOVIE, movieBasicInfo);
             if (fromPage.equals("Main")) {
                 intent.putExtra("relatedContent", relatedContent);
             }
@@ -308,4 +436,6 @@ public class DetailsActivityNew extends Activity {
         }
         else progressBar.setVisibility(View.INVISIBLE);
     }
+
+     */
 }

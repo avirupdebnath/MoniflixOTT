@@ -19,7 +19,6 @@
         android:logo="@mipmap/ic_banner"
         android:supportsRtl="true"
         android:theme="@style/Theme.MyOTTApp">
-        <activity android:name="com.example.myottapp.UI.LoginActivity"></activity>
         <activity
             android:name="com.example.myottapp.UI.LaunchActivity"
             android:banner="@mipmap/ic_banner"
@@ -32,18 +31,18 @@
                 <category android:name="android.intent.category.LEANBACK_LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name="com.example.myottapp.UI.LoginActivity"/>
         <activity android:name="com.example.myottapp.UI.TokenRefresherActivity"/>
         <activity android:name="com.example.myottapp.UI.SeriesActivity" />
         <activity android:name="com.example.myottapp.UI.MovieActivity"/>
         <activity android:name="com.example.myottapp.UI.LanguageActivity" />
         <activity android:name="com.example.myottapp.UI.SearchActivity" />
-        <activity android:name="com.example.myottapp.UI.DetailsActivity" />
-        <activity android:name="com.example.myottapp.UI.PlaybackActivity" />
         <activity android:name="com.example.myottapp.UI.BrowseErrorActivity" />
-        <activity android:name="com.example.myottapp.UI.DetailsActivityNew" />
+        <activity android:name="com.example.myottapp.UI.DetailsActivity" />
         <activity android:name="com.example.myottapp.UI.PlayerActivity" />
         <activity android:name="com.example.myottapp.UI.MainActivity" />
         <activity android:name="com.example.myottapp.UI.SettingActivity" />
+        <activity android:name="com.example.myottapp.UI.DetailsActivitySeries" />
     </application>
 
 </manifest>

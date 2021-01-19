@@ -37,7 +37,6 @@ import com.example.myottapp.models.DataModel;
 import com.example.myottapp.models.Language;
 import com.example.myottapp.models.MovieBasicInfo;
 import com.example.myottapp.models.MovieBasicInfoList;
-import com.example.myottapp.models.Series;
 
 import org.json.JSONObject;
 
@@ -107,7 +106,6 @@ public class SeriesFragment extends RowsFragment {
 
             @Override
             public void onError() {
-
             }
         },DataModel.movieCategoriesURL,"");
     }
@@ -126,14 +124,13 @@ public class SeriesFragment extends RowsFragment {
 
             @Override
             public void onError() {
-
             }
         },DataModel.movieByfilterURL,params,tag);
     }
 
 
     public void createRow(int categoryID, String categoryName, List<MovieBasicInfo> list){
-        CardPresenter cardPresenter=new CardPresenter();
+        CardPresenter cardPresenter =new CardPresenter();
         ArrayObjectAdapter categoryRowAdapter=new ArrayObjectAdapter(cardPresenter);
         for(int i=0;i<list.size();i++)
             categoryRowAdapter.add(list.get(i));
@@ -223,9 +220,9 @@ public class SeriesFragment extends RowsFragment {
             if (item instanceof MovieBasicInfo) {
                 String tag=((MovieBasicInfo) item).getId()+"";
                 System.out.println(tag);
-                //Intent intent = new Intent(getActivity(), DetailsActivityNew.class);
-                //intent.putExtra(DetailsActivityNew.MOVIE, ((MovieBasicInfo)item));
-                //getActivity().startActivity(intent);
+                Intent intent = new Intent(getActivity(), DetailsActivitySeries.class);
+                intent.putExtra(DetailsActivitySeries.SERIES, ((MovieBasicInfo)item));
+                getActivity().startActivity(intent);
             }
             else if(item instanceof Language){
                 Intent intent=new Intent(getActivity(),LanguageActivity.class);

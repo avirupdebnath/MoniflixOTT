@@ -10,7 +10,10 @@ public class DataModel {
     public static final String movieByfilterURL="https://n74rb8wscl.execute-api.ap-south-1.amazonaws.com/api/Search/GetByFilter";
     public static final String movieCategoriesURL="https://5fglc3ehn2.execute-api.ap-south-1.amazonaws.com/api/Master/GetAllCategories";
     public static final String movieDetailsByIdURL="https://5fglc3ehn2.execute-api.ap-south-1.amazonaws.com/api/Movie/GetById/";
-    //public static final String movieDetailsByIdURL="https://5fglc3ehn2.execute-api.ap-south-1.amazonaws.com/api/Movie/GetByIdV1/";
+
+    public static final String seriesDetailsByIdURL="https://5fglc3ehn2.execute-api.ap-south-1.amazonaws.com/api/Series/GetById/";
+    public static final String episodesBySeasonIdURL="https://5fglc3ehn2.execute-api.ap-south-1.amazonaws.com/api/Series/GetEpisodesBySeasonId/";
+
     public static String accessToken="";
     public static List<Category> CategoriesList;
     public static final String carousalTAG="Carousal";

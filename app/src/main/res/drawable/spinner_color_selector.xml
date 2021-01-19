@@ -5,12 +5,9 @@
         android:drawable="@drawable/selected_state" />
     <!-- currently selected -->
     <item android:state_activated="true"
-        android:drawable="@drawable/selected_state" tools:ignore="StateListReachable" />
+        android:drawable="@drawable/selected_state"  />
     <!-- default -->
     <item android:state_focused="true"
-        android:drawable="@drawable/selected_state" tools:ignore="StateListReachable" />
-    <!-- default -->
-    <!-- default -->
+        android:drawable="@drawable/selected_state" />
 
-    <item android:drawable="@drawable/spinner_unselected_state" />
 </selector>

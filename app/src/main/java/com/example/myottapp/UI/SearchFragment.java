@@ -77,7 +77,6 @@ public class SearchFragment extends VerticalGridFragment {
 
                 @Override
                 public void onError() {
-
                 }
             }, DataModel.searchURL + key, tag);
         }
@@ -134,8 +133,8 @@ public class SearchFragment extends VerticalGridFragment {
 
             if (item instanceof MovieBasicInfo) {
                 String tag=((MovieBasicInfo) item).getId()+"";
-                Intent intent = new Intent(getActivity(), DetailsActivityNew.class);
-                intent.putExtra(DetailsActivityNew.MOVIE, ((MovieBasicInfo)item));
+                Intent intent = new Intent(getActivity(), DetailsActivity.class);
+                intent.putExtra(DetailsActivity.MOVIE, ((MovieBasicInfo)item));
                 intent.putExtra("fromPage","Search");
                 getActivity().startActivity(intent);
             }
