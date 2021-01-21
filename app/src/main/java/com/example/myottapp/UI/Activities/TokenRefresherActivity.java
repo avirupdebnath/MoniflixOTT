@@ -39,7 +39,7 @@ public class TokenRefresherActivity extends Activity {
         setContentView(R.layout.activity_token_refresher);
         sessionManager=new SessionManager(this);
         fromPage=this.getIntent().getStringExtra("fromPage");
-        movieBasicInfo = (MovieBasicInfo) this.getIntent().getSerializableExtra(DetailsActivity.MOVIE);
+        movieBasicInfo = (MovieBasicInfo) this.getIntent().getSerializableExtra(TokenRefresherActivity.MOVIE);
         if(fromPage.equals("Main")){
             relatedContent=this.getIntent().getIntExtra("relatedContent",0);
         }
@@ -53,12 +53,20 @@ public class TokenRefresherActivity extends Activity {
         public void onSuccess(CognitoUserSession userSession, CognitoDevice newDevice) {
             System.out.println("Login successfull");
             sessionManager.createSession(email, password,userSession.getAccessToken().getJWTToken());
-            Intent intent = new Intent(TokenRefresherActivity.this, DetailsActivity.class);
-            intent.putExtra(DetailsActivity.MOVIE, movieBasicInfo);
-            if(fromPage.equals("Main")){
-                intent.putExtra("relatedContent",relatedContent);
+
+            Intent intent;
+            if(fromPage.equals("Series")){
+                intent = new Intent(TokenRefresherActivity.this, DetailsActivitySeries.class);
+                intent.putExtra(DetailsActivitySeries.SERIES, movieBasicInfo);
+
+            }else {
+                intent = new Intent(TokenRefresherActivity.this, DetailsActivity.class);
+                intent.putExtra(DetailsActivity.MOVIE, movieBasicInfo);
+                if (fromPage.equals("Main")) {
+                    intent.putExtra("relatedContent", relatedContent);
+                }
+                intent.putExtra("fromPage", fromPage);
             }
-            intent.putExtra("fromPage",fromPage);
             TokenRefresherActivity.this.startActivity(intent);
             TokenRefresherActivity.this.finish();
         }

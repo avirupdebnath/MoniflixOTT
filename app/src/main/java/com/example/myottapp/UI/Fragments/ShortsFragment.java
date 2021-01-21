@@ -2,18 +2,10 @@ package com.example.myottapp.UI.Fragments;
 
 import android.app.Fragment;
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.os.Handler;
-import android.util.DisplayMetrics;
-import android.util.Log;
-import android.view.View;
-import android.widget.ProgressBar;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.core.content.ContextCompat;
 import androidx.leanback.app.BackgroundManager;
 import androidx.leanback.app.RowsFragment;
 import androidx.leanback.widget.ArrayObjectAdapter;
@@ -26,19 +18,24 @@ import androidx.leanback.widget.OnItemViewSelectedListener;
 import androidx.leanback.widget.Presenter;
 import androidx.leanback.widget.Row;
 import androidx.leanback.widget.RowPresenter;
+import androidx.core.content.ContextCompat;
+
+import android.util.Log;
+import android.view.View;
+import android.widget.Toast;
 
 import com.example.myottapp.R;
 import com.example.myottapp.Service.VolleyRequest;
 import com.example.myottapp.Service.VolleyCallback;
 import com.example.myottapp.UI.Activities.BrowseErrorActivity;
+import com.example.myottapp.UI.Activities.DetailsActivity;
 import com.example.myottapp.UI.Activities.DetailsActivitySeries;
 import com.example.myottapp.UI.Activities.LanguageActivity;
-import com.example.myottapp.UI.Presenters.CardPresenter;
+import com.example.myottapp.UI.Activities.ShortsActivity;
 import com.example.myottapp.UI.Presenters.CustomCardViewPresenter;
+import com.example.myottapp.UI.Presenters.CardPresenter;
 import com.example.myottapp.UI.Presenters.LanguageCardPresenter;
-import com.example.myottapp.UI.Activities.SeriesActivity;
 import com.example.myottapp.models.AllCategoriesList;
-import com.example.myottapp.models.AllLanguagesList;
 import com.example.myottapp.models.Category;
 import com.example.myottapp.models.DataModel;
 import com.example.myottapp.models.Language;
@@ -52,37 +49,12 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Timer;
 
-public class SeriesFragment extends RowsFragment {
+public class ShortsFragment extends RowsFragment {
     private static final String TAG = "MainFragment";
-
-    //super.onActivityCreated(savedInstanceState);
-//initializeModels();
-
-    private static final int BACKGROUND_UPDATE_DELAY = 300;
-    private static int response_error_count=0;
-    private static int NUM_ROWS = 5;
-    private static int NUM_COLS = 15;
-
-    static int count=0;
     public ArrayObjectAdapter rowsAdapter;
-
-    private static String[] languages;
-    private ProgressBar progressBar;
-    private final Handler mHandler = new Handler();
-    private Drawable mDefaultBackground;
-    private DisplayMetrics mMetrics;
-    private Timer mBackgroundTimer;
-    private String mBackgroundUri;
     private BackgroundManager mBackgroundManager;
-    public static AllCategoriesList allCategoriesList;
-    public static AllLanguagesList allLanguagesList;
-    public static com.example.myottapp.models.MovieList moviesList;
     public  static List<Language> staticLanguageList=new ArrayList<Language>();
-    public static boolean responseFlagCategories=false;
-    public static boolean responseFlagMovies=false;
-
 
     private void loadLanguages() {
         LanguageCardPresenter languageCardPresenter=new LanguageCardPresenter();
@@ -91,44 +63,6 @@ public class SeriesFragment extends RowsFragment {
         HeaderItem headerItem=new HeaderItem(0,"Languages");
         rowsAdapter.add(0,new ListRow(headerItem, languagesRowAdapter));
         setAdapter(rowsAdapter);
-    }
-    public void createWatchHistoryRow(List<WatchHistoryContentDetails> watchHistory){
-        CustomCardViewPresenter cardViewPresenter=new CustomCardViewPresenter();
-        ArrayObjectAdapter adapter=new ArrayObjectAdapter(cardViewPresenter);
-        for(WatchHistoryContentDetails w: watchHistory){
-            if(w.getType()==4){
-                adapter.add(w);
-            }
-        }
-        if(adapter.size()!=0){
-            HeaderItem headerItem=new HeaderItem(1,"Continue Watching");
-            rowsAdapter.add(1,new ListRow(headerItem,adapter));
-            setAdapter(rowsAdapter);
-        }
-    }
-    public void getWatchHistory(){
-        VolleyRequest volleyRequest=new VolleyRequest();
-        volleyRequest.sendGetRequest(new VolleyCallback() {
-            @Override
-            public void onSuccess() {
-                WatchHistoryContentDetailsList watchHistoryContentDetailsList=WatchHistoryContentDetailsList.parseJSON("{watchHistoryContentDetails:"+volleyRequest.getResponseString()+"}");
-                List<WatchHistoryContentDetails> list = watchHistoryContentDetailsList.getWatchHistoryContentDetails();
-                createWatchHistoryRow(list);
-            }
-            @Override
-            public void onError() {
-            }
-        },DataModel.trackUserWatchHistoryURL,"filter");
-    }
-    public void getWatchlist(){
-        try {
-            DataModel.watchlist= MovieBasicInfoList.parseJSON(SessionManager.sharedPreferences.getString("WATCHLIST",null)).getMovieBasicInfos();
-            List<MovieBasicInfo> mylist=new ArrayList<>();
-            for(MovieBasicInfo m:DataModel.watchlist){
-                if(m.getType()==2) mylist.add(m);
-            }
-            createRow(2,"My List",mylist);
-        }catch(Exception e){ }
     }
 
     public void getCategories(){
@@ -140,6 +74,7 @@ public class SeriesFragment extends RowsFragment {
                 DataModel.CategoriesList=allCategoriesList.getCategories();
                 System.out.println(DataModel.CategoriesList);
                 loadMovieRows();
+                //loadSeriesRows();
             }
 
             @Override
@@ -148,10 +83,10 @@ public class SeriesFragment extends RowsFragment {
         },DataModel.movieCategoriesURL,"");
     }
 
-    public void getMovies(String categoryName, int filterValue, int pageNo, int pageSize){
+    public void getContent(int contentID,String categoryName,int filterKey, int filterValue, int pageNo, int pageSize){
         String tag="filter";
         VolleyRequest volleyRequest=new VolleyRequest();
-        JSONObject params= volleyRequest.paramsObjectBuilder(2,3,filterValue,pageNo,pageSize);
+        JSONObject params= volleyRequest.paramsObjectBuilder(contentID,filterKey,filterValue,pageNo,pageSize);
         volleyRequest.sendPostRequest(new VolleyCallback() {
             @Override
             public void onSuccess() {
@@ -165,10 +100,11 @@ public class SeriesFragment extends RowsFragment {
             }
         },DataModel.movieByfilterURL,params,tag);
     }
+
     public void getMovies(String categoryName,int filterKey, int filterValue, int pageNo, int pageSize,int rowID){
         String tag="filter";
         VolleyRequest volleyRequest=new VolleyRequest();
-        JSONObject params= volleyRequest.paramsObjectBuilder(2,filterKey,filterValue,pageNo,pageSize);
+        JSONObject params= volleyRequest.paramsObjectBuilder(8,filterKey,filterValue,pageNo,pageSize);
         volleyRequest.sendPostRequest(new VolleyCallback() {
             @Override
             public void onSuccess() {
@@ -181,28 +117,6 @@ public class SeriesFragment extends RowsFragment {
             }
         },DataModel.movieByfilterURL,params,tag);
     }
-
-
-    public void createRow(int categoryID, String categoryName, List<MovieBasicInfo> list){
-        CardPresenter cardPresenter =new CardPresenter();
-        ArrayObjectAdapter categoryRowAdapter=new ArrayObjectAdapter(cardPresenter);
-        for(int i=0;i<list.size();i++)
-            categoryRowAdapter.add(list.get(i));
-        HeaderItem headerItem=new HeaderItem(categoryID,categoryName);
-        if(list.size()!=0) {
-            rowsAdapter.add(new ListRow(headerItem, categoryRowAdapter));
-            setAdapter(rowsAdapter);
-        }
-        SeriesActivity.maxRow=rowsAdapter.size();
-    }
-    public void getComingSoonMovies(){ getMovies("Coming Soon",5,0,1,10,3); }
-    public void getLatestMovies(){
-        getMovies("Latest Series",4,0,1,10,4);
-    }
-    public void getTopRatedMovies(){
-        getMovies("Top Rated Series",6,0,1,10,5);
-    }
-
 
     private void addInfiniteMovies(int contentTypeId,ArrayObjectAdapter adapter, int categoryId, int size){
         String tag="filter";
@@ -225,48 +139,103 @@ public class SeriesFragment extends RowsFragment {
         },DataModel.movieByfilterURL,params,tag);
     }
 
-    public void loadMovieRows(){
-        for(Category c: DataModel.CategoriesList){
-            getMovies(c.getName()+" Series",c.getId(),0,10);
+    public void createWatchHistoryRow(List<WatchHistoryContentDetails> watchHistory){
+        CustomCardViewPresenter cardViewPresenter=new CustomCardViewPresenter();
+        ArrayObjectAdapter adapter=new ArrayObjectAdapter(cardViewPresenter);
+        for(WatchHistoryContentDetails w: watchHistory){
+            if(w.getType()==8){
+                adapter.add(w);
+            }
+        }
+        if(adapter.size()!=0){
+            HeaderItem headerItem=new HeaderItem(1,"Continue Watching");
+            rowsAdapter.add(1,new ListRow(headerItem,adapter));
+            setAdapter(rowsAdapter);
         }
     }
 
+    public void createRow(int categoryId, String headerName, List<MovieBasicInfo> list){
+        CardPresenter cardPresenter =new CardPresenter();
+        ArrayObjectAdapter categoryRowAdapter=new ArrayObjectAdapter(cardPresenter);
+        //for(int i=0;i<list.size();i++)
+        //categoryRowAdapter.add(list.get(i));
+        categoryRowAdapter.addAll(0,list);
+        HeaderItem headerItem=new HeaderItem(categoryId,headerName);
+        if(list.size()!=0) {
+            rowsAdapter.add(new ListRow(headerItem, categoryRowAdapter));
+            setAdapter(rowsAdapter);
+        }
+    }
+
+    public void getWatchHistory(){
+        VolleyRequest volleyRequest=new VolleyRequest();
+        volleyRequest.sendGetRequest(new VolleyCallback() {
+            @Override
+            public void onSuccess() {
+                WatchHistoryContentDetailsList watchHistoryContentDetailsList=WatchHistoryContentDetailsList.parseJSON("{watchHistoryContentDetails:"+volleyRequest.getResponseString()+"}");
+                List<WatchHistoryContentDetails> list = watchHistoryContentDetailsList.getWatchHistoryContentDetails();
+                createWatchHistoryRow(list);
+            }
+            @Override
+            public void onError() {
+            }
+        },DataModel.trackUserWatchHistoryURL,"");
+    }
+    public void getWatchlist(){
+        try {
+            DataModel.watchlist= MovieBasicInfoList.parseJSON(SessionManager.sharedPreferences.getString("WATCHLIST",null)).getMovieBasicInfos();
+            List<MovieBasicInfo> mylist=new ArrayList<>();
+            for(MovieBasicInfo m:DataModel.watchlist){
+                if(m.getType()==8) mylist.add(m);
+            }
+            createRow(2,"My List",mylist);
+        }catch(Exception e){ }
+    }
+    public void getComingSoonMovies(){
+        getMovies("Coming Soon",5,0,1,10,3);
+    }
+    public void getLatestMovies(){
+        getMovies("Latest Shorts",4,0,1,10,4);
+    }
+    public void getTopRatedMovies(){
+        getMovies("Top Rated Shorts",6,0,1,10,5);
+    }
+
+
+
+    public void loadMovieRows(){
+        for(Category c: DataModel.CategoriesList){
+            getContent(8,c.getName()+" Movies",3,c.getId(),1,10);
+        }
+    }
+
+/*
+    public void loadSeriesRows(){
+        for(Category c: DataModel.CategoriesList){
+            getContent(2,c.getName()+" Series",3,c.getId(),1,10);
+        }
+    }
+*/
     public void loadUIElements(){
-        getCategories();  //loads movie rows on success of retrieving categories.
         loadLanguages();
         getWatchHistory();
         getWatchlist();
         getLatestMovies();
         getTopRatedMovies();
         getComingSoonMovies();
+        getCategories();  //loads movie rows on success of retrieving categories.
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
-        //setHeadersState(HEADERS_DISABLED);
         Log.i(TAG, "onCreate");
-        responseFlagCategories=false;
-        responseFlagMovies=false;
-
         rowsAdapter = new ArrayObjectAdapter(new ListRowPresenter(FocusHighlight.ZOOM_FACTOR_LARGE));
-
-        //requestQueue = Volley.newRequestQueue(getActivity().getApplicationContext());
-        //setupUIElements();
-        //getLanguagesList();
-        //callGetMoviesRequest();
-        //getCategories();
+        setAdapter(rowsAdapter);
         loadUIElements();
         setupEventListeners();
     }
 
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        mBackgroundManager.setDrawable(mDefaultBackground);
-    }
 
     @Override
     public void setAlignment(int windowAlignOffsetFromTop) {
@@ -283,8 +252,8 @@ public class SeriesFragment extends RowsFragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         prepareBackgroundManager();
-
     }
+
     private void prepareBackgroundManager () {
         mBackgroundManager = BackgroundManager.getInstance(getActivity());
         mBackgroundManager.attach(getActivity().getWindow());
@@ -294,8 +263,8 @@ public class SeriesFragment extends RowsFragment {
     }
 
     private void setupEventListeners() {
-        setOnItemViewClickedListener(new SeriesFragment.ItemViewClickedListener());
-        setOnItemViewSelectedListener(new SeriesFragment.ItemViewSelectedListener());
+        setOnItemViewClickedListener(new ShortsFragment.ItemViewClickedListener());
+        setOnItemViewSelectedListener(new ShortsFragment.ItemViewSelectedListener());
     }
 
     private final class ItemViewClickedListener implements OnItemViewClickedListener {
@@ -304,11 +273,16 @@ public class SeriesFragment extends RowsFragment {
                                   RowPresenter.ViewHolder rowViewHolder, Row row) {
 
             if (item instanceof MovieBasicInfo) {
-                String tag=((MovieBasicInfo) item).getId()+"";
-                System.out.println(tag);
-                Intent intent = new Intent(getActivity(), DetailsActivitySeries.class);
-                intent.putExtra(DetailsActivitySeries.SERIES, ((MovieBasicInfo)item));
-                getActivity().startActivity(intent);
+                    HeaderItem headerItem=row.getHeaderItem();
+                    int categoryID =((int) headerItem.getId())-5;
+                    String tag = ((MovieBasicInfo) item).getId() + "";
+                    Intent intent = new Intent(getActivity(), DetailsActivity.class);
+                    intent.putExtra(DetailsActivity.MOVIE, ((MovieBasicInfo) item));
+                    intent.putExtra("relatedContent", categoryID);
+                    intent.putExtra("fromPage", "Main");
+                    //System.out.println("Related Content Value: " + DataModel.getCategoryIdByName(row.getHeaderItem().getName()));
+                    getActivity().startActivity(intent);
+                    System.out.println(tag);
             }
             else if(item instanceof Language){
                 Intent intent=new Intent(getActivity(), LanguageActivity.class);
@@ -326,7 +300,6 @@ public class SeriesFragment extends RowsFragment {
         }
     }
 
-
     private final class ItemViewSelectedListener implements OnItemViewSelectedListener {
         @Override
         public void onItemSelected(
@@ -336,23 +309,46 @@ public class SeriesFragment extends RowsFragment {
                 Row row) {
 
             if(rowsAdapter.indexOf(row)==0){
-                ((SeriesActivity)getActivity()).showCarousal();
-                ((SeriesActivity)getActivity()).hideMovieDetails();
-                ((SeriesActivity) getActivity()).collapseLanguageRow();
+                ((ShortsActivity)getActivity()).showCarousal();
+                ((ShortsActivity)getActivity()).hideMovieDetails();
+                ((ShortsActivity) getActivity()).collapseLanguageRow();
             }
             if(rowsAdapter.indexOf(row)==1){
-                ((SeriesActivity)getActivity()).hideCarousal();
-                ((SeriesActivity)getActivity()).showMovieDetails();
-                ((SeriesActivity) getActivity()).expandLanguageRow();
+                ((ShortsActivity)getActivity()).hideCarousal();
+                ((ShortsActivity)getActivity()).showMovieDetails();
+                ((ShortsActivity) getActivity()).expandLanguageRow();
+            }
+
+            if(item instanceof WatchHistoryContentDetails){
+                ((ShortsActivity)getActivity()).setMovieName(((WatchHistoryContentDetails) item).getTitle());
+                //((MainActivity)getActivity()).setMovieLanguage(((MovieBasicInfo) item).getLanguageName());
+                /*String description=((WatchHistoryContentDetails) item).getDescription();
+                if ((description.length() <= 303)) {
+                    ((MainActivity) getActivity()).setMovieDescription(description);
+                } else {
+                    ((MainActivity) getActivity()).setMovieDescription(description.substring(0, 300) + "...");
+                }*/
+
+                //((MainActivity)getActivity()).setMovieRuntime(((WatchHistoryContentDetails) item).getRunTime());
+                ((ShortsActivity)getActivity()).setMoviePoster(((WatchHistoryContentDetails) item).getPosterUrl());
+                //((MainActivity)getActivity()).setYearOfProduction(((WatchHistoryContentDetails) item).getYearOfProduction());
+                //((MainActivity)getActivity()).setMovieAgeRestriction(((WatchHistoryContentDetails) item).getAgeRestriction()+"+");
+
             }
 
             if (item instanceof MovieBasicInfo) {
+
                 //Code For Inifinite Scroll
                 System.out.println("MOVIE ID: "+((MovieBasicInfo) item).getId());
                 int index=rowsAdapter.indexOf(row);
                 HeaderItem headerItem=row.getHeaderItem();
                 int categoryID=0;
-                categoryID =((int) headerItem.getId())-5;
+                if(((MovieBasicInfo) item).getType()==1){
+                    categoryID =((int) headerItem.getId())-5;
+                }
+                else if(((((MovieBasicInfo) item).getType()==2))){
+                    categoryID =((int)headerItem.getId())-(DataModel.CategoriesList).size()-5;
+                }
                 System.out.println(categoryID);
                 String categoryName=headerItem.getName();
                 ArrayObjectAdapter adapter= (ArrayObjectAdapter) ((ListRow) rowsAdapter.get(index)).getAdapter();
@@ -360,23 +356,21 @@ public class SeriesFragment extends RowsFragment {
                 if(adapter.get(adapter.size()-1).equals(item))
                     addInfiniteMovies(((MovieBasicInfo) item).getType(),adapter,categoryID,adapter.size()-1);
 
-                ((SeriesActivity)getActivity()).setMovieName(((MovieBasicInfo) item).getTitle());
-                //((MainActivity)getActivity()).setMovieLanguage(((Movie) item).getLanguageName());
-
-                /*
-                String description=((MovieBasicInfo) item).getDescription();
-                if ((description.length() <= 303)) {
-                    ((SeriesActivity) getActivity()).setMovieDescription(description);
-                } else {
-                    ((SeriesActivity) getActivity()).setMovieDescription(description.substring(0, 300) + "...");
+                //Code for updating images and description
+                ((ShortsActivity) getActivity()).setMovieName(((MovieBasicInfo) item).getTitle());
+                ((ShortsActivity) getActivity()).setMoviePoster(((MovieBasicInfo) item).getPosterUrl());
+                ((ShortsActivity) getActivity()).setYearOfProduction(((MovieBasicInfo) item).getYearOfProduction());
+                if(((MovieBasicInfo) item).getType()==8) {
+                    //((MainActivity)getActivity()).setMovieLanguage(((MovieBasicInfo) item).getLanguageName());
+                    String description = ((MovieBasicInfo) item).getDescription();
+                    if ((description.length() <= 303)) {
+                        ((ShortsActivity) getActivity()).setMovieDescription(description);
+                    } else {
+                        ((ShortsActivity) getActivity()).setMovieDescription(description.substring(0, 300) + "...");
+                    }
+                    ((ShortsActivity) getActivity()).setMovieRuntime(((MovieBasicInfo) item).getRunTime());
+                    ((ShortsActivity) getActivity()).setMovieAgeRestriction(((MovieBasicInfo) item).getAgeRestriction() + "+");
                 }
-                */
-                //((SeriesActivity)getActivity()).setMovieRuntime(((MovieBasicInfo) item).getRunTime());
-                ((SeriesActivity)getActivity()).setMoviePoster(((MovieBasicInfo) item).getPosterUrl());
-
-                //((SeriesActivity)getActivity()).setMovieAgeRestriction(((MovieBasicInfo) item).getAgeRestriction()+"+");
-                ((SeriesActivity)getActivity()).setYearOfProduction(((MovieBasicInfo) item).getYearOfProduction());
-
             }
             //if (item instanceof Movie) {
             //  mBackgroundUri = ((Movie) item).getBackgroundImageUrl();

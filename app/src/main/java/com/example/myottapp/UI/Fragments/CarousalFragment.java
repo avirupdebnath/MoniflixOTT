@@ -27,8 +27,10 @@ import com.example.myottapp.Service.VolleyRequest;
 import com.example.myottapp.Service.VolleyCallback;
 import com.example.myottapp.UI.Activities.BrowseErrorActivity;
 import com.example.myottapp.UI.Activities.DetailsActivity;
+import com.example.myottapp.UI.Activities.KidsActivity;
 import com.example.myottapp.UI.Activities.MainActivity;
 import com.example.myottapp.UI.Activities.MovieActivity;
+import com.example.myottapp.UI.Activities.ShortsActivity;
 import com.example.myottapp.UI.Presenters.BigCardPresenter;
 import com.example.myottapp.UI.Activities.SeriesActivity;
 import com.example.myottapp.models.DataModel;
@@ -55,11 +57,13 @@ public class CarousalFragment extends RowsFragment {
                 if(activityName.equals("Main"))((MainActivity)getActivity()).hideOnLoadPage();
                 else if (activityName.equals("Movie"))((MovieActivity)getActivity()).hideOnLoadPage();
                 else if (activityName.equals("Series"))((SeriesActivity)getActivity()).hideOnLoadPage();
+                else if (activityName.equals("Shorts"))((ShortsActivity)getActivity()).hideOnLoadPage();
+                else if (activityName.equals("Kids"))((KidsActivity)getActivity()).hideOnLoadPage();
             }
             @Override
             public void onError() {
             }
-        },DataModel.carousalURL+config,DataModel.carousalTAG);
+        },DataModel.carousalURL+config,"filter");
     }
 
 

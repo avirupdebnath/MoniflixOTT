@@ -2,6 +2,7 @@ package com.example.myottapp.UI.Activities;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.KeyEvent;
@@ -11,6 +12,7 @@ import android.widget.ArrayAdapter;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -184,6 +186,8 @@ public class DetailsActivitySeries extends Activity {
                     DataModel.watchlist.add(movieBasicInfo);
                     System.out.println(movieBasicInfo.getId()+" Added to watchlist");
                     MainActivity.activityCreated=0;
+                    SeriesActivity.activityCreated=0;
+                    KidsActivity.activityCreated=0;
                     MovieBasicInfoList watchlistMovies=new MovieBasicInfoList();
                     watchlistMovies.setMovieBasicInfos(DataModel.watchlist);
                     Gson gson = new Gson();
@@ -416,16 +420,12 @@ public class DetailsActivitySeries extends Activity {
 
     }
 
-    /*
     public void refreshToken() {
         ProgressBar progressBar = findViewById(R.id.progress_bar);
         if (DataModel.refreshTokenCount == 0) {
             Intent intent = new Intent(DetailsActivitySeries.this, TokenRefresherActivity.class);
-            intent.putExtra(DetailsActivity.MOVIE, movieBasicInfo);
-            if (fromPage.equals("Main")) {
-                intent.putExtra("relatedContent", relatedContent);
-            }
-            intent.putExtra("fromPage", fromPage);
+            intent.putExtra(TokenRefresherActivity.MOVIE, movieBasicInfo);
+            intent.putExtra("fromPage", "Series");
             DataModel.refreshTokenCount = 1;
             progressBar.setVisibility(View.INVISIBLE);
             this.startActivity(intent);
@@ -433,6 +433,4 @@ public class DetailsActivitySeries extends Activity {
         }
         else progressBar.setVisibility(View.INVISIBLE);
     }
-
-     */
 }

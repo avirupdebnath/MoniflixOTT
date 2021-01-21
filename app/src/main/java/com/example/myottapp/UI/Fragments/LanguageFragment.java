@@ -24,6 +24,7 @@ import com.example.myottapp.R;
 import com.example.myottapp.Service.VolleyRequest;
 import com.example.myottapp.Service.VolleyCallback;
 import com.example.myottapp.UI.Activities.DetailsActivity;
+import com.example.myottapp.UI.Activities.DetailsActivitySeries;
 import com.example.myottapp.UI.Activities.LanguageActivity;
 import com.example.myottapp.UI.Presenters.CardPresenter;
 import com.example.myottapp.UI.Presenters.CustomListRowPresenter;
@@ -145,12 +146,19 @@ public class LanguageFragment extends RowsFragment {
 
 
             if (item instanceof MovieBasicInfo) {
-                String tag=((MovieBasicInfo) item).getId()+"";
-                Intent intent = new Intent(getActivity(), DetailsActivity.class);
-                intent.putExtra(DetailsActivity.MOVIE, ((MovieBasicInfo)item));
-                intent.putExtra("fromPage","Search");
-                getActivity().startActivity(intent);
-
+                if (((MovieBasicInfo) item).getType() == 1) {
+                    String tag = ((MovieBasicInfo) item).getId() + "";
+                    Intent intent = new Intent(getActivity(), DetailsActivity.class);
+                    intent.putExtra(DetailsActivity.MOVIE, ((MovieBasicInfo) item));
+                    intent.putExtra("fromPage", "Search");
+                    getActivity().startActivity(intent);
+                } else if (((MovieBasicInfo) item).getType() == 2) {
+                    String tag = ((MovieBasicInfo) item).getId() + "";
+                    System.out.println(tag);
+                    Intent intent = new Intent(getActivity(), DetailsActivitySeries.class);
+                    intent.putExtra(DetailsActivitySeries.SERIES, ((MovieBasicInfo) item));
+                    getActivity().startActivity(intent);
+                }
             }
 
         }
@@ -164,16 +172,18 @@ public class LanguageFragment extends RowsFragment {
                 Row row) {
             if (item instanceof MovieBasicInfo) {
                 ((LanguageActivity)getActivity()).setMovieName(((MovieBasicInfo) item).getTitle());
-                //((LanguageActivity)getActivity()).setMovieLanguage(((Movie) item).getLanguageName());
-                String description=((MovieBasicInfo) item).getDescription();
-                if ((description.length() <= 303)) {
-                    ((LanguageActivity) getActivity()).setMovieDescription(description);
-                } else {
-                    ((LanguageActivity) getActivity()).setMovieDescription(description.substring(0, 300) + "...");
-                }
-                ((LanguageActivity)getActivity()).setMovieRuntime(((MovieBasicInfo) item).getRunTime());
                 ((LanguageActivity)getActivity()).setMoviePoster(((MovieBasicInfo) item).getPosterUrl());
                 ((LanguageActivity)getActivity()).setMovieAgeRestriction(((MovieBasicInfo) item).getAgeRestriction()+"+");
+                //((LanguageActivity)getActivity()).setMovieLanguage(((Movie) item).getLanguageName());
+                if(((MovieBasicInfo) item).getType()==1) {
+                    String description = ((MovieBasicInfo) item).getDescription();
+                    if ((description.length() <= 303)) {
+                        ((LanguageActivity) getActivity()).setMovieDescription(description);
+                    } else {
+                        ((LanguageActivity) getActivity()).setMovieDescription(description.substring(0, 300) + "...");
+                    }
+                    ((LanguageActivity) getActivity()).setMovieRuntime(((MovieBasicInfo) item).getRunTime());
+                }
 
             }
             //if (item instanceof Movie) {

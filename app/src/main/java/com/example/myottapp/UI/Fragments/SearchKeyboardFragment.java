@@ -11,6 +11,7 @@ import androidx.core.content.ContextCompat;
 import androidx.leanback.app.BackgroundManager;
 import androidx.leanback.app.VerticalGridFragment;
 import androidx.leanback.widget.ArrayObjectAdapter;
+import androidx.leanback.widget.FocusHighlight;
 import androidx.leanback.widget.OnItemViewClickedListener;
 import androidx.leanback.widget.Presenter;
 import androidx.leanback.widget.Row;
@@ -33,7 +34,7 @@ public class SearchKeyboardFragment extends VerticalGridFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        VerticalGridPresenter gridPresenter = new VerticalGridPresenter(){
+        VerticalGridPresenter gridPresenter = new VerticalGridPresenter(FocusHighlight.ZOOM_FACTOR_LARGE,false){
             @Override
             protected void initializeGridViewHolder(ViewHolder vh) {
                 super.initializeGridViewHolder(vh);

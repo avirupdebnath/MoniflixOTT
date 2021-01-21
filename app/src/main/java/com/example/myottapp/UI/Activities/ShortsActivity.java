@@ -13,27 +13,24 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.example.myottapp.R;
+import com.example.myottapp.UI.Fragments.BannerFragment;
 import com.example.myottapp.UI.Fragments.CarousalFragment;
 import com.example.myottapp.models.DataModel;
-import com.example.myottapp.models.Movie;
 
-/*
- * Main Activity class that loads {@link MainFragment}.
- */
-public class MovieActivity extends Activity {
+public class ShortsActivity extends Activity {
     public Context mContext=this;
     public static int activityCreated;
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_movies);
-        DataModel.refreshTokenCount=0;
         activityCreated=1;
+        DataModel.refreshTokenCount=0;
+        setContentView(R.layout.activity_shorts);
 
         CarousalFragment carousalFragment= (CarousalFragment) getFragmentManager().findFragmentById(R.id.carousal_fragment);
-        carousalFragment.getCarousal(2,"Movie");
+        carousalFragment.getCarousal(5,"Shorts");
 
+        showOnLoadPage();
         showCarousal();
         hideMovieDetails();
         //collapseLanguageRow();
@@ -42,9 +39,10 @@ public class MovieActivity extends Activity {
     @Override
     protected void onResume() {
         super.onResume();
+        BannerFragment.position=1;
         DataModel.refreshTokenCount=0;
         if(activityCreated!=1) {
-            Intent intent = new Intent(this, MovieActivity.class);
+            Intent intent = new Intent(this, ShortsActivity.class);
             startActivity(intent);
             finish();
         }
@@ -89,8 +87,7 @@ public class MovieActivity extends Activity {
     void setMovieLanguage(String s){
         TextView movieLanguage=(TextView) findViewById(R.id.movie_language);
         movieLanguage.setText(s);
-    }
-     */
+    }*/
     public void setMovieAgeRestriction(String s){
         TextView movieAge=(TextView) findViewById(R.id.movie_age);
         movieAge.setText(s);
@@ -129,7 +126,4 @@ public class MovieActivity extends Activity {
         FrameLayout frameLayout=(FrameLayout)findViewById(R.id.load_frame);
         frameLayout.setVisibility(View.INVISIBLE);
     }
-
-
-
 }

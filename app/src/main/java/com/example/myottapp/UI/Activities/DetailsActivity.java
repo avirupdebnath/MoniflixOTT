@@ -107,7 +107,8 @@ public class DetailsActivity extends Activity {
             setMovieGenre(mSelectedMovie.getCategoryInfo());
             try {
                 setMoviePoster(mSelectedMovie.getPoster().getUrl());
-                playTrailer(mSelectedMovie.getTrailer().getUrl().getHls_Low());
+                //playTrailer(mSelectedMovie.getTrailer().getUrl().getHls_Low());
+                playTrailer(mSelectedMovie.getAccessUrls().getHls_High());
             }catch (Exception e){
                 hideTrailerVideoFrame();
                 showPosterFrame();
@@ -132,6 +133,9 @@ public class DetailsActivity extends Activity {
                     DataModel.watchlist.add(movieBasicInfo);
                     System.out.println(movieBasicInfo.getId()+" Added to watchlist");
                     MainActivity.activityCreated=0;
+                    MovieActivity.activityCreated=0;
+                    ShortsActivity.activityCreated=0;
+                    KidsActivity.activityCreated=0;
                     MovieBasicInfoList watchlistMovies=new MovieBasicInfoList();
                     watchlistMovies.setMovieBasicInfos(DataModel.watchlist);
                     Gson gson = new Gson();
@@ -296,7 +300,7 @@ public class DetailsActivity extends Activity {
         ProgressBar progressBar = findViewById(R.id.progress_bar);
         if (DataModel.refreshTokenCount == 0) {
             Intent intent = new Intent(DetailsActivity.this, TokenRefresherActivity.class);
-            intent.putExtra(DetailsActivity.MOVIE, movieBasicInfo);
+            intent.putExtra(TokenRefresherActivity.MOVIE, movieBasicInfo);
             if (fromPage.equals("Main")) {
                 intent.putExtra("relatedContent", relatedContent);
             }

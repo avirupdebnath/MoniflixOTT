@@ -11,6 +11,7 @@ import androidx.core.content.ContextCompat;
 import androidx.leanback.app.BackgroundManager;
 import androidx.leanback.app.VerticalGridFragment;
 import androidx.leanback.widget.ArrayObjectAdapter;
+import androidx.leanback.widget.FocusHighlight;
 import androidx.leanback.widget.OnItemViewClickedListener;
 import androidx.leanback.widget.Presenter;
 import androidx.leanback.widget.Row;
@@ -22,6 +23,7 @@ import com.example.myottapp.R;
 import com.example.myottapp.Service.VolleyRequest;
 import com.example.myottapp.Service.VolleyCallback;
 import com.example.myottapp.UI.Activities.DetailsActivity;
+import com.example.myottapp.UI.Activities.DetailsActivitySeries;
 import com.example.myottapp.UI.Presenters.SearchCardPresenter;
 import com.example.myottapp.models.DataModel;
 import com.example.myottapp.models.MovieBasicInfo;
@@ -42,7 +44,7 @@ public class SearchFragment extends VerticalGridFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        VerticalGridPresenter gridPresenter = new VerticalGridPresenter(){
+        VerticalGridPresenter gridPresenter = new VerticalGridPresenter(FocusHighlight.ZOOM_FACTOR_LARGE,false){
             @Override
             protected void initializeGridViewHolder(ViewHolder vh) {
                 super.initializeGridViewHolder(vh);
@@ -134,11 +136,16 @@ public class SearchFragment extends VerticalGridFragment {
 
 
             if (item instanceof MovieBasicInfo) {
-                String tag=((MovieBasicInfo) item).getId()+"";
-                Intent intent = new Intent(getActivity(), DetailsActivity.class);
-                intent.putExtra(DetailsActivity.MOVIE, ((MovieBasicInfo)item));
-                intent.putExtra("fromPage","Search");
-                getActivity().startActivity(intent);
+                if(((MovieBasicInfo) item).getType()==1) {
+                    Intent intent = new Intent(getActivity(), DetailsActivity.class);
+                    intent.putExtra(DetailsActivity.MOVIE, ((MovieBasicInfo) item));
+                    intent.putExtra("fromPage", "Search");
+                    getActivity().startActivity(intent);
+                } else if(((MovieBasicInfo) item).getType()==2){
+                    Intent intent = new Intent(getActivity(), DetailsActivitySeries.class);
+                    intent.putExtra(DetailsActivitySeries.SERIES, ((MovieBasicInfo)item));
+                    getActivity().startActivity(intent);
+                }
             }
         }
     }

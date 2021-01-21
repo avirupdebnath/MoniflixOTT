@@ -183,7 +183,7 @@ public class RelatedItemsFragment extends RowsFragment {
                 ((DetailsActivity)getActivity()).showOnLoadPage();
                 getMovieDetails();
                 if(DetailsActivity.fromPage.equals("Main")) updateUIByCategory(DetailsActivity.relatedContent);
-                System.out.println("Related Content Value: "+DataModel.getCategoryIdByName(row.getHeaderItem().getName()));
+                //System.out.println("Related Content Value: "+DataModel.getCategoryIdByName(row.getHeaderItem().getName()));
 
             } else if (item instanceof String) {
                 if (((String) item).contains(getString(R.string.error_fragment))) {

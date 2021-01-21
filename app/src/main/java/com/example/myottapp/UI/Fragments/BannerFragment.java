@@ -18,7 +18,10 @@ import androidx.leanback.widget.Row;
 import androidx.leanback.widget.RowPresenter;
 
 import com.example.myottapp.R;
+import com.example.myottapp.Service.ApplicationController;
 import com.example.myottapp.UI.Activities.BrowseErrorActivity;
+import com.example.myottapp.UI.Activities.KidsActivity;
+import com.example.myottapp.UI.Activities.ShortsActivity;
 import com.example.myottapp.UI.Presenters.CustomListRowPresenter;
 import com.example.myottapp.UI.Activities.MainActivity;
 import com.example.myottapp.UI.Activities.MovieActivity;
@@ -63,8 +66,8 @@ public class BannerFragment extends RowsFragment {
         gridRowAdapter.add(getResources().getString(R.string.Movies));
         gridRowAdapter.add(getResources().getString(R.string.Series));
         gridRowAdapter.add(getResources().getString(R.string.Kids));
-        //gridRowAdapter.add(getResources().getString(R.string.Shorts));
-        gridRowAdapter.add(getResources().getString(R.string.MyLists));
+        gridRowAdapter.add(getResources().getString(R.string.Shorts));
+        //gridRowAdapter.add(getResources().getString(R.string.MyLists));
         gridRowAdapter.add(getResources().getString(R.string.Settings));
         //setAdapter(gridRowAdapter);
         rowsAdapter.add(new ListRow(gridRowAdapter));
@@ -112,42 +115,49 @@ public class BannerFragment extends RowsFragment {
                     BannerFragment.position=1;
                 } else {
                     if(((String) item).contains(getString(R.string.Search))) {
+                        ApplicationController.getInstance().cancelPendingRequests("filter");
                         Intent intent = new Intent(getActivity(), SearchActivity.class);
                         startActivity(intent);
                         BannerFragment.position=0;
                         Toast.makeText(getActivity(), ((String) item), Toast.LENGTH_SHORT).show();
                     }
                     else if(((String) item).contains(getString(R.string.Home))) {
+                        ApplicationController.getInstance().cancelPendingRequests("filter");
                         Intent intent = new Intent(getActivity(), MainActivity.class);
                         startActivity(intent);
                         BannerFragment.position=1;
                         Toast.makeText(getActivity(), ((String) item), Toast.LENGTH_SHORT).show();
                     }
                     else if(((String) item).contains(getString(R.string.Movies))) {
+                        ApplicationController.getInstance().cancelPendingRequests("filter");
                         Intent intent = new Intent(getActivity(), MovieActivity.class);
                         startActivity(intent);
                         BannerFragment.position=2;
                         Toast.makeText(getActivity(), ((String) item), Toast.LENGTH_SHORT).show();
                     }
                     else if(((String) item).contains(getString(R.string.Series))) {
+                        ApplicationController.getInstance().cancelPendingRequests("filter");
                         Intent intent = new Intent(getActivity(), SeriesActivity.class);
                         startActivity(intent);
                         BannerFragment.position=3;
                         Toast.makeText(getActivity(), ((String) item), Toast.LENGTH_SHORT).show();
                     }
                     else if(((String) item).contains(getString(R.string.Kids))) {
-                        //Intent intent = new Intent(getActivity(), SettingActivity.class);
-                        //startActivity(intent);
+                        ApplicationController.getInstance().cancelPendingRequests("filter");
+                        Intent intent = new Intent(getActivity(), KidsActivity.class);
+                        startActivity(intent);
                         BannerFragment.position=4;
                         Toast.makeText(getActivity(), ((String) item), Toast.LENGTH_SHORT).show();
                     }
-                    else if(((String) item).contains(getString(R.string.MyLists))) {
-                        //Intent intent = new Intent(getActivity(), SettingActivity.class);
-                        //startActivity(intent);
+                    else if(((String) item).contains(getString(R.string.Shorts))) {
+                        ApplicationController.getInstance().cancelPendingRequests("filter");
+                        Intent intent = new Intent(getActivity(), ShortsActivity.class);
+                        startActivity(intent);
                         BannerFragment.position=5;
                         Toast.makeText(getActivity(), ((String) item), Toast.LENGTH_SHORT).show();
                     }
                     else if(((String) item).contains(getString(R.string.Settings))) {
+                        ApplicationController.getInstance().cancelPendingRequests("filter");
                         Intent intent = new Intent(getActivity(), SettingActivity.class);
                         startActivity(intent);
                         BannerFragment.position=6;

@@ -36,6 +36,7 @@ import com.example.myottapp.UI.Activities.DetailsActivity;
 import com.example.myottapp.UI.Activities.LanguageActivity;
 import com.example.myottapp.UI.Activities.MovieActivity;
 import com.example.myottapp.UI.Presenters.CardPresenter;
+import com.example.myottapp.UI.Presenters.CustomCardViewPresenter;
 import com.example.myottapp.UI.Presenters.LanguageCardPresenter;
 import com.example.myottapp.models.AllCategoriesList;
 import com.example.myottapp.models.AllLanguagesList;
@@ -44,6 +45,9 @@ import com.example.myottapp.models.DataModel;
 import com.example.myottapp.models.Language;
 import com.example.myottapp.models.MovieBasicInfo;
 import com.example.myottapp.models.MovieBasicInfoList;
+import com.example.myottapp.models.SessionManager;
+import com.example.myottapp.models.WatchHistoryContentDetails;
+import com.example.myottapp.models.WatchHistoryContentDetailsList;
 
 import org.json.JSONObject;
 
@@ -83,25 +87,63 @@ public class MovieFragment extends RowsFragment {
     public static boolean responseFlagMovies=false;
 
 
-    public void getLanguagesList(){
-        if(staticLanguageList.size()==0) {
-            for (int i = 0; i < DataModel.languageNames.length; i++) {
-                staticLanguageList.add(new Language(i, DataModel.languageNames[i]));
-            }
-        }
-    }
-
     private void loadLanguages() {
         LanguageCardPresenter languageCardPresenter=new LanguageCardPresenter();
         ArrayObjectAdapter languagesRowAdapter = new ArrayObjectAdapter(languageCardPresenter);
-        //for(int n=0;n<staticLanguageList.size();n++){
-        //    languagesRowAdapter.add(staticLanguageList.get(n));
-        //}
-        languagesRowAdapter.addAll(0,staticLanguageList);
+        languagesRowAdapter.addAll(0,DataModel.staticLanguageList);
         HeaderItem headerItem=new HeaderItem(0,"Languages");
-        rowsAdapter.add(new ListRow(headerItem, languagesRowAdapter));
+        rowsAdapter.add(0,new ListRow(headerItem, languagesRowAdapter));
         setAdapter(rowsAdapter);
     }
+
+    public void createWatchHistoryRow(List<WatchHistoryContentDetails> watchHistory){
+        CustomCardViewPresenter cardViewPresenter=new CustomCardViewPresenter();
+        ArrayObjectAdapter adapter=new ArrayObjectAdapter(cardViewPresenter);
+        for(WatchHistoryContentDetails w: watchHistory){
+            if(w.getType()==1){
+                adapter.add(w);
+            }
+        }
+        if(adapter.size()!=0){
+            HeaderItem headerItem=new HeaderItem(1,"Continue Watching");
+            rowsAdapter.add(1,new ListRow(headerItem,adapter));
+            setAdapter(rowsAdapter);
+        }
+    }
+    public void getWatchHistory(){
+        VolleyRequest volleyRequest=new VolleyRequest();
+        volleyRequest.sendGetRequest(new VolleyCallback() {
+            @Override
+            public void onSuccess() {
+                WatchHistoryContentDetailsList watchHistoryContentDetailsList=WatchHistoryContentDetailsList.parseJSON("{watchHistoryContentDetails:"+volleyRequest.getResponseString()+"}");
+                List<WatchHistoryContentDetails> list = watchHistoryContentDetailsList.getWatchHistoryContentDetails();
+                createWatchHistoryRow(list);
+            }
+            @Override
+            public void onError() {
+            }
+        },DataModel.trackUserWatchHistoryURL,"filter");
+    }
+    public void getWatchlist(){
+        try {
+            DataModel.watchlist= MovieBasicInfoList.parseJSON(SessionManager.sharedPreferences.getString("WATCHLIST",null)).getMovieBasicInfos();
+            List<MovieBasicInfo> mylist=new ArrayList<>();
+            for(MovieBasicInfo m:DataModel.watchlist){
+                if(m.getType()==1) mylist.add(m);
+            }
+            createRow(2,"My List",mylist);
+        }catch(Exception e){ }
+    }
+    public void getComingSoonMovies(){
+        getMovies("Coming Soon",5,0,1,10,3);
+    }
+    public void getLatestMovies(){
+        getMovies("Latest Movies",4,0,1,10,4);
+    }
+    public void getTopRatedMovies(){
+        getMovies("Top Rated Movies",6,0,1,10,5);
+    }
+
 
     public void getCategories(){
         VolleyRequest volleyRequest=new VolleyRequest();
@@ -112,13 +154,9 @@ public class MovieFragment extends RowsFragment {
                 DataModel.CategoriesList=allCategoriesList.getCategories();
                 System.out.println(DataModel.CategoriesList);
                 loadMovieRows();
-
             }
-
             @Override
             public void onError() {
-
-
             }
         },DataModel.movieCategoriesURL,"");
     }
@@ -132,18 +170,30 @@ public class MovieFragment extends RowsFragment {
             public void onSuccess() {
                 MovieBasicInfoList movieBasicInfoList=MovieBasicInfoList.parseJSON("{movieBasicInfos:"+volleyRequest.getResponseString()+"}");
                 List<MovieBasicInfo> list = movieBasicInfoList.getMovieBasicInfos();
-                createRow(filterValue,categoryName,list);
-
+                createRow(filterValue+5,categoryName,list);
             }
-
             @Override
             public void onError() {
-
             }
         },DataModel.movieByfilterURL,params,tag);
     }
-
-    private void addInfiniteMovies(ArrayObjectAdapter adapter, int categoryId,String categoryName, int size){
+    public void getMovies(String categoryName,int filterKey, int filterValue, int pageNo, int pageSize,int rowID){
+        String tag="filter";
+        VolleyRequest volleyRequest=new VolleyRequest();
+        JSONObject params= volleyRequest.paramsObjectBuilder(1,filterKey,filterValue,pageNo,pageSize);
+        volleyRequest.sendPostRequest(new VolleyCallback() {
+            @Override
+            public void onSuccess() {
+                MovieBasicInfoList movieBasicInfoList=MovieBasicInfoList.parseJSON("{movieBasicInfos:"+volleyRequest.getResponseString()+"}");
+                List<MovieBasicInfo> list = movieBasicInfoList.getMovieBasicInfos();
+                createRow(rowID,categoryName,list);
+            }
+            @Override
+            public void onError() {
+            }
+        },DataModel.movieByfilterURL,params,tag);
+    }
+    private void addInfiniteMovies(ArrayObjectAdapter adapter, int categoryId, int size){
         String tag="";
         int pageNo=size/10;
         VolleyRequest volleyRequest=new VolleyRequest();
@@ -179,14 +229,18 @@ public class MovieFragment extends RowsFragment {
 
     public void loadMovieRows(){
         for(Category c: DataModel.CategoriesList){
-            getMovies(c.getName(),c.getId(),0,10);
+            getMovies(c.getName()+" Movies",c.getId(),0,10);
         }
     }
 
     public void loadUIElements(){
-        getLanguagesList();
         getCategories();  //loads movie rows on success of retrieving categories.
         loadLanguages();
+        getWatchHistory();
+        getWatchlist();
+        getLatestMovies();
+        getTopRatedMovies();
+        getComingSoonMovies();
     }
 
     @Override
@@ -242,12 +296,13 @@ public class MovieFragment extends RowsFragment {
                                   RowPresenter.ViewHolder rowViewHolder, Row row) {
 
             if (item instanceof MovieBasicInfo) {
+                HeaderItem headerItem=row.getHeaderItem();
+                int categoryID =((int) headerItem.getId())-5;
                 String tag=((MovieBasicInfo) item).getId()+"";
                 Intent intent = new Intent(getActivity(), DetailsActivity.class);
                 intent.putExtra(DetailsActivity.MOVIE, ((MovieBasicInfo)item));
-                intent.putExtra("relatedContent",DataModel.getCategoryIdByName(row.getHeaderItem().getName()));
+                intent.putExtra("relatedContent", categoryID);
                 intent.putExtra("fromPage","Main");
-                System.out.println("Related Content Value: "+DataModel.getCategoryIdByName(row.getHeaderItem().getName()));
                 getActivity().startActivity(intent);
                 System.out.println(tag);
             }
@@ -298,12 +353,14 @@ public class MovieFragment extends RowsFragment {
                 System.out.println("MOVIE ID: "+((MovieBasicInfo) item).getId());
                 int index=rowsAdapter.indexOf(row);
                 HeaderItem headerItem=row.getHeaderItem();
-                int categoryID = (int) headerItem.getId();
-                String categoryName=headerItem.getName();
+                int categoryID=0;
+                categoryID =((int) headerItem.getId())-5;
+                System.out.println(categoryID);
                 ArrayObjectAdapter adapter= (ArrayObjectAdapter) ((ListRow) rowsAdapter.get(index)).getAdapter();
                 System.out.println("Row No. : "+index+"Adapter size"+adapter.size());
                 if(adapter.get(adapter.size()-1).equals(item))
-                    addInfiniteMovies(adapter,categoryID,categoryName,adapter.size()-1);
+                    addInfiniteMovies(adapter,categoryID,adapter.size()-1);
+
 
                 //Code for updating images and description
                 ((MovieActivity)getActivity()).setMovieName(((MovieBasicInfo) item).getTitle());

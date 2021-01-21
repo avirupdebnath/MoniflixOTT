@@ -2,9 +2,12 @@ package com.example.myottapp.UI.Activities;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
+import android.graphics.Path;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -13,26 +16,29 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.example.myottapp.R;
 import com.example.myottapp.UI.Fragments.CarousalFragment;
+import com.example.myottapp.UI.Fragments.MainFragment;
+import com.example.myottapp.UI.Fragments.SeriesFragment;
 import com.example.myottapp.models.DataModel;
+import com.example.myottapp.models.Series;
 
 public class SeriesActivity extends Activity {
     public Context mContext=this;
     public static int row=0;
     public static int maxRow;
     public CarousalFragment carousalFragment;
+    public static int activityCreated;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_series);
-
         DataModel.refreshTokenCount=0;
-
+        activityCreated=1;
         CarousalFragment carousalFragment= (CarousalFragment) getFragmentManager().findFragmentById(R.id.carousal_fragment);
         carousalFragment.getCarousal(3,"Series");
-
         showCarousal();
         hideMovieDetails();
+        collapseLanguageRow();
     }
 /*
     @Override
@@ -54,13 +60,18 @@ public class SeriesActivity extends Activity {
         System.out.println(row);
         return super.onKeyDown(keyCode, event);
     }
+ */
 
-*/
 
     @Override
     protected void onResume() {
         super.onResume();
         DataModel.refreshTokenCount=0;
+        if(activityCreated!=1) {
+            Intent intent = new Intent(this, SeriesActivity.class);
+            startActivity(intent);
+            finish();
+        }
     }
 
     public void collapseLanguageRow(){

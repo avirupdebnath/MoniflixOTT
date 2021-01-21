@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/linear_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:baselineAligned="false"
+    android:orientation="vertical"
+    tools:context=".UI.Activities.MainActivity"
+    android:background="@color/background_gradient_start">
+    <FrameLayout
+        android:id="@+id/details_frame"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:layout_margin="0dp"
+        android:background="@color/background_gradient_start">
+        <FrameLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:foreground="@drawable/transparent_to_dark_reverse_shade">
+            <FrameLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:foreground="@drawable/black_to_transparent_shade_horizontal">
+                <ImageView
+                    android:id="@+id/movie_poster"
+                    android:layout_width="750dp"
+                    android:layout_height="500dp"
+                    android:gravity="right"
+                    android:layout_gravity="right"
+                    android:src="@drawable/movie">
+                </ImageView>
+            </FrameLayout>
+        </FrameLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="500dp"
+            android:layout_gravity="left"
+            android:gravity="top"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/movie_name"
+                android:layout_marginTop="70dp"
+                android:layout_width="600dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_marginLeft="50dp"
+                android:layout_marginBottom="5dp"
+                android:text="Movie Name"
+                android:textColor="@color/white"
+                android:textSize="40sp"></TextView>
+            <!--
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="50dp"
+
+                    android:layout_marginBottom="5dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/movie_language"
+                        android:textColor="@color/white"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentTop="true"
+                        android:layout_marginEnd="10dp"
+                        android:text="Japanese"
+                        android:textSize="12sp"></TextView>
+
+        </LinearLayout>
+        -->
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="50dp"
+                android:layout_marginBottom="20dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/movie_time"
+                    android:textColor="@color/white"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginEnd="10dp"
+                    android:text="1 Hr 24 Min"
+                    android:textSize="12sp"></TextView>
+
+                <TextView
+                    android:id="@+id/yearOfProduction"
+                    android:textColor="@color/white"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginEnd="10dp"
+                    android:text="2019"
+                    android:textSize="12sp"></TextView>
+
+                <TextView
+                    android:id="@+id/movie_age"
+                    android:textColor="@color/white"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginEnd="10dp"
+                    android:text="18+"
+                    android:textAlignment="center"
+                    android:paddingStart="10dp"
+                    android:paddingEnd="10dp"
+                    android:background="@drawable/white_border_rounded_rectangle"
+                    android:textSize="12sp"></TextView>
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/movie_desrciption"
+                android:textColor="@color/white"
+                android:layout_width="600dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_marginLeft="50dp"
+                android:layout_marginBottom="10dp"
+                android:text="This is a small description of what can be called a movie in the making. People have almost died in making this a reality."
+                android:textSize="15sp"></TextView>
+
+
+        </LinearLayout>
+    </FrameLayout>
+    <FrameLayout
+        android:id="@+id/carousal_frame"
+        android:layout_width="match_parent"
+        android:layout_height="450dp"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:layout_gravity="top"
+        android:layout_marginTop="0.01dp"
+        android:background="@drawable/default_background"
+        android:foreground="@drawable/transparent_to_dark_reverse_shade">
+        <fragment
+            android:layout_gravity="bottom"
+            android:id="@+id/carousal_fragment"
+            android:name="com.example.myottapp.UI.Fragments.CarousalFragment"
+            android:layout_height="match_parent"
+            android:layout_width="match_parent"/>
+    </FrameLayout>
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:id="@+id/banner_linear_layout"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginBottom="5dp"
+        android:focusable="false"
+        android:background="@drawable/text_black_to_transparent_shade">
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/transpo">
+            <ImageView
+                android:id="@+id/imageView3"
+                android:layout_marginLeft="45dp"
+                android:layout_width="100dp"
+                android:layout_height="50dp"
+                android:layout_gravity="top"
+                android:src="@mipmap/ic_banner_foreground"
+                android:focusable="false"
+                android:focusableInTouchMode="false"/>
+
+            <fragment
+                android:id="@+id/banner_fragment"
+                android:name="com.example.myottapp.UI.Fragments.BannerFragment"
+                android:layout_width="790dp"
+                android:layout_height="60dp"
+                android:layout_gravity="right" />
+        </LinearLayout>
+
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/browse_frame"
+        android:layout_width="match_parent"
+        android:layout_height="250dp"
+        android:layout_gravity="bottom"
+        android:background="@color/transpo">
+        <fragment
+            android:id="@+id/main_browse_fragment"
+            android:name="com.example.myottapp.UI.Fragments.KidsFragment"
+            android:layout_height="match_parent"
+            android:layout_width="match_parent" />
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/load_frame"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/default_background">
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginBottom="5dp"
+            android:focusable="false"
+            android:background="@color/transpo">
+            <ImageView
+                android:id="@+id/imageLogo_onload"
+                android:layout_marginLeft="45dp"
+                android:layout_width="100dp"
+                android:layout_height="50dp"
+                android:layout_gravity="left"
+                android:src="@mipmap/ic_banner_foreground"
+                android:focusable="false"
+                android:focusableInTouchMode="false"/>
+        </FrameLayout>
+        <ProgressBar
+            android:id="@+id/progress_bar"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_gravity="center"
+            android:indeterminate="true"
+            android:indeterminateTintMode="src_atop"
+            android:indeterminateTint="@color/colorPrimary">
+        </ProgressBar>
+    </FrameLayout>
+</FrameLayout>
+

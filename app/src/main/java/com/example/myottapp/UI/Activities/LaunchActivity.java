@@ -6,9 +6,24 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
+import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoDevice;
+import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoUser;
+import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoUserSession;
+import com.amazonaws.mobileconnectors.cognitoidentityprovider.continuations.AuthenticationContinuation;
+import com.amazonaws.mobileconnectors.cognitoidentityprovider.continuations.AuthenticationDetails;
+import com.amazonaws.mobileconnectors.cognitoidentityprovider.continuations.ChallengeContinuation;
+import com.amazonaws.mobileconnectors.cognitoidentityprovider.continuations.MultiFactorAuthenticationContinuation;
+import com.amazonaws.mobileconnectors.cognitoidentityprovider.handlers.AuthenticationHandler;
 import com.example.myottapp.R;
+import com.example.myottapp.Service.VolleyCallback;
+import com.example.myottapp.Service.VolleyRequest;
+import com.example.myottapp.models.AllCategoriesList;
+import com.example.myottapp.models.CognitoSettings;
 import com.example.myottapp.models.DataModel;
+import com.example.myottapp.models.Language;
+import com.example.myottapp.models.LanguageList;
 import com.example.myottapp.models.SessionManager;
 import com.example.myottapp.models.UserDetails;
 
@@ -20,6 +35,24 @@ public class LaunchActivity extends Activity {
 
     private static int SPLASH_TIME_OUT = 1000;
 
+    public void getLanguagesList(){
+        VolleyRequest volleyRequest=new VolleyRequest();
+        volleyRequest.sendGetRequest(new VolleyCallback() {
+            @Override
+            public void onSuccess() {
+                LanguageList languageList= LanguageList.parseJSON("{languages:"+volleyRequest.getResponseString()+"}");
+                DataModel.staticLanguageList = languageList.getLanguages();
+                DataModel.updateLanguageList(new int[]{8, 9}); //Manually removing bhojpuri and punjabi
+                runLoginCheck();
+            }
+
+            @Override
+            public void onError() {
+            }
+        },DataModel.getAllLanguagesURL,"");
+
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -28,14 +61,19 @@ public class LaunchActivity extends Activity {
 
         sessionManager = new SessionManager(this);
         progressBar.setVisibility(View.VISIBLE);
+        getLanguagesList();
+
+    }
+
+    public void runLoginCheck(){
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
                 if (sessionManager.isLoggin()) {
                     DataModel.accessToken=sessionManager.getAccessToken();
-                    Intent i = new Intent(LaunchActivity.this, MainActivity.class);
-                    startActivity(i);
-                    finish();
+                    email=sessionManager.getEMAIL();
+                    password= sessionManager.getPASSWORD();
+                    login(email);
                 } else {
                     Intent i = new Intent(LaunchActivity.this, LoginActivity.class);
                     startActivity(i);
@@ -43,10 +81,8 @@ public class LaunchActivity extends Activity {
                 }
             }
         }, SPLASH_TIME_OUT);
-
     }
-}
-    /*
+
     final AuthenticationHandler authenticationHandler = new AuthenticationHandler() {
         @Override
         public void onSuccess(CognitoUserSession userSession, CognitoDevice newDevice) {
@@ -93,7 +129,7 @@ public class LaunchActivity extends Activity {
         }
     };
 
-    private void login(String email,String password) {
+    private void login(String email) {
         CognitoSettings cognitoSettings = new CognitoSettings(LaunchActivity.this);
         cognitoSettings.getUserPool().getCurrentUser().signOut();
         CognitoUser thisUser = cognitoSettings.getUserPool()
@@ -101,4 +137,4 @@ public class LaunchActivity extends Activity {
         thisUser.getSessionInBackground(authenticationHandler);
     }
 
-}*/
+}

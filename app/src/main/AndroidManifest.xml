@@ -42,6 +42,8 @@
         <activity android:name="com.example.myottapp.UI.Activities.PlayerActivity" />
         <activity android:name="com.example.myottapp.UI.Activities.MainActivity" />
         <activity android:name="com.example.myottapp.UI.Activities.SettingActivity" />
+        <activity android:name="com.example.myottapp.UI.Activities.ShortsActivity" />
+        <activity android:name="com.example.myottapp.UI.Activities.KidsActivity" />
         <activity android:name="com.example.myottapp.UI.Activities.DetailsActivitySeries" />
     </application>
 

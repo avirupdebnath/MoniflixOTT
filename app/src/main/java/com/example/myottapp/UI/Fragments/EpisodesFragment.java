@@ -73,7 +73,7 @@ public class EpisodesFragment extends RowsFragment {
             }
             @Override
             public void onError() {
-                ((DetailsActivity)getActivity()).refreshToken();
+                ((DetailsActivitySeries)getActivity()).refreshToken();
             }
         }, DataModel.seriesDetailsByIdURL+(DetailsActivitySeries.movieBasicInfo.getId()),tag);
     }
