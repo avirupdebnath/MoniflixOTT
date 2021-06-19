@@ -79,6 +79,7 @@ public class RelatedItemsFragment extends RowsFragment {
             public void onSuccess() {
                 Gson gson=new GsonBuilder().create();
                 movie = gson.fromJson(volleyRequest.getResponseString(),Movie.class);
+                System.out.println(volleyRequest.getResponseString());
                 ((DetailsActivity)getActivity()).loadDetailsPage(movie);
                 if(DetailsActivity.fromPage.equals("Search")){
                     updateUIByLanguage(DetailsActivity.movieBasicInfo.getType(),movie.getLanguageId());

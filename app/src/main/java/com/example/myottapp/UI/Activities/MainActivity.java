@@ -120,7 +120,7 @@ public class MainActivity extends Activity {
         prodYear.setText(yearOfProduction);
     }
 
-    void showOnLoadPage(){
+    public void showOnLoadPage(){
         FrameLayout frameLayout=(FrameLayout)findViewById(R.id.load_frame);
         frameLayout.setVisibility(View.VISIBLE);
     }

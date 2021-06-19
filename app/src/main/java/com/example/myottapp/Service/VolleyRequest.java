@@ -79,6 +79,7 @@ public class VolleyRequest {
                 // Basic Authentication
                 //String auth = "Basic " + Base64.encodeToString(CONSUMER_KEY_AND_SECRET.getBytes(), Base64.NO_WRAP);
                 headers.put("Authorization", "Bearer " + DataModel.accessToken);
+                System.out.println(headers);
                 return headers;
             }
         };

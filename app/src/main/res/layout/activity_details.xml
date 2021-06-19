@@ -241,7 +241,7 @@
                 android:layout_gravity="left"
                 android:layout_marginLeft="50dp"
                 android:layout_marginTop="20dp"
-                android:layout_marginBottom="140dp">
+                android:layout_marginBottom="150dp">
 
                 <androidx.appcompat.widget.AppCompatButton
                     android:id="@+id/watchNowButton"
@@ -289,7 +289,7 @@
     <FrameLayout
         android:id="@+id/related_items_frame"
         android:layout_width="match_parent"
-        android:layout_height="180dp"
+        android:layout_height="200dp"
         android:layout_gravity="bottom"
         android:background="@color/transpo">
         <fragment

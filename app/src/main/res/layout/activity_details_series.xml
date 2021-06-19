@@ -251,7 +251,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="left"
                 android:layout_marginLeft="50dp"
-                android:layout_marginBottom="150dp">
+                android:layout_marginBottom="165dp">
 
                 <Spinner
                     android:focusable="false"
@@ -304,7 +304,7 @@
     <FrameLayout
         android:id="@+id/related_items_frame"
         android:layout_width="match_parent"
-        android:layout_height="180dp"
+        android:layout_height="200dp"
         android:layout_gravity="bottom"
         android:background="@color/transpo">
         <fragment
