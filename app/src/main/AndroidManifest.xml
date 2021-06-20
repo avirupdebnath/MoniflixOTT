@@ -12,6 +12,7 @@
         android:required="true" />
 
     <application
+        android:usesCleartextTraffic="true"
         android:name="com.example.myottapp.Service.ApplicationController"
         android:allowBackup="true"
         android:icon="@mipmap/ic_banner"

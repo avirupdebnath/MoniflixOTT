@@ -34,8 +34,8 @@ import com.example.myottapp.models.Seasons;
 import com.example.myottapp.models.Series;
 import com.example.myottapp.models.SessionManager;
 import com.google.android.exoplayer2.ExoPlayer;
-import com.google.android.exoplayer2.ExoPlayerFactory;
 import com.google.android.exoplayer2.Player;
+import com.google.android.exoplayer2.SimpleExoPlayer;
 import com.google.android.exoplayer2.source.MediaSource;
 import com.google.android.exoplayer2.source.hls.HlsMediaSource;
 import com.google.android.exoplayer2.trackselection.AdaptiveTrackSelection;
@@ -314,11 +314,11 @@ public class DetailsActivitySeries extends Activity {
                 player.release();
             }
             BandwidthMeter bandwidthMeter=new DefaultBandwidthMeter();
-            TrackSelection.Factory videoTrackSelectionFactory = new
-                    AdaptiveTrackSelection.Factory(bandwidthMeter);
-            TrackSelector trackSelector = new
-                    DefaultTrackSelector(videoTrackSelectionFactory);
-            player = ExoPlayerFactory.newSimpleInstance((Context) this, trackSelector);
+//            TrackSelection.Factory videoTrackSelectionFactory = new
+//                    AdaptiveTrackSelection.Factory(bandwidthMeter);
+//            TrackSelector trackSelector = new
+//                    DefaultTrackSelector(videoTrackSelectionFactory);
+            player = new SimpleExoPlayer.Builder(this).build();
             player.setPlayWhenReady(true);
             exoPlayerView = (PlayerView) findViewById(R.id.trailer);
             DefaultBandwidthMeter defaultBandwidthMeter = new DefaultBandwidthMeter();
@@ -330,7 +330,7 @@ public class DetailsActivitySeries extends Activity {
             MediaSource videoSource = new HlsMediaSource.Factory(dataSourceFactory)
                     .createMediaSource(Uri.parse(url));
             player.prepare(videoSource);
-            player.addListener(new Player.DefaultEventListener() {
+            player.addListener(new Player.Listener() {
                 @Override
                 public void onPlayerStateChanged(boolean playWhenReady, int playbackState) {
                     if (playbackState == Player.STATE_READY) {

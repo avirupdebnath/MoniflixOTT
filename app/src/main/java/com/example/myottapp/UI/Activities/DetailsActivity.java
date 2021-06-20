@@ -25,8 +25,8 @@ import com.example.myottapp.models.MovieBasicInfo;
 import com.example.myottapp.models.MovieBasicInfoList;
 import com.example.myottapp.models.SessionManager;
 import com.google.android.exoplayer2.ExoPlayer;
-import com.google.android.exoplayer2.ExoPlayerFactory;
 import com.google.android.exoplayer2.Player;
+import com.google.android.exoplayer2.SimpleExoPlayer;
 import com.google.android.exoplayer2.source.MediaSource;
 import com.google.android.exoplayer2.source.MergingMediaSource;
 import com.google.android.exoplayer2.source.hls.HlsMediaSource;
@@ -49,7 +49,7 @@ public class DetailsActivity extends Activity {
     public Context mContext=this;
     public Movie movie;
     public static MovieBasicInfo movieBasicInfo;
-    public static ExoPlayer player;
+    public static SimpleExoPlayer player;
     public static PlayerView exoPlayerView;
     /**
      * Called when the activity is first created.
@@ -258,7 +258,7 @@ public class DetailsActivity extends Activity {
 
     void playTrailer(String url){
         try {
-            player = ExoPlayerFactory.newSimpleInstance(this);
+            player = new SimpleExoPlayer.Builder(this).build();
             exoPlayerView = (PlayerView) findViewById(R.id.trailer);
             DefaultBandwidthMeter bandwidthMeter = new DefaultBandwidthMeter();
             player.setPlayWhenReady(true);
@@ -270,7 +270,7 @@ public class DetailsActivity extends Activity {
                     .createMediaSource(Uri.parse(url));
             MergingMediaSource mergedSource= new MergingMediaSource(videoSource);
             player.prepare(mergedSource);
-            player.addListener(new Player.DefaultEventListener() {
+            player.addListener(new Player.Listener() {
                 @Override
                 public void onPlayerStateChanged(boolean playWhenReady, int playbackState) {
                     if (playbackState == Player.STATE_READY) {

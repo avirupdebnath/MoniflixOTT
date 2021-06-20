@@ -24,10 +24,10 @@ import com.example.myottapp.models.VIDEO_QUALITY;
 import com.example.myottapp.models.Movie;
 import com.example.myottapp.models.Subtitle;
 import com.google.android.exoplayer2.C;
-import com.google.android.exoplayer2.ExoPlayer;
-import com.google.android.exoplayer2.ExoPlayerFactory;
 import com.google.android.exoplayer2.Format;
+import com.google.android.exoplayer2.MediaItem;
 import com.google.android.exoplayer2.Player;
+import com.google.android.exoplayer2.SimpleExoPlayer;
 import com.google.android.exoplayer2.source.MediaSource;
 import com.google.android.exoplayer2.source.MergingMediaSource;
 import com.google.android.exoplayer2.source.SingleSampleMediaSource;
@@ -35,6 +35,7 @@ import com.google.android.exoplayer2.source.TrackGroupArray;
 import com.google.android.exoplayer2.source.hls.HlsMediaSource;
 import com.google.android.exoplayer2.trackselection.AdaptiveTrackSelection;
 import com.google.android.exoplayer2.trackselection.DefaultTrackSelector;
+import com.google.android.exoplayer2.trackselection.ExoTrackSelection;
 import com.google.android.exoplayer2.trackselection.TrackSelection;
 import com.google.android.exoplayer2.trackselection.TrackSelector;
 import com.google.android.exoplayer2.ui.PlayerControlView;
@@ -53,7 +54,7 @@ import static android.view.View.VISIBLE;
 
 public class PlayerActivity extends Activity implements AdapterView.OnItemSelectedListener {
     private PlayerView exoPlayerView;
-    private ExoPlayer player;
+    private SimpleExoPlayer player;
     private RelativeLayout rootLayout;
     private MediaSource mediaSource;
     private boolean isPlaying;
@@ -69,25 +70,20 @@ public class PlayerActivity extends Activity implements AdapterView.OnItemSelect
     private Spinner subList;
     String videoUri;
     DefaultTrackSelector trackSelector;
-
     public static final String MOVIE = "movie";
-
     int videoRendererIndex;
     TrackGroupArray trackGroups;
 
     VIDEO_QUALITY quality;
     private Movie mSelectedMovie;
-
-    public static String subval, vidval;
+    public static String subval="", vidval="";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        mSelectedMovie = (Movie) this.getIntent().getSerializableExtra(DetailsActivity.MOVIE);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_player);
 
         mSelectedMovie =  (Movie) this.getIntent().getSerializableExtra(PlayerActivity.MOVIE);
-
         init_object();
         videoType = "hls";
         category = "movie";
@@ -102,13 +98,8 @@ public class PlayerActivity extends Activity implements AdapterView.OnItemSelect
         videoQuality.setAdapter(adapter);
         videoQuality.setOnItemSelectedListener(this);
         videoQuality.setSelection(3);
-        vidval = "https://d2s5cesslnh4wz.cloudfront.net/fb2cca61-145d-4fb6-8f61-46e78514b110/hls1/master_med.m3u8?Expires=1607794028&Signature=Jkd~naUTuz9HVkWZlxh2B0QFNuClGAuHwRk3mIatbuHEocLauYydS9f1weeANtLUCOuRFphxvOnSAxatyu74~Z7PDzJQ-oCnJpmxwVmoC77DSYYSZ5VcExL4of1Kp2DyOGC8sU2PmAXl0qjZb6~h64OTBjQuT3Q7-dmVnLaBpM1Siajk0tosO8eV2PB7prG5heXm2DcKbiVL8l~J3JPBaFpMfEi2WL-YUUVDgFhGbstpDZGZfUhuLVsFn-rM-~xvCMfXhOSCo6AoZt3FZBfRuF2dnj50sExwQSEvBVCOvLnD48FXIbz9FXeQfK9gSuHMZjlza97MMmApVONTBcWzPA__&Key-Pair-Id=APKAIKKEJUUNH5EV374Q";
-
 
         List<String> textlist = new ArrayList<String>();
-        //textlist.add(0,"OFF");
-        //textlist.add("https://dev-videovillage-content-essences.s3.ap-south-1.amazonaws.com/ala.vtt");
-        //textlist.add("https://dev-videovillage-content-essences.s3.ap-south-1.amazonaws.com/ala.vtt");
 
         String []spinnerArray=new String[mSelectedMovie.getSubtitle().length+1];
         spinnerArray[0]="Off";
@@ -146,31 +137,34 @@ public class PlayerActivity extends Activity implements AdapterView.OnItemSelect
     }
 
     private void buildMediaSource(String mUri, String captionUri) {
-
-        Uri mmUri = Uri.parse(mUri);
-
-        // Measures bandwidth during playback. Can be null if not required.
-        DefaultBandwidthMeter bandwidthMeter = new DefaultBandwidthMeter();
+        DefaultBandwidthMeter bandwidthMeter = new DefaultBandwidthMeter.Builder(this).build();
         DataSource.Factory dataSourceFactory = new DefaultDataSourceFactory(this,
                 Util.getUserAgent(this, getString(R.string.app_name)), bandwidthMeter);
-        MediaSource videoSource = new HlsMediaSource.Factory(dataSourceFactory)
-                .createMediaSource(mmUri);
+
+        HlsMediaSource videoSource =
+                new HlsMediaSource.Factory(dataSourceFactory)
+                        .createMediaSource(MediaItem.fromUri(mUri));
         MergingMediaSource mergedSource;
 
         if (captionUri.equals("OFF")){
             mergedSource = new MergingMediaSource(videoSource);
-            player.prepare(mergedSource);
+            player.setMediaSource(mergedSource);
+            player.prepare();
             player.setPlayWhenReady(true);
         }else{
             Uri cUri = Uri.parse(captionUri);
-            Format captionFormat = Format.createTextSampleFormat(null, MimeTypes.TEXT_VTT, C.SELECTION_FLAG_DEFAULT, "en");
+//            Uri cUri = Uri.parse("http://www.storiesinflight.com/js_videosub/jellies.srt");
+            Format.Builder subFormat = new Format.Builder();
+            subFormat.setSampleMimeType(MimeTypes.APPLICATION_SUBRIP);
+            subFormat.setSelectionFlags(C.SELECTION_FLAG_DEFAULT);
+            subFormat.setLanguage("en");
+            Format captionFormat = subFormat.build();
             MediaSource captionMediaSource = new SingleSampleMediaSource.Factory(dataSourceFactory).createMediaSource(cUri, captionFormat, C.TIME_UNSET);
             mergedSource = new MergingMediaSource(videoSource,captionMediaSource);
-            player.prepare(mergedSource);
+            player.setMediaSource(mergedSource);
+            player.prepare();
             player.setPlayWhenReady(true);
         }
-
-        //player.addListener(this);
     }
 
     @Override
@@ -214,16 +208,16 @@ public class PlayerActivity extends Activity implements AdapterView.OnItemSelect
             player.release();
         }
         progressBar.setVisibility(VISIBLE);
-        BandwidthMeter bandwidthMeter = new DefaultBandwidthMeter();
-        TrackSelection.Factory videoTrackSelectionFactory = new
-                AdaptiveTrackSelection.Factory(bandwidthMeter);
-        TrackSelector trackSelector = new
-                DefaultTrackSelector(videoTrackSelectionFactory);
-        player = ExoPlayerFactory.newSimpleInstance((Context) this, trackSelector);
+        BandwidthMeter bandwidthMeter = new DefaultBandwidthMeter.Builder(this).build();
+//        ExoTrackSelection.Factory videoTrackSelectionFactory = new
+//                AdaptiveTrackSelection.Factory(bandwidthMeter);
+//        TrackSelector trackSelector = new
+//                DefaultTrackSelector(videoTrackSelectionFactory);
+        player = new SimpleExoPlayer.Builder(this).build();
         player.setPlayWhenReady(true);
         exoPlayerView.setPlayer(player);
 
-        player.addListener(new Player.DefaultEventListener() {
+        player.addListener(new Player.Listener() {
             @Override
             public void onPlayerStateChanged(boolean playWhenReady, int playbackState) {
                 if (playWhenReady && playbackState == Player.STATE_READY) {
