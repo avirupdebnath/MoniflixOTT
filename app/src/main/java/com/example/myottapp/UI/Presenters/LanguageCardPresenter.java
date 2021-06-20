@@ -21,11 +21,24 @@ import com.example.myottapp.models.Language;
 public class LanguageCardPresenter extends Presenter {
     private static final String TAG = "CardPresenter";
 
-    private static final int CARD_WIDTH = 200;
-    private static final int CARD_HEIGHT = 180;
+    private static int CARD_WIDTH = 200;
+    private static int CARD_HEIGHT = 180;
     private static int sSelectedBackgroundColor;
     private static int sDefaultBackgroundColor;
     private Drawable mDefaultCardImage;
+
+    public LanguageCardPresenter(int CARD_WIDTH, int CARD_HEIGHT) {
+        LanguageCardPresenter.CARD_WIDTH = CARD_WIDTH;
+        LanguageCardPresenter.CARD_HEIGHT = CARD_HEIGHT;
+        //LanguageCardPresenter.withTextFlag=withTextFlag;
+    }
+
+    public LanguageCardPresenter() {
+        LanguageCardPresenter.CARD_WIDTH = 300;
+        LanguageCardPresenter.CARD_HEIGHT = 200;
+        //LanguageCardPresenter.withTextFlag=false;
+    }
+
 
     private static void updateCardBackgroundColor(ImageCardView view, boolean selected) {
         int color = selected ? sSelectedBackgroundColor : sDefaultBackgroundColor;

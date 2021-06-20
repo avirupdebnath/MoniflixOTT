@@ -1,8 +1,10 @@
 package com.example.myottapp.UI.Fragments;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.util.TypedValue;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -59,7 +61,9 @@ public class BannerFragment extends RowsFragment {
 
 
     private void loadBanner() {
-        GridItemPresenter mGridPresenter = new GridItemPresenter();
+        int CARD_WIDTH=(int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 80, getResources().getDisplayMetrics());
+        int CARD_HEIGHT=(int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 40, getResources().getDisplayMetrics());
+        GridItemPresenter mGridPresenter = new GridItemPresenter(CARD_WIDTH,CARD_HEIGHT, Color.TRANSPARENT);
         ArrayObjectAdapter gridRowAdapter = new ArrayObjectAdapter(mGridPresenter);
         gridRowAdapter.add(getResources().getString(R.string.Search));
         gridRowAdapter.add(getResources().getString(R.string.Home));
@@ -67,6 +71,7 @@ public class BannerFragment extends RowsFragment {
         gridRowAdapter.add(getResources().getString(R.string.Series));
         gridRowAdapter.add(getResources().getString(R.string.Kids));
         gridRowAdapter.add(getResources().getString(R.string.Shorts));
+        gridRowAdapter.add(getResources().getString(R.string.Multiplex));
         //gridRowAdapter.add(getResources().getString(R.string.MyLists));
         gridRowAdapter.add(getResources().getString(R.string.Settings));
         //setAdapter(gridRowAdapter);

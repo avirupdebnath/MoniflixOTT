@@ -153,9 +153,9 @@
             <fragment
                 android:id="@+id/banner_fragment"
                 android:name="com.example.myottapp.UI.Fragments.BannerFragment"
-                android:layout_width="790dp"
+                android:layout_width="wrap_content"
                 android:layout_height="60dp"
-                android:layout_gravity="right" />
+                android:layout_gravity="center" />
         </LinearLayout>
     </FrameLayout>
 </FrameLayout>

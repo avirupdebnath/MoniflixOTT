@@ -21,6 +21,7 @@ import androidx.leanback.widget.RowPresenter;
 import androidx.core.content.ContextCompat;
 
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.View;
 import android.widget.Toast;
 
@@ -57,7 +58,10 @@ public class ShortsFragment extends RowsFragment {
     public  static List<Language> staticLanguageList=new ArrayList<Language>();
 
     private void loadLanguages() {
-        LanguageCardPresenter languageCardPresenter=new LanguageCardPresenter();
+        int CARD_WIDTH=(int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 120, getResources().getDisplayMetrics());
+        int CARD_HEIGHT=(int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 100, getResources().getDisplayMetrics());
+        LanguageCardPresenter languageCardPresenter=new LanguageCardPresenter(CARD_WIDTH,CARD_HEIGHT);
+
         ArrayObjectAdapter languagesRowAdapter = new ArrayObjectAdapter(languageCardPresenter);
         languagesRowAdapter.addAll(0,DataModel.staticLanguageList);
         HeaderItem headerItem=new HeaderItem(0,"Languages");
@@ -140,7 +144,9 @@ public class ShortsFragment extends RowsFragment {
     }
 
     public void createWatchHistoryRow(List<WatchHistoryContentDetails> watchHistory){
-        CustomCardViewPresenter cardViewPresenter=new CustomCardViewPresenter();
+        int CARD_WIDTH=(int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 200, getResources().getDisplayMetrics());
+        int CARD_HEIGHT=(int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 120, getResources().getDisplayMetrics());
+        CustomCardViewPresenter cardViewPresenter=new CustomCardViewPresenter(CARD_WIDTH,CARD_HEIGHT);
         ArrayObjectAdapter adapter=new ArrayObjectAdapter(cardViewPresenter);
         for(WatchHistoryContentDetails w: watchHistory){
             if(w.getType()==8){
@@ -155,7 +161,9 @@ public class ShortsFragment extends RowsFragment {
     }
 
     public void createRow(int categoryId, String headerName, List<MovieBasicInfo> list){
-        CardPresenter cardPresenter =new CardPresenter();
+        int CARD_WIDTH=(int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 200, getResources().getDisplayMetrics());
+        int CARD_HEIGHT=(int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 100, getResources().getDisplayMetrics());
+        CardPresenter cardPresenter =new CardPresenter(CARD_WIDTH,CARD_HEIGHT,false);
         ArrayObjectAdapter categoryRowAdapter=new ArrayObjectAdapter(cardPresenter);
         //for(int i=0;i<list.size();i++)
         //categoryRowAdapter.add(list.get(i));
@@ -239,7 +247,8 @@ public class ShortsFragment extends RowsFragment {
 
     @Override
     public void setAlignment(int windowAlignOffsetFromTop) {
-        super.setAlignment(100);
+        int dp= (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 30, getResources().getDisplayMetrics());
+        super.setAlignment(dp);
     }
 
     @Override
@@ -369,7 +378,7 @@ public class ShortsFragment extends RowsFragment {
                         ((ShortsActivity) getActivity()).setMovieDescription(description.substring(0, 300) + "...");
                     }
                     ((ShortsActivity) getActivity()).setMovieRuntime(((MovieBasicInfo) item).getRunTime());
-                    ((ShortsActivity) getActivity()).setMovieAgeRestriction(((MovieBasicInfo) item).getAgeRestriction() + "+");
+                    ((ShortsActivity) getActivity()).setMovieAgeRestriction(((MovieBasicInfo) item).getAgeRestriction());
                 }
             }
             //if (item instanceof Movie) {

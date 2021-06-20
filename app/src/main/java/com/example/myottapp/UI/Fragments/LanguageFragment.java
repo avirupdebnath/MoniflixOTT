@@ -3,6 +3,7 @@ package com.example.myottapp.UI.Fragments;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.util.TypedValue;
 import android.view.View;
 
 import androidx.annotation.NonNull;
@@ -104,7 +105,9 @@ public class LanguageFragment extends RowsFragment {
     }
 
     public void createRow(int contentTypeId, String contentType, List<MovieBasicInfo> list){
-        CardPresenter cardPresenter =new CardPresenter();
+        int CARD_WIDTH=(int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 200, getResources().getDisplayMetrics());
+        int CARD_HEIGHT=(int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 120, getResources().getDisplayMetrics());
+        CardPresenter cardPresenter =new CardPresenter(CARD_WIDTH,CARD_HEIGHT,false);
         ArrayObjectAdapter languageRowAdapter=new ArrayObjectAdapter(cardPresenter);
         languageRowAdapter.addAll(0,list);
         HeaderItem headerItem=new HeaderItem(contentTypeId,contentType);
@@ -173,7 +176,7 @@ public class LanguageFragment extends RowsFragment {
             if (item instanceof MovieBasicInfo) {
                 ((LanguageActivity)getActivity()).setMovieName(((MovieBasicInfo) item).getTitle());
                 ((LanguageActivity)getActivity()).setMoviePoster(((MovieBasicInfo) item).getPosterUrl());
-                ((LanguageActivity)getActivity()).setMovieAgeRestriction(((MovieBasicInfo) item).getAgeRestriction()+"+");
+                ((LanguageActivity)getActivity()).setMovieAgeRestriction(((MovieBasicInfo) item).getAgeRestriction());
                 //((LanguageActivity)getActivity()).setMovieLanguage(((Movie) item).getLanguageName());
                 if(((MovieBasicInfo) item).getType()==1) {
                     String description = ((MovieBasicInfo) item).getDescription();

@@ -4,6 +4,7 @@ import android.app.Fragment;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.util.TypedValue;
 import android.view.View;
 import android.widget.Toast;
 
@@ -138,7 +139,9 @@ public class RelatedItemsFragment extends RowsFragment {
 
     public void createRow(List<MovieBasicInfo> list){
         mRowsAdapter.clear();
-        CardPresenter cardPresenter =new CardPresenter();
+        int CARD_WIDTH=(int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 200, getResources().getDisplayMetrics());
+        int CARD_HEIGHT=(int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 100, getResources().getDisplayMetrics());
+        CardPresenter cardPresenter =new CardPresenter(CARD_WIDTH,CARD_HEIGHT,false);
         ArrayObjectAdapter categoryRowAdapter=new ArrayObjectAdapter(cardPresenter);
         for(MovieBasicInfo m:list){
             if(m.getId()!= DetailsActivity.movieBasicInfo.getId()){
@@ -154,10 +157,10 @@ public class RelatedItemsFragment extends RowsFragment {
         }
     }
 
-
     @Override
     public void setAlignment(int windowAlignOffsetFromTop) {
-        super.setAlignment(100);
+        int dp=(int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 30, getResources().getDisplayMetrics());
+        super.setAlignment(dp);
     }
 
     private void prepareBackgroundManager() {

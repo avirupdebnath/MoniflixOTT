@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.FrameLayout;
@@ -23,6 +24,7 @@ import com.example.myottapp.models.DataModel;
 public class MainActivity extends Activity {
     public Context mContext=this;
     public static int activityCreated;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,14 +60,16 @@ public class MainActivity extends Activity {
     public void collapseLanguageRow(){
         FrameLayout frameLayout=(FrameLayout)findViewById(R.id.browse_frame);
         FrameLayout.LayoutParams layoutParams= (FrameLayout.LayoutParams) frameLayout.getLayoutParams();
-        layoutParams.height=400;
+        layoutParams.height=(int)TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 220, getResources().getDisplayMetrics());
+        //layoutParams.height= FrameLayout.LayoutParams.WRAP_CONTENT;
         layoutParams.width= FrameLayout.LayoutParams.MATCH_PARENT;
         layoutParams.gravity=Gravity.BOTTOM;
     }
     public void expandLanguageRow(){
         FrameLayout frameLayout=(FrameLayout)findViewById(R.id.browse_frame);
         FrameLayout.LayoutParams layoutParams= (FrameLayout.LayoutParams) frameLayout.getLayoutParams();
-        layoutParams.height=550;
+        layoutParams.height= (int)TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 220, getResources().getDisplayMetrics());
+        //layoutParams.height= FrameLayout.LayoutParams.WRAP_CONTENT;
         layoutParams.width= FrameLayout.LayoutParams.MATCH_PARENT;
         layoutParams.gravity=Gravity.BOTTOM;
     }

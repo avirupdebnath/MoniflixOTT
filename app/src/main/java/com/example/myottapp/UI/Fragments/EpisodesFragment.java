@@ -4,6 +4,7 @@ import android.app.Fragment;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.util.TypedValue;
 import android.view.View;
 import android.widget.Toast;
 
@@ -29,6 +30,7 @@ import com.example.myottapp.Service.VolleyCallback;
 import com.example.myottapp.UI.Activities.BrowseErrorActivity;
 import com.example.myottapp.UI.Activities.DetailsActivity;
 import com.example.myottapp.UI.Activities.DetailsActivitySeries;
+import com.example.myottapp.UI.Presenters.BigCardPresenter;
 import com.example.myottapp.UI.Presenters.EpisodesCardPresenter;
 import com.example.myottapp.models.DataModel;
 import com.example.myottapp.models.Episodes;
@@ -106,7 +108,9 @@ public class EpisodesFragment extends RowsFragment {
 
     public void createRow(List<Episodes> list){
         mRowsAdapter.clear();
-        EpisodesCardPresenter episodesCardPresenter =new EpisodesCardPresenter();
+        int CARD_WIDTH=(int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 1000, getResources().getDisplayMetrics());
+        int CARD_HEIGHT=(int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 420, getResources().getDisplayMetrics());
+        EpisodesCardPresenter episodesCardPresenter =new EpisodesCardPresenter(CARD_WIDTH,CARD_HEIGHT,false);
         ArrayObjectAdapter categoryRowAdapter=new ArrayObjectAdapter(episodesCardPresenter);
         categoryRowAdapter.addAll(0,list);
         //for(int i=0;i<list.size();i++)
@@ -121,7 +125,8 @@ public class EpisodesFragment extends RowsFragment {
 
     @Override
     public void setAlignment(int windowAlignOffsetFromTop) {
-        super.setAlignment(100);
+        int dp= (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 30, getResources().getDisplayMetrics());
+        super.setAlignment(dp);
     }
 
     private void prepareBackgroundManager() {
