@@ -178,7 +178,7 @@
         android:layout_gravity="bottom"
         android:name="com.example.myottapp.UI.Fragments.LanguageFragment"
         android:layout_width="match_parent"
-        android:layout_height="240dp"
+        android:layout_height="220dp"
         />
 <FrameLayout
     android:id="@+id/load_frame"

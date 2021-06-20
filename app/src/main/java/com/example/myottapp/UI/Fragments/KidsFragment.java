@@ -21,6 +21,7 @@ import androidx.leanback.widget.RowPresenter;
 import androidx.core.content.ContextCompat;
 
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.View;
 import android.widget.Toast;
 
@@ -51,7 +52,10 @@ public class KidsFragment extends RowsFragment {
     public  static List<Language> staticLanguageList=new ArrayList<Language>();
 
     private void loadLanguages() {
-        LanguageCardPresenter languageCardPresenter=new LanguageCardPresenter();
+        int CARD_WIDTH=(int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 120, getResources().getDisplayMetrics());
+        int CARD_HEIGHT=(int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 100, getResources().getDisplayMetrics());
+        LanguageCardPresenter languageCardPresenter=new LanguageCardPresenter(CARD_WIDTH,CARD_HEIGHT);
+
         ArrayObjectAdapter languagesRowAdapter = new ArrayObjectAdapter(languageCardPresenter);
         languagesRowAdapter.addAll(0,DataModel.staticLanguageList);
         HeaderItem headerItem=new HeaderItem(0,"Languages");
@@ -100,7 +104,9 @@ public class KidsFragment extends RowsFragment {
     }
 
     public void createRow(int categoryId, String headerName, List<MovieBasicInfo> list){
-        CardPresenter cardPresenter =new CardPresenter();
+        int CARD_WIDTH=(int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 200, getResources().getDisplayMetrics());
+        int CARD_HEIGHT=(int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 100, getResources().getDisplayMetrics());
+        CardPresenter cardPresenter =new CardPresenter(CARD_WIDTH,CARD_HEIGHT,false);
         ArrayObjectAdapter categoryRowAdapter=new ArrayObjectAdapter(cardPresenter);
         categoryRowAdapter.addAll(0,list);
         HeaderItem headerItem=new HeaderItem(categoryId,headerName);
@@ -159,7 +165,8 @@ public class KidsFragment extends RowsFragment {
 
     @Override
     public void setAlignment(int windowAlignOffsetFromTop) {
-        super.setAlignment(100);
+        int dp= (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 30, getResources().getDisplayMetrics());
+        super.setAlignment(dp);
     }
 
     @Override

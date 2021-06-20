@@ -3,6 +3,7 @@ package com.example.myottapp.UI.Fragments;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.util.TypedValue;
 import android.view.View;
 
 import androidx.annotation.NonNull;
@@ -49,10 +50,10 @@ public class SearchFragment extends VerticalGridFragment {
             protected void initializeGridViewHolder(ViewHolder vh) {
                 super.initializeGridViewHolder(vh);
                 VerticalGridView gridView = vh.getGridView();
-                int top= 200;//this is the new value for top padding
-                int bottom = 10;
-                int right = 10;
-                int left = 100;
+                int top= (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 10, getResources().getDisplayMetrics());//200;//this is the new value for top padding
+                int bottom = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 10, getResources().getDisplayMetrics());//10;
+                int right =(int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 10, getResources().getDisplayMetrics());// 10;
+                int left = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 50, getResources().getDisplayMetrics());//100;
                 gridView.setPadding(left,top,right,bottom);
             }
         };
@@ -99,7 +100,9 @@ public class SearchFragment extends VerticalGridFragment {
         }
 
     public void createRow(List<MovieBasicInfo> list){
-        SearchCardPresenter cardPresenter=new SearchCardPresenter(250,300,true);
+        int CARD_WIDTH=(int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 120, getResources().getDisplayMetrics());
+        int CARD_HEIGHT=(int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 150, getResources().getDisplayMetrics());
+        SearchCardPresenter cardPresenter=new SearchCardPresenter(CARD_WIDTH,CARD_HEIGHT,true);
         ArrayObjectAdapter categoryRowAdapter=new ArrayObjectAdapter(cardPresenter);
         if(list.size()!=0) {
             categoryRowAdapter.addAll(0,list);

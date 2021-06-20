@@ -7,9 +7,8 @@
     <item android:state_activated="true"
         android:drawable="@drawable/selected_state" tools:ignore="StateListReachable" />
     <!-- default -->
-    <item android:state_focused="true"
-        android:drawable="@drawable/selected_state" tools:ignore="StateListReachable" />
-    <!-- default -->
-    <!-- default -->
+    <item android:state_hovered="true"
+        android:drawable="@drawable/selected_state" />
     <item android:drawable="@drawable/unselected_state" />
+
 </selector>

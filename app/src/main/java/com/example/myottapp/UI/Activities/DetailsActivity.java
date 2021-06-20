@@ -169,9 +169,10 @@ public class DetailsActivity extends Activity {
     }
     void setMovieAgeRestriction(String s){
         TextView movieAge=(TextView) findViewById(R.id.movie_age);
-        movieAge.setText(s+"+");
+        movieAge.setText(s);
     }
     void setMovieDescription(String description){
+        description=description.trim();
         TextView movieDescription=(TextView) findViewById(R.id.movie_desrciption);
         if ((description.length() <= 303)) {
             movieDescription.setText(description);

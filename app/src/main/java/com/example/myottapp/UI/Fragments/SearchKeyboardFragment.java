@@ -3,6 +3,7 @@ package com.example.myottapp.UI.Fragments;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.util.TypedValue;
 import android.view.View;
 
 import androidx.annotation.NonNull;
@@ -39,10 +40,11 @@ public class SearchKeyboardFragment extends VerticalGridFragment {
             protected void initializeGridViewHolder(ViewHolder vh) {
                 super.initializeGridViewHolder(vh);
                 VerticalGridView gridView = vh.getGridView();
-                int top= 370;//this is the new value for top padding
-                int bottom = 10;
-                int right = 5;
-                int left = 110;
+
+                int top= (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 165, getResources().getDisplayMetrics());//370;//this is the new value for top padding
+                int bottom =(int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 10, getResources().getDisplayMetrics());// 10;
+                int right =(int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,0, getResources().getDisplayMetrics()); //5;
+                int left = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 50, getResources().getDisplayMetrics());//110;
                 gridView.setPadding(left,top,right,bottom);
             }
         };
@@ -69,7 +71,10 @@ public class SearchKeyboardFragment extends VerticalGridFragment {
     }
 
     private void loadBanner() {
-        GridItemPresenter mGridPresenter = new GridItemPresenter(90,65, Color.TRANSPARENT);
+        int CARD_WIDTH=(int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 45, getResources().getDisplayMetrics());
+        int CARD_HEIGHT=(int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 45, getResources().getDisplayMetrics());
+
+        GridItemPresenter mGridPresenter = new GridItemPresenter(CARD_WIDTH,CARD_HEIGHT, Color.TRANSPARENT);
         ArrayObjectAdapter gridRowAdapter = new ArrayObjectAdapter(mGridPresenter);
 
         for(char ch='A';ch<='Z';ch++)

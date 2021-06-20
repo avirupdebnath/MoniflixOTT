@@ -241,7 +241,7 @@
                 android:layout_gravity="left"
                 android:layout_marginLeft="50dp"
                 android:layout_marginTop="20dp"
-                android:layout_marginBottom="150dp">
+                android:layout_marginBottom="160dp">
 
                 <androidx.appcompat.widget.AppCompatButton
                     android:id="@+id/watchNowButton"

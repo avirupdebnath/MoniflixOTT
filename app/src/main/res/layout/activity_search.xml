@@ -16,7 +16,7 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:layout_marginTop="20dp"
-        android:layout_marginLeft="60dp">
+        android:layout_marginLeft="50dp">
 
         <TextView
             android:layout_width="300dp"
@@ -39,7 +39,7 @@
 
         <TextView
             android:id="@+id/SearchResultsFor"
-            android:layout_width="450dp"
+            android:layout_width="460dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:layout_marginRight="100dp"
@@ -69,6 +69,7 @@
         <fragment
             android:id="@+id/search_fragment"
             android:name="com.example.myottapp.UI.Fragments.SearchFragment"
+            android:layout_marginTop="100dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 

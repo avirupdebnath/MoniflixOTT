@@ -29,7 +29,7 @@ public class EpisodesCardPresenter extends Presenter {
 
     private static String movieName="";
 
-    EpisodesCardPresenter(int CARD_WIDTH, int CARD_HEIGHT, boolean withTextFlag) {
+    public EpisodesCardPresenter(int CARD_WIDTH, int CARD_HEIGHT, boolean withTextFlag) {
         EpisodesCardPresenter.CARD_WIDTH = CARD_WIDTH;
         EpisodesCardPresenter.CARD_HEIGHT = CARD_HEIGHT;
         EpisodesCardPresenter.withTextFlag=withTextFlag;

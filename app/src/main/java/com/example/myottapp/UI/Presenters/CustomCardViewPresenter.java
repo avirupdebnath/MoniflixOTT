@@ -13,6 +13,18 @@ public class CustomCardViewPresenter extends Presenter {
     public static int CARD_WIDTH=300;
     public static int CARD_HEIGHT=200;
 
+    public CustomCardViewPresenter(int CARD_WIDTH, int CARD_HEIGHT) {
+        CustomCardViewPresenter.CARD_WIDTH = CARD_WIDTH;
+        CustomCardViewPresenter.CARD_HEIGHT = CARD_HEIGHT;
+        //CustomCardViewPresenter.withTextFlag=withTextFlag;
+    }
+
+    public CustomCardViewPresenter() {
+        CustomCardViewPresenter.CARD_WIDTH = 300;
+        CustomCardViewPresenter.CARD_HEIGHT = 200;
+        //CustomCardViewPresenter.withTextFlag=false;
+    }
+
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent) {
         CustomCardView cardView = new CustomCardView(parent.getContext());

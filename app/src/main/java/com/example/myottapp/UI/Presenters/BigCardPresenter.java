@@ -8,10 +8,12 @@ import androidx.leanback.widget.Presenter;
 import androidx.core.content.ContextCompat;
 
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.ViewGroup;
 
 import com.bumptech.glide.Glide;
 import com.example.myottapp.R;
+import com.example.myottapp.UI.Activities.MainActivity;
 import com.example.myottapp.models.MovieBasicInfo;
 
 /*
@@ -20,12 +22,24 @@ import com.example.myottapp.models.MovieBasicInfo;
  */
 public class BigCardPresenter extends Presenter {
     private static final String TAG = "CardPresenter";
-    private static final int CARD_WIDTH = 2000;
-    private static final int CARD_HEIGHT = 850;
+
+    private static int CARD_WIDTH = 2000;
+    private static int CARD_HEIGHT = 850;
     private static int sSelectedBackgroundColor;
     private static int sDefaultBackgroundColor;
     private Drawable mDefaultCardImage;
 
+    public BigCardPresenter(int CARD_WIDTH, int CARD_HEIGHT) {
+        BigCardPresenter.CARD_WIDTH = CARD_WIDTH;
+        BigCardPresenter.CARD_HEIGHT = CARD_HEIGHT;
+        //BigCardPresenter.withTextFlag=withTextFlag;
+    }
+
+    public BigCardPresenter() {
+        BigCardPresenter.CARD_WIDTH = 300;
+        BigCardPresenter.CARD_HEIGHT = 200;
+        //BigCardPresenter.withTextFlag=false;
+    }
 
     private static void updateCardBackgroundColor(ImageCardView view, boolean selected) {
         int color = selected ? sSelectedBackgroundColor : sDefaultBackgroundColor;
