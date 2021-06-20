@@ -176,7 +176,7 @@ public class LanguageFragment extends RowsFragment {
             if (item instanceof MovieBasicInfo) {
                 ((LanguageActivity)getActivity()).setMovieName(((MovieBasicInfo) item).getTitle());
                 ((LanguageActivity)getActivity()).setMoviePoster(((MovieBasicInfo) item).getPosterUrl());
-                ((LanguageActivity)getActivity()).setMovieAgeRestriction(((MovieBasicInfo) item).getAgeRestriction()+"+");
+                ((LanguageActivity)getActivity()).setMovieAgeRestriction(((MovieBasicInfo) item).getAgeRestriction());
                 //((LanguageActivity)getActivity()).setMovieLanguage(((Movie) item).getLanguageName());
                 if(((MovieBasicInfo) item).getType()==1) {
                     String description = ((MovieBasicInfo) item).getDescription();

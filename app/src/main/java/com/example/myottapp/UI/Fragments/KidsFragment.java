@@ -277,7 +277,7 @@ public class KidsFragment extends RowsFragment {
                         ((KidsActivity) getActivity()).setMovieDescription(description.substring(0, 300) + "...");
                     }
                     ((KidsActivity) getActivity()).setMovieRuntime(((MovieBasicInfo) item).getRunTime());
-                    ((KidsActivity) getActivity()).setMovieAgeRestriction(((MovieBasicInfo) item).getAgeRestriction() + "+");
+                    ((KidsActivity) getActivity()).setMovieAgeRestriction(((MovieBasicInfo) item).getAgeRestriction());
                 }
             }
             //if (item instanceof Movie) {

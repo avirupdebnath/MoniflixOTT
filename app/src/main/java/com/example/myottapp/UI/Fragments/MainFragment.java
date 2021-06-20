@@ -384,7 +384,7 @@ public class MainFragment extends RowsFragment {
 
                     ((MainActivity) getActivity()).setMovieRuntime(((MovieBasicInfo) item).getRunTime());
 
-                    ((MainActivity) getActivity()).setMovieAgeRestriction(((MovieBasicInfo) item).getAgeRestriction() + "+");
+                    ((MainActivity) getActivity()).setMovieAgeRestriction(((MovieBasicInfo) item).getAgeRestriction());
                 }
             }
             //if (item instanceof Movie) {
