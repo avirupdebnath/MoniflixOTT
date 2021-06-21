@@ -146,12 +146,15 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/text_black_to_transparent_shade">
-    <ImageView
-        android:layout_width="100dp"
-        android:layout_marginLeft="45dp"
-        android:layout_height="50dp"
-        android:src="@mipmap/ic_banner_foreground">
-    </ImageView>
+        <ImageView
+            android:id="@+id/imageView3"
+            android:layout_width="180dp"
+            android:layout_height="60dp"
+            android:layout_gravity="top"
+            android:layout_marginLeft="12dp"
+            android:focusable="false"
+            android:focusableInTouchMode="false"
+            android:src="@mipmap/ic_banner_foreground" />
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -201,11 +204,13 @@
         android:layout_height="wrap_content"
         android:background="@drawable/text_black_to_transparent_shade">
         <ImageView
-            android:layout_marginLeft="45dp"
-            android:layout_width="100dp"
-            android:layout_height="50dp"
-            android:src="@mipmap/ic_banner_foreground">
-        </ImageView>
+            android:layout_width="180dp"
+            android:layout_height="60dp"
+            android:layout_gravity="top"
+            android:layout_marginLeft="12dp"
+            android:focusable="false"
+            android:focusableInTouchMode="false"
+            android:src="@mipmap/ic_banner_foreground" />
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

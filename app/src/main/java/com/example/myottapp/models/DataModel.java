@@ -22,7 +22,6 @@ public class DataModel {
     public static String accessToken="";
     public static List<Category> CategoriesList;
     public static final String carousalTAG="Carousal";
-
     public static int refreshTokenCount=0;
 
     public  static List<Language> staticLanguageList=new ArrayList<Language>();

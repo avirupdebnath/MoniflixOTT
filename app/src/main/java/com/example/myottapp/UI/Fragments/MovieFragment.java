@@ -35,6 +35,7 @@ import com.example.myottapp.Service.VolleyCallback;
 import com.example.myottapp.UI.Activities.BrowseErrorActivity;
 import com.example.myottapp.UI.Activities.DetailsActivity;
 import com.example.myottapp.UI.Activities.LanguageActivity;
+import com.example.myottapp.UI.Activities.MainActivity;
 import com.example.myottapp.UI.Activities.MovieActivity;
 import com.example.myottapp.UI.Presenters.CardPresenter;
 import com.example.myottapp.UI.Presenters.CustomCardViewPresenter;
@@ -349,11 +350,30 @@ public class MovieFragment extends RowsFragment {
                 ((MovieActivity)getActivity()).showMovieDetails();
                 ((MovieActivity) getActivity()).expandLanguageRow();
             }
+
+            if(item instanceof WatchHistoryContentDetails){
+                ((MovieActivity)getActivity()).setMovieName(((WatchHistoryContentDetails) item).getTitle());
+                //((MainActivity)getActivity()).setMovieLanguage(((MovieBasicInfo) item).getLanguageName());
+                /*String description=((WatchHistoryContentDetails) item).getDescription();
+                if ((description.length() <= 303)) {
+                    ((MainActivity) getActivity()).setMovieDescription(description);
+                } else {
+                    ((MainActivity) getActivity()).setMovieDescription(description.substring(0, 300) + "...");
+                }*/
+
+                //((MainActivity)getActivity()).setMovieRuntime(((WatchHistoryContentDetails) item).getRunTime());
+                ((MovieActivity)getActivity()).setMoviePoster(((WatchHistoryContentDetails) item).getPosterUrl());
+                //((MainActivity)getActivity()).setYearOfProduction(((WatchHistoryContentDetails) item).getYearOfProduction());
+                //((MainActivity)getActivity()).setMovieAgeRestriction(((WatchHistoryContentDetails) item).getAgeRestriction()+"+");
+
+            }
 /*
             if(item instanceof Language){
                 System.out.println("Inside Language");
                 ((MainActivity) getActivity()).expandLanguageRow();
             }
+
+
 
  */
             if (item instanceof MovieBasicInfo) {

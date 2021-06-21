@@ -14,10 +14,13 @@ import androidx.leanback.app.RowsFragment;
 import androidx.leanback.widget.ArrayObjectAdapter;
 import androidx.leanback.widget.FocusHighlight;
 import androidx.leanback.widget.ListRow;
+import androidx.leanback.widget.ListRowPresenter;
 import androidx.leanback.widget.OnItemViewClickedListener;
 import androidx.leanback.widget.Presenter;
 import androidx.leanback.widget.Row;
 import androidx.leanback.widget.RowPresenter;
+import androidx.leanback.widget.VerticalGridPresenter;
+import androidx.leanback.widget.VerticalGridView;
 
 import com.example.myottapp.R;
 import com.example.myottapp.Service.ApplicationController;
@@ -61,7 +64,7 @@ public class BannerFragment extends RowsFragment {
 
 
     private void loadBanner() {
-        int CARD_WIDTH=(int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 80, getResources().getDisplayMetrics());
+        int CARD_WIDTH=(int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 82, getResources().getDisplayMetrics());
         int CARD_HEIGHT=(int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 40, getResources().getDisplayMetrics());
         GridItemPresenter mGridPresenter = new GridItemPresenter(CARD_WIDTH,CARD_HEIGHT, Color.TRANSPARENT);
         ArrayObjectAdapter gridRowAdapter = new ArrayObjectAdapter(mGridPresenter);

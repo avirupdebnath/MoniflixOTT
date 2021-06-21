@@ -140,7 +140,7 @@ public class RelatedItemsFragment extends RowsFragment {
     public void createRow(List<MovieBasicInfo> list){
         mRowsAdapter.clear();
         int CARD_WIDTH=(int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 200, getResources().getDisplayMetrics());
-        int CARD_HEIGHT=(int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 100, getResources().getDisplayMetrics());
+        int CARD_HEIGHT=(int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 120, getResources().getDisplayMetrics());
         CardPresenter cardPresenter =new CardPresenter(CARD_WIDTH,CARD_HEIGHT,false);
         ArrayObjectAdapter categoryRowAdapter=new ArrayObjectAdapter(cardPresenter);
         for(MovieBasicInfo m:list){
@@ -159,7 +159,7 @@ public class RelatedItemsFragment extends RowsFragment {
 
     @Override
     public void setAlignment(int windowAlignOffsetFromTop) {
-        int dp=(int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 30, getResources().getDisplayMetrics());
+        int dp=(int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 40, getResources().getDisplayMetrics());
         super.setAlignment(dp);
     }
 

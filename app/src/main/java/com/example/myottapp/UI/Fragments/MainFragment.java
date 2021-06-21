@@ -146,8 +146,8 @@ public class MainFragment extends RowsFragment {
     }
 
     public void createWatchHistoryRow(List<WatchHistoryContentDetails> watchHistory){
-        int CARD_WIDTH=(int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 200, getResources().getDisplayMetrics());
-        int CARD_HEIGHT=(int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 120, getResources().getDisplayMetrics());
+        int CARD_WIDTH=(int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 180, getResources().getDisplayMetrics());
+        int CARD_HEIGHT=(int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 100, getResources().getDisplayMetrics());
         CustomCardViewPresenter cardViewPresenter=new CustomCardViewPresenter(CARD_WIDTH,CARD_HEIGHT);
         ArrayObjectAdapter adapter=new ArrayObjectAdapter(cardViewPresenter);
         adapter.addAll(0,watchHistory);
@@ -159,8 +159,8 @@ public class MainFragment extends RowsFragment {
     }
 
     public void createRow(int categoryId, String headerName, List<MovieBasicInfo> list){
-        int CARD_WIDTH=(int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 200, getResources().getDisplayMetrics());
-        int CARD_HEIGHT=(int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 120, getResources().getDisplayMetrics());
+        int CARD_WIDTH=(int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 180, getResources().getDisplayMetrics());
+        int CARD_HEIGHT=(int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 100, getResources().getDisplayMetrics());
 
         CardPresenter cardPresenter =new CardPresenter(CARD_WIDTH,CARD_HEIGHT,false);
         ArrayObjectAdapter categoryRowAdapter=new ArrayObjectAdapter(cardPresenter);
