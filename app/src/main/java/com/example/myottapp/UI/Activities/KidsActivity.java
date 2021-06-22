@@ -56,7 +56,7 @@ public class KidsActivity extends Activity {
     public void collapseLanguageRow(){
         FrameLayout frameLayout=(FrameLayout)findViewById(R.id.browse_frame);
         FrameLayout.LayoutParams layoutParams= (FrameLayout.LayoutParams) frameLayout.getLayoutParams();
-        layoutParams.height=(int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 220, getResources().getDisplayMetrics());
+        layoutParams.height=(int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 200, getResources().getDisplayMetrics());
         //layoutParams.height= FrameLayout.LayoutParams.WRAP_CONTENT;
         layoutParams.width= FrameLayout.LayoutParams.MATCH_PARENT;
         layoutParams.gravity=Gravity.BOTTOM;
@@ -64,7 +64,7 @@ public class KidsActivity extends Activity {
     public void expandLanguageRow(){
         FrameLayout frameLayout=(FrameLayout)findViewById(R.id.browse_frame);
         FrameLayout.LayoutParams layoutParams= (FrameLayout.LayoutParams) frameLayout.getLayoutParams();
-        layoutParams.height= (int)TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 220, getResources().getDisplayMetrics());
+        layoutParams.height= (int)TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 300, getResources().getDisplayMetrics());
         //layoutParams.height= FrameLayout.LayoutParams.WRAP_CONTENT;
         layoutParams.width= FrameLayout.LayoutParams.MATCH_PARENT;
         layoutParams.gravity=Gravity.BOTTOM;
