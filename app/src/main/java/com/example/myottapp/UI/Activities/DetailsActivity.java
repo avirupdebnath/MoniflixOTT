@@ -24,6 +24,7 @@ import com.example.myottapp.models.Movie;
 import com.example.myottapp.models.MovieBasicInfo;
 import com.example.myottapp.models.MovieBasicInfoList;
 import com.example.myottapp.models.SessionManager;
+import com.example.myottapp.models.Subtitle;
 import com.google.android.exoplayer2.ExoPlayer;
 import com.google.android.exoplayer2.Player;
 import com.google.android.exoplayer2.SimpleExoPlayer;
@@ -105,6 +106,7 @@ public class DetailsActivity extends Activity {
             setMovieCast(mSelectedMovie.getCastAndCrewInfo());
             setYearOfProduction(mSelectedMovie.getYearOfProduction());
             setMovieGenre(mSelectedMovie.getCategoryInfo());
+            setSubtitleLanguages(mSelectedMovie.getSubtitle());
             try {
                 setMoviePoster(mSelectedMovie.getPoster().getUrl());
                 //playTrailer(mSelectedMovie.getTrailer().getUrl().getHls_Low());
@@ -235,6 +237,19 @@ public class DetailsActivity extends Activity {
         }
         TextView genreText=findViewById(R.id.genres);
         genreText.setText(genres);
+
+    }
+    void setSubtitleLanguages(Subtitle[] subtitles){
+        String subtitleLanguages="";
+        for(Subtitle c: subtitles){
+            if(subtitleLanguages.equals(""))subtitleLanguages+=c.getLanguageName();
+            else subtitleLanguages+=", "+c.getLanguageName();
+        }
+        TextView subtitleText=findViewById(R.id.subtitleLanguages);
+        LinearLayout subtitleLabel=findViewById(R.id.subtitleLayout);
+        if(subtitleLanguages.equals("")) subtitleLabel.setVisibility(View.GONE);
+        else subtitleLabel.setVisibility(View.VISIBLE);
+        subtitleText.setText(subtitleLanguages);
 
     }
     void hidePosterFrame(){
