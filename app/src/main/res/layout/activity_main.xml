@@ -54,7 +54,7 @@
                 android:layout_marginBottom="5dp"
                 android:text="Movie Name"
                 android:textColor="@color/white"
-                android:textSize="40sp"></TextView>
+                android:textSize="32sp"></TextView>
             <!--
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -84,18 +84,8 @@
                 android:orientation="horizontal">
 
                 <TextView
-                    android:id="@+id/movie_time"
-                    android:textColor="@color/white"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentTop="true"
-                    android:layout_marginEnd="10dp"
-                    android:text="1 Hr 24 Min"
-                    android:textSize="12sp"></TextView>
-
-                <TextView
                     android:id="@+id/yearOfProduction"
-                    android:textColor="@color/white"
+                    android:textColor="@color/grey_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentTop="true"
@@ -104,8 +94,18 @@
                     android:textSize="12sp"></TextView>
 
                 <TextView
+                    android:id="@+id/movie_time"
+                    android:textColor="@color/grey_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginEnd="10dp"
+                    android:text="1 Hr 24 Min"
+                    android:textSize="12sp"></TextView>
+
+                <TextView
                     android:id="@+id/movie_age"
-                    android:textColor="@color/white"
+                    android:textColor="@color/grey_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentTop="true"
@@ -121,7 +121,7 @@
             <TextView
                 android:id="@+id/movie_desrciption"
                 android:textColor="@color/white"
-                android:layout_width="600dp"
+                android:layout_width="520dp"
                 android:layout_height="wrap_content"
                 android:layout_alignParentTop="true"
                 android:layout_marginLeft="50dp"

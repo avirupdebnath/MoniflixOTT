@@ -71,10 +71,10 @@
                 android:id="@+id/movie_name"
                 android:layout_height="wrap_content"
                 android:layout_width="600dp"
-                android:layout_marginTop="50dp"
+                android:layout_marginTop="40dp"
                 android:text="Movie Name"
                 android:layout_marginLeft="50dp"
-                android:textSize="40sp"
+                android:textSize="32sp"
                 android:textColor="@color/white"
                 android:layout_marginBottom="5dp">
             </TextView>
@@ -89,48 +89,9 @@
                     android:layout_height="wrap_content"
                     android:layout_width="wrap_content"
                     android:layout_marginEnd="10dp"
-                    android:textColor="@color/white"
+                    android:textColor="@color/grey_text"
                     android:layout_alignParentTop="true"
                     android:text="Japanese"
-                    android:textSize="12sp">
-                </TextView>
-                <TextView
-                    android:id="@+id/divideline"
-                    android:layout_height="wrap_content"
-                    android:layout_width="wrap_content"
-                    android:layout_marginEnd="10dp"
-                    android:gravity="center_horizontal"
-                    android:layout_alignParentTop="true"
-                    android:textAlignment="center"
-                    android:text="|"
-                    android:textSize="15sp">
-                </TextView>
-                <TextView
-                    android:id="@+id/genres"
-                    android:layout_height="wrap_content"
-                    android:layout_width="wrap_content"
-                    android:layout_marginEnd="10dp"
-                    android:layout_alignParentTop="true"
-                    android:text="Action, Drama, Thriller"
-                    android:textColor="@color/white"
-                    android:textSize="12sp">
-                </TextView>
-
-            </LinearLayout>
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="50dp"
-                android:layout_marginBottom="15dp"
-                android:orientation="horizontal">
-                <TextView
-                    android:id="@+id/movie_time"
-                    android:layout_height="wrap_content"
-                    android:layout_width="wrap_content"
-                    android:layout_marginEnd="10dp"
-                    android:layout_alignParentTop="true"
-                    android:textColor="@color/white"
-                    android:text="1 Hr 24 Min"
                     android:textSize="12sp">
                 </TextView>
 
@@ -139,18 +100,31 @@
                     android:layout_height="wrap_content"
                     android:layout_width="wrap_content"
                     android:layout_marginEnd="10dp"
-                    android:textColor="@color/white"
+                    android:textColor="@color/grey_text"
                     android:layout_alignParentTop="true"
                     android:text="2018"
                     android:textSize="12sp">
                 </TextView>
 
                 <TextView
+                    android:id="@+id/movie_time"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:layout_marginEnd="10dp"
+                    android:layout_alignParentTop="true"
+                    android:textColor="@color/grey_text"
+                    android:text="1 Hr 24 Min"
+                    android:textSize="12sp">
+                </TextView>
+
+
+
+                <TextView
                     android:id="@+id/movie_age"
                     android:layout_height="wrap_content"
                     android:layout_width="wrap_content"
                     android:layout_marginEnd="10dp"
-                    android:textColor="@color/white"
+                    android:textColor="@color/grey_text"
                     android:layout_alignParentTop="true"
                     android:paddingStart="10dp"
                     android:paddingEnd="10dp"
@@ -159,29 +133,97 @@
                     android:text="18+"
                     android:textSize="12sp">
                 </TextView>
+
             </LinearLayout>
+
 
             <TextView
                 android:id="@+id/movie_desrciption"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="50dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
                 android:textColor="@color/white"
-                android:layout_width="600dp"
+                android:layout_width="520dp"
                 android:layout_alignParentTop="true"
                 android:text="This is a small description of what can be called a movie in the making. People have almost died in making this a reality."
                 android:textSize="15sp">
             </TextView>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left"
+                android:layout_marginLeft="50dp"
+                android:layout_marginTop="12dp"
+                android:layout_marginBottom="14dp">
 
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/watchNowButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/WatchNowBtn"
+                    android:textSize="14sp"
+                    android:layout_marginRight="10dp"
+                    android:focusedByDefault="true"
+                    android:drawableLeft="@drawable/ic_baseline_play_arrow_24"
+                    android:drawablePadding="3dp"
+                    android:paddingVertical="5dp"
+                    android:paddingHorizontal="10dp"
+                    android:focusable="true"
+                    android:background="@drawable/color_selector"/>
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/AddToWatchListButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/AddToMylist"
+                    android:drawableLeft="@drawable/ic_baseline_playlist_add_24"
+                    android:textSize="14sp"
+                    android:drawablePadding="3dp"
+                    android:paddingVertical="5dp"
+                    android:paddingHorizontal="10dp"
+                    android:focusable="true"
+                    android:layout_marginRight="10dp"
+                    android:background="@drawable/color_selector"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/castLayout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:layout_marginLeft="50dp"
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_height="wrap_content"
+                    android:layout_width="70dp"
+                    android:layout_marginEnd="10dp"
+                    android:layout_alignParentTop="true"
+                    android:textColor="@color/colorButtonFocusedTV"
+                    android:text="Starring"
+                    android:textSize="12sp">
+                </TextView>
+                <TextView
+                    android:id="@+id/CastInfo"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:layout_marginEnd="10dp"
+                    android:textColor="@color/grey_text"
+                    android:layout_alignParentTop="true"
+                    android:text="Robert Downey Jr, Chris Pratt, Chris Hemsworth, Pinalope Cruz"
+                    android:textSize="12sp">
+                </TextView>
+
+            </LinearLayout>
             <LinearLayout
                 android:id="@+id/directorsLayout"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="50dp"
-                android:layout_marginTop="5dp"
                 android:orientation="horizontal">
                 <TextView
                     android:layout_height="wrap_content"
-                    android:layout_width="wrap_content"
+                    android:layout_width="70dp"
                     android:layout_marginEnd="10dp"
                     android:layout_alignParentTop="true"
                     android:textColor="@color/colorButtonFocusedTV"
@@ -194,16 +236,42 @@
                     android:layout_height="wrap_content"
                     android:layout_width="wrap_content"
                     android:layout_marginEnd="10dp"
-                    android:textColor="@color/white"
+                    android:textColor="@color/grey_text"
                     android:layout_alignParentTop="true"
                     android:text="Robert Downey Jr, Chris Pratt, Chris Hemsworth, Pinalope Cruz"
                     android:textSize="12sp">
                 </TextView>
 
             </LinearLayout>
-
             <LinearLayout
-                android:id="@+id/castLayout"
+                android:id="@+id/genreLayout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="50dp"
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_height="wrap_content"
+                    android:layout_width="70dp"
+                    android:layout_marginEnd="10dp"
+                    android:layout_alignParentTop="true"
+                    android:textColor="@color/colorButtonFocusedTV"
+                    android:text="Genres"
+                    android:textSize="12sp">
+                </TextView>
+                <TextView
+                    android:id="@+id/genres"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:layout_marginEnd="10dp"
+                    android:layout_alignParentTop="true"
+                    android:text="Action, Drama, Thriller"
+                    android:textColor="@color/grey_text"
+                    android:textSize="12sp">
+                </TextView>
+
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/subtitleLayout"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="50dp"
@@ -211,62 +279,32 @@
                 android:orientation="horizontal">
                 <TextView
                     android:layout_height="wrap_content"
-                    android:layout_width="wrap_content"
+                    android:layout_width="70dp"
                     android:layout_marginEnd="10dp"
                     android:layout_alignParentTop="true"
                     android:textColor="@color/colorButtonFocusedTV"
-                    android:text="Cast"
+                    android:text="Subtitles"
                     android:textSize="12sp">
                 </TextView>
                 <TextView
-                    android:id="@+id/CastInfo"
+                    android:id="@+id/subtitleLanguages"
                     android:layout_height="wrap_content"
                     android:layout_width="wrap_content"
                     android:layout_marginEnd="10dp"
-                    android:textColor="@color/white"
                     android:layout_alignParentTop="true"
-                    android:text="Robert Downey Jr, Chris Pratt, Chris Hemsworth, Pinalope Cruz"
+                    android:text="Hindi, English"
+                    android:textColor="@color/grey_text"
                     android:textSize="12sp">
                 </TextView>
 
             </LinearLayout>
         </LinearLayout>
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom">
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="left"
-                android:layout_marginLeft="50dp"
-                android:layout_marginTop="20dp"
-                android:layout_marginBottom="160dp">
-
-                <androidx.appcompat.widget.AppCompatButton
-                    android:id="@+id/watchNowButton"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/WatchNowBtn"
-                    android:textSize="15sp"
-                    android:layout_marginRight="10dp"
-                    android:focusedByDefault="true"
-                    android:padding="10dp"
-                    android:focusable="true"
-                    android:background="@drawable/color_selector"/>
-
-                <androidx.appcompat.widget.AppCompatButton
-                    android:id="@+id/AddToWatchListButton"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/AddToMylist"
-                    android:textSize="15sp"
-                    android:padding="10dp"
-                    android:focusable="true"
-                    android:layout_marginRight="10dp"
-                    android:background="@drawable/color_selector"/>
-            </LinearLayout>
-        </LinearLayout>
+<!--        <LinearLayout-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_gravity="bottom">-->
+<!--            -->
+<!--        </LinearLayout>-->
     </FrameLayout>
     <FrameLayout
         android:layout_width="match_parent"
@@ -275,13 +313,13 @@
         android:orientation="horizontal"
         android:layout_marginBottom="5dp"
         android:focusable="false"
-        android:background="@drawable/text_black_to_transparent_shade">
+        android:background="@color/transpo">
         <ImageView
             android:id="@+id/imageView3"
-            android:layout_width="180dp"
+            android:layout_width="150dp"
             android:layout_height="60dp"
-            android:layout_gravity="top"
-            android:layout_marginLeft="12dp"
+            android:layout_gravity="left"
+            android:layout_marginLeft="22dp"
             android:focusable="false"
             android:focusableInTouchMode="false"
             android:src="@mipmap/ic_banner_foreground" />
@@ -316,7 +354,7 @@
                 android:id="@+id/imageLogo_onload"
                 android:layout_width="180dp"
                 android:layout_height="60dp"
-                android:layout_gravity="top"
+                android:layout_gravity="left"
                 android:layout_marginLeft="12dp"
                 android:focusable="false"
                 android:focusableInTouchMode="false"
