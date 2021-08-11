@@ -20,6 +20,22 @@ public class DataModel {
     public static final String trackUserWatchHistoryURL="https://w4nwo1e47k.execute-api.ap-south-1.amazonaws.com/api/Track/GetWatchHistory";//https://21rqkixlud.execute-api.ap-south-1.amazonaws.com/api/Track/GetWatchHistory";
 
     public static String accessToken="";
+    private static String email="";
+    private static String password="";
+
+    public static void setEmail(String str){
+        email=str;
+    }
+    public static String getEmail(){
+        return email;
+    }
+    public static void setPassword(String str){
+        password=str;
+    }
+    public static String getPassword(){
+        return password;
+    }
+
     public static List<Category> CategoriesList;
     public static final String carousalTAG="Carousal";
     public static int refreshTokenCount=0;

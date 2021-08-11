@@ -5,20 +5,19 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="horizontal"
-    android:background="@drawable/default_background"
     tools:context=".UI.Activities.SettingActivity">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="0.5dp"
-        android:background="#101010">
+        android:background="#000000">
 
         <LinearLayout
             android:id="@+id/root_Left"
             android:layout_width="196dp"
             android:layout_height="match_parent"
             android:layout_gravity="left"
-            android:background="@drawable/settings_sidepanel"
+            android:background="#000000"
             android:orientation="vertical">
 
             <Button
@@ -99,7 +98,7 @@
             android:layout_width="773dp"
             android:layout_height="match_parent"
             android:layout_gravity="right"
-            android:background="@color/transpo"
+            android:background="#070707"
             android:gravity=""
             android:orientation="vertical">
 
@@ -135,17 +134,17 @@
         android:orientation="horizontal"
         android:layout_marginBottom="5dp"
         android:focusable="false"
-        android:background="@drawable/settings_top_panel">
+        android:background="@color/transpo">
         <FrameLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@color/transpo">
+            android:background="#000000">
             <ImageView
                 android:id="@+id/imageView3"
                 android:layout_width="180dp"
                 android:layout_height="60dp"
                 android:layout_gravity="top"
-                android:layout_marginLeft="12dp"
+                android:layout_marginLeft="8dp"
                 android:focusable="false"
                 android:focusableInTouchMode="false"
                 android:src="@mipmap/ic_banner_foreground" />

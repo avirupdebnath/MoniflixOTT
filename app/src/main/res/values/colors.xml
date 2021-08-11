@@ -1,6 +1,6 @@
 <resources>
         <color name="background_gradient_start">#000000</color>
-    <color name="background_gradient_end">#181818</color>
+    <color name="background_gradient_end">#111111</color>
     <color name="transparent_black">#8C000000 </color>
     <color name="dark_grey">#181818 </color>
 

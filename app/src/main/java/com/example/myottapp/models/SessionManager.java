@@ -29,11 +29,16 @@ public class SessionManager {
         editor = sharedPreferences.edit();
     }
 
-    public void createSession(String email, String password, String accessToken){
+    public void createSession(String email, String password, String accessToken,boolean rememberLogin){
+        if(rememberLogin)
+        {
+            editor.putString(EMAIL, email);
+            editor.putString(PASSWORD,password);
+        }
         editor.putBoolean(LOGIN, true);
-        editor.putString(EMAIL, email);
-        editor.putString(PASSWORD,password);
         DataModel.accessToken=accessToken;
+        DataModel.setEmail(email);
+        DataModel.setPassword(password);
         editor.putString(ACCESS_TOKEN,accessToken);
         System.out.println("Data Model Access Token"+DataModel.accessToken);
         editor.apply();

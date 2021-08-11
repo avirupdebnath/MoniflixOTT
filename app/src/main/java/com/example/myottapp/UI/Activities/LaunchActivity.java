@@ -2,11 +2,14 @@ package com.example.myottapp.UI.Activities;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.media.MediaPlayer;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.Toast;
+import android.widget.VideoView;
 
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoDevice;
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoUser;
@@ -17,6 +20,7 @@ import com.amazonaws.mobileconnectors.cognitoidentityprovider.continuations.Chal
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.continuations.MultiFactorAuthenticationContinuation;
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.handlers.AuthenticationHandler;
 import com.example.myottapp.R;
+import com.example.myottapp.Service.InternetChecker;
 import com.example.myottapp.Service.VolleyCallback;
 import com.example.myottapp.Service.VolleyRequest;
 import com.example.myottapp.models.AllCategoriesList;
@@ -29,11 +33,12 @@ import com.example.myottapp.models.UserDetails;
 
 public class LaunchActivity extends Activity {
     ProgressBar progressBar;
+    VideoView videoView;
     SessionManager sessionManager;
     UserDetails userDetails;
     String email, password;
 
-    private static int SPLASH_TIME_OUT = 1000;
+    private static int SPLASH_TIME_OUT = 7000;
 
     public void getLanguagesList(){
         VolleyRequest volleyRequest=new VolleyRequest();
@@ -58,10 +63,26 @@ public class LaunchActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_launch);
         progressBar = findViewById(R.id.launch_progress);
-
-        sessionManager = new SessionManager(this);
-        progressBar.setVisibility(View.VISIBLE);
+        progressBar.setVisibility(View.GONE);
+        videoView=(VideoView)findViewById(R.id.launch_animation);
+        String path = "android.resource://" + getPackageName() + "/" + R.raw.start_animation;
+        videoView.setVideoURI(Uri.parse(path));
         getLanguagesList();
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                videoView.start();
+                videoView.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                    @Override
+                    public void onCompletion(MediaPlayer mp) {
+                        videoView.seekTo(videoView.getDuration()-1);
+                        progressBar.setVisibility(View.VISIBLE);
+                    }
+                });
+            }
+        }, 2000);
+        sessionManager = new SessionManager(this);
+        //progressBar.setVisibility(View.VISIBLE);
 
     }
 
@@ -86,13 +107,13 @@ public class LaunchActivity extends Activity {
     final AuthenticationHandler authenticationHandler = new AuthenticationHandler() {
         @Override
         public void onSuccess(CognitoUserSession userSession, CognitoDevice newDevice) {
-            progressBar.setVisibility(View.GONE);
+            //progressBar.setVisibility(View.GONE);
             System.out.println("Login successfull");
             System.out.println(userSession.getAccessToken().getExpiration());
             CognitoSettings cognitoSettings = new CognitoSettings(LaunchActivity.this);
             System.out.println("JWT Access Token: "+String.valueOf(userSession.getAccessToken().getJWTToken()));
             userDetails = new UserDetails(userSession.getUsername(),userSession.getAccessToken().toString(),userSession.getRefreshToken().toString());
-            sessionManager.createSession(email, password,userSession.getAccessToken().getJWTToken());
+            sessionManager.createSession(email, password,userSession.getAccessToken().getJWTToken(),false);
             Intent i = new Intent(LaunchActivity.this, MainActivity.class);
             startActivity(i);
             finish();

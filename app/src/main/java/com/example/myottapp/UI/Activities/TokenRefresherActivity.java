@@ -21,6 +21,7 @@ import com.amazonaws.mobileconnectors.cognitoidentityprovider.continuations.Mult
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.handlers.AuthenticationHandler;
 import com.example.myottapp.R;
 import com.example.myottapp.models.CognitoSettings;
+import com.example.myottapp.models.DataModel;
 import com.example.myottapp.models.MovieBasicInfo;
 import com.example.myottapp.models.SessionManager;
 
@@ -43,8 +44,8 @@ public class TokenRefresherActivity extends Activity {
         if(fromPage.equals("Main")){
             relatedContent=this.getIntent().getIntExtra("relatedContent",0);
         }
-        email=sessionManager.getEMAIL();
-        password= sessionManager.getPASSWORD();
+        email= DataModel.getEmail();
+        password= DataModel.getPassword();
         login(email);
     }
 
@@ -52,7 +53,7 @@ public class TokenRefresherActivity extends Activity {
         @Override
         public void onSuccess(CognitoUserSession userSession, CognitoDevice newDevice) {
             System.out.println("Login successfull");
-            sessionManager.createSession(email, password,userSession.getAccessToken().getJWTToken());
+            sessionManager.createSession(email, password,userSession.getAccessToken().getJWTToken(),false);
 
             Intent intent;
             if(fromPage.equals("Series")){

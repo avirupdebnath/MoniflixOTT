@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:tools="http://schemas.android.com/tools" xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- pressed -->
+    <item android:state_pressed="true"
+        android:drawable="@drawable/edit_text_selected" />
+    <!-- currently selected -->
+    <item android:state_activated="true"
+        android:drawable="@drawable/edit_text_selected" tools:ignore="StateListReachable" />
+    <!-- default -->
+    <item android:state_hovered="true"
+        android:drawable="@drawable/edit_text_selected" />
+    <item android:state_focused="true"
+        android:drawable="@drawable/edit_text_selected" />
+    <item android:drawable="@drawable/unselected_state" />
+
+</selector>

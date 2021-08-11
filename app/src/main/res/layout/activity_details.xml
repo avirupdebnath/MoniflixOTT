@@ -316,13 +316,14 @@
         android:background="@color/transpo">
         <ImageView
             android:id="@+id/imageView3"
-            android:layout_width="150dp"
+            android:layout_width="180dp"
             android:layout_height="60dp"
             android:layout_gravity="left"
-            android:layout_marginLeft="22dp"
+            android:layout_marginLeft="8dp"
             android:focusable="false"
             android:focusableInTouchMode="false"
             android:src="@mipmap/ic_banner_foreground" />
+
     </FrameLayout>
     <FrameLayout
         android:id="@+id/related_items_frame"
@@ -355,7 +356,7 @@
                 android:layout_width="180dp"
                 android:layout_height="60dp"
                 android:layout_gravity="left"
-                android:layout_marginLeft="12dp"
+                android:layout_marginLeft="8dp"
                 android:focusable="false"
                 android:focusableInTouchMode="false"
                 android:src="@mipmap/ic_banner_foreground" />

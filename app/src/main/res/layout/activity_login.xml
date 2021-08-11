@@ -11,81 +11,125 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:alpha="0.3"
-        android:src="@drawable/ever"/>
+        android:src="@drawable/ever" />
 
-    <LinearLayout
+    <FrameLayout
         android:id="@+id/textLayout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:background="@drawable/login_background_dark"
         android:orientation="vertical"
-        android:background="@drawable/circulargradient"
-        >
+        android:paddingLeft="50dp"
+        android:paddingTop="0dp"
+        android:paddingRight="50dp"
+        android:paddingBottom="50dp">
+
         <ImageView
-            android:layout_width="350dp"
-            android:layout_height="150dp"
-            android:src="@mipmap/ic_banner_foreground"
-            />
-        <TextView
-            android:layout_width="300dp"
+            android:layout_width="250dp"
+            android:layout_height="120dp"
+            android:layout_marginTop="10dp"
+            android:src="@mipmap/ic_banner_foreground" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Welcome to TV Platform"
-            android:layout_marginBottom="10dp"
-            android:textSize="24sp"
-            android:textColor="#E8EFF3"
-            android:textStyle="bold"
-            />
+            android:layout_marginTop="120dp"
+            android:gravity="center"
+            android:orientation="vertical">
 
-        <EditText
-            android:id="@+id/log_mail_id"
-            android:layout_width="300dp"
-            android:layout_height="40dp"
-            android:hint="Email Address"
-            android:textColor="@color/default_grid"
-            android:textColorHint="@color/hintColor"
-            android:paddingLeft="20dp"
-            android:textSize="18sp"
-            android:background="@drawable/round_button"
-            android:backgroundTint="#E8EFF3"
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left"
+                android:fontFamily="@font/roboto_medium_numbers"
+                android:labelFor="@+id/log_mail_id"
+                android:text="Email"
+                android:textSize="12sp" />
 
-            />
-        <EditText
-            android:id="@+id/log_password"
-            android:inputType="textPassword"
-            android:layout_marginTop="10dp"
-            android:layout_width="300dp"
-            android:layout_height="40dp"
-            android:textColor="@color/default_grid"
-            android:textSize="18sp"
-            android:hint="Password"
-            android:paddingLeft="20dp"
-            android:textColorHint="@color/hintColor"
-            android:background="@drawable/round_button"
-            android:backgroundTint="#E8EFF3"
-            />
+            <EditText
+                android:id="@+id/log_mail_id"
+                android:layout_width="250dp"
+                android:textCursorDrawable="@drawable/cursor"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/edit_text_color_selector"
+                android:drawableLeft="@drawable/ic_baseline_email_24"
+                android:drawablePadding="10dp"
+                android:fontFamily="@font/roboto_medium_numbers"
+                android:hint="Enter your email"
+                android:inputType="textEmailAddress"
+                android:padding="10dp"
+                android:textColor="#AAAAAA"
+                android:textColorHint="#AAAAAA"
+                android:textSize="14sp" />
 
-        <ProgressBar
-            android:id="@+id/login_progress"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:indeterminate="true"
-            android:visibility="gone"
-            android:layout_marginTop="10dp"
-            android:indeterminateTintMode="src_atop"
-            android:indeterminateTint="@color/colorPrimary"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left"
+                android:layout_marginTop="15dp"
+                android:fontFamily="@font/roboto_medium_numbers"
+                android:labelFor="@+id/log_password"
+                android:text="Password"
+                android:textSize="12sp" />
 
-        <Button
-            android:id="@+id/login_btn"
-            android:layout_width="300dp"
-            android:layout_height="45dp"
-            android:text="Login"
-            android:layout_marginTop="10dp"
-            android:textStyle="bold"
-            android:textSize="24sp"
-            android:background="@drawable/round_button"
-            android:backgroundTint="@color/colorPrimary"
-            />
+            <EditText
+                android:id="@+id/log_password"
+                android:layout_width="250dp"
+                android:textCursorDrawable="@drawable/cursor"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/edit_text_color_selector"
+                android:drawableLeft="@drawable/ic_baseline_lock_24"
+                android:drawablePadding="10dp"
+                android:fontFamily="@font/roboto_medium_numbers"
+                android:hint="Enter your password"
+                android:inputType="textPassword"
+                android:padding="10dp"
+                android:textColor="#AAAAAA"
+                android:textColorHint="#AAAAAA"
+                android:textSize="14sp" />
 
-    </LinearLayout>
+            <CheckBox
+                android:id="@+id/remember_me_checkbox"
+                android:layout_marginTop="18dp"
+                android:layout_width="250dp"
+                android:layout_height="wrap_content"
+                android:buttonTint="#BBBBBB"
+                android:text="Remember me"
+                android:textColor="#AAAAAA"
+                android:checked="true"
+                android:textSize="12sp"></CheckBox>
+
+            <FrameLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <ProgressBar
+                    android:id="@+id/login_progress"
+                    android:layout_width="wrap_content"
+                    android:layout_height="30dp"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="40dp"
+                    android:indeterminate="true"
+                    android:indeterminateTint="@color/colorPrimary"
+                    android:indeterminateTintMode="src_atop"
+                    android:visibility="gone" />
+
+                <Button
+                    android:id="@+id/login_btn"
+                    android:layout_width="250dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:background="@drawable/login_button_color_selector"
+                    android:padding="10dp"
+                    android:text="Sign In"
+                    android:textAlignment="center"
+                    android:textAllCaps="false"
+                    android:textSize="18sp" />
+            </FrameLayout>
+        </LinearLayout>
+    </FrameLayout>
 
 </RelativeLayout>

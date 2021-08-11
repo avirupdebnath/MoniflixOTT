@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
@@ -18,6 +19,7 @@ import com.amazonaws.mobileconnectors.cognitoidentityprovider.continuations.Chal
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.continuations.MultiFactorAuthenticationContinuation;
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.handlers.AuthenticationHandler;
 import com.example.myottapp.R;
+import com.example.myottapp.Service.InternetChecker;
 import com.example.myottapp.models.CognitoSettings;
 import com.example.myottapp.models.SessionManager;
 import com.example.myottapp.models.UserDetails;
@@ -26,6 +28,7 @@ public class LoginActivity extends Activity {
     public static String flag="";
     private EditText etEmail, etPass;
     private ProgressBar progressBar;
+    private CheckBox checkBox;
     Button loginBtn;
     UserDetails userDetails;
     SessionManager sessionManager;
@@ -35,7 +38,7 @@ public class LoginActivity extends Activity {
         setContentView(R.layout.activity_login);
 
         sessionManager = new SessionManager(this);
-
+        checkBox=findViewById(R.id.remember_me_checkbox);
         etEmail = findViewById(R.id.log_mail_id);
         etPass = findViewById(R.id.log_password);
         progressBar = findViewById(R.id.login_progress);
@@ -67,7 +70,8 @@ public class LoginActivity extends Activity {
             CognitoSettings cognitoSettings = new CognitoSettings(LoginActivity.this);
             System.out.println("JWT Access Token: "+String.valueOf(userSession.getAccessToken().getJWTToken()));
             userDetails = new UserDetails(userSession.getUsername(),userSession.getAccessToken().toString(),userSession.getRefreshToken().toString());
-            sessionManager.createSession(cognitoSettings.getUserPool().getCurrentUser().getUserId(),etPass.getText().toString().trim(),userSession.getAccessToken().getJWTToken());
+            Boolean flag=checkBox.isChecked();
+            sessionManager.createSession(cognitoSettings.getUserPool().getCurrentUser().getUserId(),etPass.getText().toString().trim(),userSession.getAccessToken().getJWTToken(),flag);
             Intent intent = new Intent(LoginActivity.this, MainActivity.class);
             startActivity(intent);
             etEmail.setText("");
@@ -117,4 +121,5 @@ public class LoginActivity extends Activity {
         java.util.regex.Matcher m = p.matcher(email);
         return m.matches();
     }
+
 }
